@@ -1,11 +1,8 @@
-import { ThemeProvider } from "@/components/dark-mode/ThemeProvider";
-import Navbar from "@/components/navbar/Navbar";
-import { Toaster } from "@/components/ui/toaster";
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html lang="es-CO">
+    <Html lang="es-CO" suppressHydrationWarning>
       <Head title="Base de conocimiento LIS">
         <meta
           name="description"
@@ -14,12 +11,8 @@ export default function Document() {
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
       </Head>
       <body className="antialiased">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Navbar />
-          <Main />
-          <Toaster />
-          <NextScript />
-        </ThemeProvider>
+        <Main />
+        <NextScript />
       </body>
     </Html>
   );

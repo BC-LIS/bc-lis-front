@@ -8,6 +8,8 @@ export function Switcher() {
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
+    if (!theme) return;
+    console.log(theme);
     setTheme(theme === "dark" ? "light" : "dark");
   };
 

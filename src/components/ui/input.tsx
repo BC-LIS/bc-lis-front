@@ -27,9 +27,11 @@ const InputLogin = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, icon, ...props }, ref) => {
     return (
       <div className="relative">
-        <div className="absolute inset-y-0 left-2 flex items-center">
-          {icon}
-        </div>
+        {icon && (
+          <div className="absolute inset-y-0 left-2 flex items-center">
+            {icon}
+          </div>
+        )}
         <input
           type={type}
           className={cn(

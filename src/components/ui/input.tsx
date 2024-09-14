@@ -1,15 +1,10 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import Icon from "@/components/icon/Icon";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  icon: string;
-}
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  icon: string;
+  icon?: React.ReactNode;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -32,8 +27,8 @@ const InputLogin = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, icon, ...props }, ref) => {
     return (
       <div className="relative">
-        <div className="absolute inset-y-0 left-0 flex items-center">
-          <Icon icon={icon} />
+        <div className="absolute inset-y-0 left-2 flex items-center">
+          {icon}
         </div>
         <input
           type={type}

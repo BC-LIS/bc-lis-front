@@ -5,7 +5,7 @@ const PSans = Public_Sans({ subsets: ["latin"] });
 export default function Home() {
   return (
     <div
-      className={`${PSans.className} flex items-center justify-center min-h-screen p-8 gap-12 sm:p-20`}
+      className={`${PSans.className} flex items-center justify-center p-8 gap-12 sm:p-20`}
     >
       Pagina inicial
     </div>

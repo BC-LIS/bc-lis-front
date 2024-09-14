@@ -66,7 +66,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-2 gap-4 sm:p-4">
+    <div className="flex items-center justify-center my-4 p-2 gap-4 sm:p-4">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

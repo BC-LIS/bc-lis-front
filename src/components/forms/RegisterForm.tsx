@@ -116,7 +116,7 @@ function RegisterForm() {
               </FormItem>
             )}
           />
-          <Button type="submit">Registrar</Button>
+          <Button type="submit">Registrar Usuario</Button>
         </form>
       </Form>
     </>

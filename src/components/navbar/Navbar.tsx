@@ -25,7 +25,7 @@ function Navbar() {
             <Link href="/login">Iniciar Sesión</Link>
           </Button>
           <Button>
-            <Link href="/register">Registrar</Link>
+            <Link href="/register">Registro</Link>
           </Button>
           <Switcher />
         </div>

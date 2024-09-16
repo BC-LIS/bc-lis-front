@@ -63,7 +63,7 @@ export default function LoginForm() {
       </div>
       <div className="text-sm text-center flex justify-center items-center">
         ¿Cuenta no registrada?{" "}
-        <a href="#" className="text-primary hover:underline">
+        <a href="#" className="text-secondary hover:underline">
           Crea una cuenta
         </a>
       </div>

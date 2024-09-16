@@ -56,7 +56,7 @@ export default function LoginForm() {
       <div className="flex justify-center items-center">
         <Button
           type="submit"
-          className="sm:w-80 sm:h-12 text-base text-popover-foreground font-bold bg-primary hover:bg-chart-6 flex justify-center items-center"
+          className="sm:w-80 sm:h-12 text-base font-bold bg-primary hover:bg-chart-6 flex justify-center items-center"
         >
           Iniciar sesión
         </Button>

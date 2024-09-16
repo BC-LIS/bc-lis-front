@@ -7,12 +7,12 @@ import { Switcher } from "@components/dark-mode/Switcher";
 
 function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 bg-background shadow-lg py-2 px-8 border-b-2 border-amber-500">
+    <nav className="sticky top-0 z-50 bg-background shadow-lg py-2 px-8 border-b-2 border-primary">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <div>
           <Link
-            className="text-2xl font-bold bg-gradient-to-r from-chart-5 to-primary inline-block text-transparent bg-clip-text"
+            className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary inline-block text-transparent bg-clip-text"
             href="/"
           >
             BCLIS

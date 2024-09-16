@@ -43,12 +43,17 @@ const config: Config = {
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
-        extras: {
-          "100": "var(--chart-1)",
-          "200": "var(--chart-2)",
-          "300": "var(--chart-3)",
-          "400": "var(--chart-4)",
-          "500": "var(--chart-5)",
+        udea: {
+          "100": "#70205b",
+          "200": "#137598",
+          "300": "#ef434d",
+          "400": "#f9a12c",
+          "500": "#532d87",
+          "600": "#0e7774",
+          "700": "#069a7e",
+          "800": "#3ebdac",
+          "900": "#8dc63f",
+          "950": "#43b649",
         },
       },
       borderRadius: {

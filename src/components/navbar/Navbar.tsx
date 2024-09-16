@@ -12,7 +12,7 @@ function Navbar() {
         {/* Logo */}
         <div>
           <Link
-            className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary inline-block text-transparent bg-clip-text"
+            className="text-2xl font-bold bg-gradient-to-r from-secondary to-udea-500 inline-block text-transparent bg-clip-text"
             href="/"
           >
             BCLIS

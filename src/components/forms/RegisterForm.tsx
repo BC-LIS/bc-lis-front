@@ -65,7 +65,7 @@ function RegisterForm() {
     }
   }
   return (
-    <>
+    <div className="border border-foreground rounded-lg p-8 my-12">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -119,7 +119,7 @@ function RegisterForm() {
           <Button type="submit">Registrar Usuario</Button>
         </form>
       </Form>
-    </>
+    </div>
   );
 }
 

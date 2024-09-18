@@ -11,7 +11,6 @@ function Navbar() {
     name: "Esteban",
     lastname: "Cossio",
     role: "Administrador",
-    email: "esteban.cossio1@udea.edu.co",
   };
 
   return (

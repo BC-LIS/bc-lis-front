@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { adminOptions, techOptions } from "@/constants/UserOptions";
 import { LogIn, LogOut, Settings, User } from "lucide-react";
+import { logout } from "@/lib/LoginService";
 
 export const UserInfoDropdown = ({
   userRole,
@@ -63,7 +64,11 @@ export const UserInfoDropdown = ({
                 <Settings className="mr-4 h-4 w-4" />
                 <span>Configurar perfil</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={async () => {
+                  await logout();
+                }}
+              >
                 <LogOut className="mr-4 h-4 w-4" />
                 <span>Cerrar Sesion</span>
               </DropdownMenuItem>

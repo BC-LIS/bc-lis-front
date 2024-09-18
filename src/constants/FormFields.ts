@@ -22,6 +22,13 @@ export const inputFields: InputField[] = [
     description: "Ingresa tu apellido",
   },
   {
+    name: "username",
+    label: "Nombre de usuario",
+    placeholder: "fulanito.fulanita",
+    type: "text",
+    description: "Ingresa un nombre de usuario",
+  },
+  {
     name: "password",
     label: "Contraseña",
     placeholder: "********",

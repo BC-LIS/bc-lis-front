@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@components/ui/button";
 import { Switcher } from "@components/dark-mode/Switcher";
+import UserInfo from "../UserInfo";
 
 function Navbar() {
   return (
@@ -27,6 +28,7 @@ function Navbar() {
           <Button>
             <Link href="/register">Registro</Link>
           </Button>
+          <UserInfo name="Esteban Cossio" role="Genérico" />
           <Switcher />
         </div>
       </div>

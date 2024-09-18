@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@/components/dark-mode/ThemeProvider";
-import Navbar from "@/components/navbar/Navbar";
+import Navbar from "@/components/bars/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";

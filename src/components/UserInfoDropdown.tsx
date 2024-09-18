@@ -9,16 +9,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FolderCog, LogOut, Settings, User, UserRoundCog } from "lucide-react";
+import { adminOptions, techOptions } from "@/constants/UserOptions";
+import { LogIn, LogOut, Settings, User } from "lucide-react";
 
-export const UserInfoDropdown = () => {
+export const UserInfoDropdown = ({
+  userRole,
+}: {
+  userRole: "Genérico" | "Administrador" | "Técnico" | null;
+}) => {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger
-          asChild
-          className="flex justify-center items-center"
-        >
+        <DropdownMenuTrigger asChild>
           <Button variant="outline" size="icon">
             <User className="h-6 w-6" />
           </Button>
@@ -26,27 +28,47 @@ export const UserInfoDropdown = () => {
         <DropdownMenuContent className="w-56">
           <DropdownMenuLabel>Opciones</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuGroup>
+
+          {userRole === null && (
             <DropdownMenuItem>
-              <UserRoundCog className="mr-4 h-4 w-4" />
-              <span>Gestionar usuarios</span>
+              <LogIn className="mr-4 h-4 w-4" />
+              <span>Iniciar Sesion</span>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <FolderCog className="mr-4 h-4 w-4" />
-              <span>Gestionar documentos</span>
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <Settings className="mr-4 h-4 w-4" />
-              <span>Configurar</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <LogOut className="mr-4 h-4 w-4" />
-              <span>Cerrar Sesion</span>
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
+          )}
+
+          {userRole === "Administrador" &&
+            adminOptions.map((option, index) => (
+              <DropdownMenuGroup key={index}>
+                <DropdownMenuItem>
+                  <option.icon className="mr-4 h-4 w-4" />
+                  <span>{option.label}</span>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            ))}
+
+          {userRole === "Técnico" &&
+            techOptions.map((option, index) => (
+              <DropdownMenuGroup key={index}>
+                <DropdownMenuItem>
+                  <option.icon className="mr-4 h-4 w-4" />
+                  <span>{option.label}</span>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            ))}
+
+          {userRole !== null && (
+            <DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Settings className="mr-4 h-4 w-4" />
+                <span>Configurar perfil</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <LogOut className="mr-4 h-4 w-4" />
+                <span>Cerrar Sesion</span>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </>

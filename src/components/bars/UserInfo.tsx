@@ -14,9 +14,11 @@ function UserInfo({ user }: { user: User | null }) {
             <span className="font-bold text-lg bg-gradient-to-r from-secondary to-udea-500 inline-block text-transparent bg-clip-text">
               {user.name} {user.lastname}
             </span>
-            <span className="font-bold text-sm text-end">{user.role}</span>
+            <span className="font-bold text-sm text-end">
+              {formatUserRole(user.role)}
+            </span>
           </p>
-          <UserInfoDropdown userRole={formatUserRole(user.role)} />
+          <UserInfoDropdown userRole={user.role} />
         </>
       ) : (
         <Button>

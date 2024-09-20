@@ -10,7 +10,7 @@ function Navbar() {
   const user: User = {
     name: "Esteban",
     lastname: "Cossio",
-    role: "ADMIN",
+    role: "TECHNICAL",
   };
 
   return (

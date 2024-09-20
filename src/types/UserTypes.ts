@@ -1,5 +1,5 @@
 export interface User {
   name: string;
   lastname: string;
-  role: "Genérico" | "Administrador" | "Técnico";
+  role: "GENERIC" | "ADMIN" | "TECHNICAL";
 }

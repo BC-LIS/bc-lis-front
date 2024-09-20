@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const formUser = z.object({
+export const formUserRegister = z.object({
   name: z.string().min(3, { message: "El nombre es corto" }),
   lastname: z.string().min(3, { message: "El apellido es corto" }),
   username: z.string().min(3, { message: "El nombre de usuario incorrecto" }),
@@ -11,4 +11,4 @@ export const formUser = z.object({
   }),
 });
 
-export type UserFormSchema = z.infer<typeof formUser>;
+export type UserRegisterFormSchema = z.infer<typeof formUserRegister>;

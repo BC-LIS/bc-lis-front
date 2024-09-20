@@ -3,6 +3,7 @@ import { UserInfoDropdown } from "./UserInfoDropdown";
 import { User } from "@/types/UserTypes";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { formatUserRole } from "@/lib/formatUserRole";
 
 function UserInfo({ user }: { user: User | null }) {
   return (
@@ -15,7 +16,7 @@ function UserInfo({ user }: { user: User | null }) {
             </span>
             <span className="font-bold text-sm text-end">{user.role}</span>
           </p>
-          <UserInfoDropdown userRole={user.role} />
+          <UserInfoDropdown userRole={formatUserRole(user.role)} />
         </>
       ) : (
         <Button>

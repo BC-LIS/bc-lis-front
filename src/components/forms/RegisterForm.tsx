@@ -21,26 +21,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { formUser, UserFormSchema } from "@/schemas/UserSchema";
+import { formUserRegister, UserRegisterFormSchema } from "@/schemas/UserSchema";
 import { inputFields } from "@/constants/FormFields";
 
 function RegisterForm() {
+  const ENDPOINT_REGISTER = process.env.NEXT_PUBLIC_API_URL_REGISTER;
   const { toast } = useToast();
 
-  const form = useForm<UserFormSchema>({
-    resolver: zodResolver(formUser),
-    defaultValues: {
-      name: "",
-      lastname: "",
-      password: "",
-      email: "",
-      role: undefined,
-    },
+  const form = useForm<UserRegisterFormSchema>({
+    resolver: zodResolver(formUserRegister),
   });
 
-  async function onSubmit(data: UserFormSchema) {
+  async function onSubmit(data: UserRegisterFormSchema) {
     try {
-      const response = await fetch("/api/auth/register", {
+      const response = await fetch(`${ENDPOINT_REGISTER}`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: { "Content-Type": "application/json" },
@@ -75,7 +69,7 @@ function RegisterForm() {
             <FormField
               key={index}
               control={form.control}
-              name={input.name as keyof UserFormSchema}
+              name={input.name as keyof UserRegisterFormSchema}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{input.label}</FormLabel>

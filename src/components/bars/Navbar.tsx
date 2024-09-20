@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Switcher } from "@components/dark-mode/Switcher";
-import UserInfo from "../UserInfo";
+import UserInfo from "./UserInfo";
 import { User } from "@/types/UserTypes";
 
 function Navbar() {

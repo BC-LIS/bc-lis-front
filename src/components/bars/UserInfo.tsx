@@ -2,7 +2,7 @@ import React from "react";
 import { UserInfoDropdown } from "./UserInfoDropdown";
 import { User } from "@/types/UserTypes";
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 function UserInfo({ user }: { user: User | null }) {
   return (

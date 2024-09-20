@@ -4,28 +4,48 @@ import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { InputLogin } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
-import { ToastAction } from "@/components/ui/toast";
 import { LockKeyhole, User } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/router";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { toast } = useToast();
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would typically handle the login logic
-    console.log("Login attempt", { username, password });
-    toast({
-      title: "Intento de inicio de sesión",
-      description: `Usuario: ${username}`,
-      action: <ToastAction altText="Try again">Intentar de nuevo</ToastAction>,
-    });
-  };
+  async function onSubmit() {
+    try {
+      const response = await fetch("BACK_URL/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        const { message } = await response.json();
+        toast({
+          title: "Error ❌",
+          description:
+            message || "Credenciales inválidas, inténtalo nuevamente.",
+        });
+      }
+
+      // Obtener el token de la respuesta y guardarlo en las localStorage
+      const { token } = await response.json();
+      localStorage.setItem("session", token);
+
+      // Redirige al usuario a la página principal
+      router.push("/");
+    } catch (error) {
+      toast({
+        title: "Error ❌",
+        description: "Ha ocurrido un error en la solicitud",
+      });
+    }
+  }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+    <form onSubmit={onSubmit} className="mt-8 space-y-6">
       <div className="flex justify-center items-center">
         <InputLogin
           id="username"

@@ -2,10 +2,17 @@
 
 import React from "react";
 import Link from "next/link";
-import { Button } from "@components/ui/button";
 import { Switcher } from "@components/dark-mode/Switcher";
+import UserInfo from "./UserInfo";
+import { User } from "@/types/UserTypes";
 
 function Navbar() {
+  const user: User = {
+    name: "Esteban",
+    lastname: "Cossio",
+    role: "Administrador",
+  };
+
   return (
     <nav className="sticky top-0 z-50 bg-background shadow-lg py-2 px-8 border-b-2 border-primary">
       <div className="container mx-auto flex justify-between items-center">
@@ -21,12 +28,7 @@ function Navbar() {
 
         {/* Opciones de navegación */}
         <div className="flex items-center space-x-4">
-          <Button>
-            <Link href="/login">Iniciar Sesión</Link>
-          </Button>
-          <Button>
-            <Link href="/register">Registro</Link>
-          </Button>
+          <UserInfo user={user} />
           <Switcher />
         </div>
       </div>

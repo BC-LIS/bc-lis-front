@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { InputLogin } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { LockKeyhole, User } from "lucide-react";
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
@@ -13,9 +13,10 @@ export default function LoginForm() {
   const { toast } = useToast();
   const router = useRouter();
   const ENDPOINT_LOGIN = process.env.NEXT_PUBLIC_API_URL_LOGIN;
-  console.log(ENDPOINT_LOGIN);
 
-  async function handleSubmit() {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    // Evitar que el formulario recargue la página
+    event.preventDefault();
     try {
       const response = await fetch(`${ENDPOINT_LOGIN}`, {
         method: "POST",

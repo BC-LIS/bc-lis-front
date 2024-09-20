@@ -19,6 +19,7 @@ export default function LoginPage() {
             src="/BCLIS.png"
             className="lg:w-3/4 w-2/3"
             alt="Imagen login"
+            priority
           />
         </div>
 

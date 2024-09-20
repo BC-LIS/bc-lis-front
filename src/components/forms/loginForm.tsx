@@ -6,15 +6,36 @@ import { Button } from "@/components/ui/button";
 import { InputLogin } from "@/components/ui/input";
 import { LockKeyhole, User } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { login } from "@/lib/LoginService";
+import { useRouter } from "next/router";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   async function onSubmit() {
     try {
-      await login(username, password);
+      const response = await fetch("BACK_URL/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        const { message } = await response.json();
+        toast({
+          title: "Error ❌",
+          description:
+            message || "Credenciales inválidas, inténtalo nuevamente.",
+        });
+      }
+
+      // Obtener el token de la respuesta y guardarlo en las localStorage
+      const { token } = await response.json();
+      localStorage.setItem("session", token);
+
+      // Redirige al usuario a la página principal
+      router.push("/");
     } catch (error) {
       toast({
         title: "Error ❌",

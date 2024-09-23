@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import { formatUserRole } from "@/lib/formatUserRole";
 
 function UserInfo({ user }: { user?: User }) {
+  console.log(user, user?.role);
   return (
     <>
       {user ? (

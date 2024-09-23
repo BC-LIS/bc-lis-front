@@ -14,6 +14,7 @@ function Navbar() {
   useEffect(() => {
     const token = localStorage.getItem("session");
     const userInfo = localStorage.getItem("userInfo");
+    console.log(userInfo);
 
     if (token && userInfo) {
       // Parsear la información del usuario almacenada
@@ -22,6 +23,8 @@ function Navbar() {
       setIsAuthenticated(true);
     }
   }, []);
+
+  console.log(user, isAuthenticated);
 
   return (
     <nav className="sticky top-0 z-50 bg-background shadow-lg py-2 px-8 border-b-2 border-primary">

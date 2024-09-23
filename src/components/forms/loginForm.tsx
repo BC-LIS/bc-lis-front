@@ -6,6 +6,7 @@ import { InputLogin } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { LockKeyhole, User } from "lucide-react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
@@ -94,9 +95,9 @@ function LoginForm() {
         </div>
         <div className="text-sm text-center flex justify-center items-center">
           ¿Cuenta no registrada?{" "}
-          <a href="#" className="text-secondary hover:underline">
-            Crea una cuenta
-          </a>
+          <Link href="/register" className="text-secondary hover:underline">
+              Crea una cuenta
+          </Link>
         </div>
       </form>
     </>

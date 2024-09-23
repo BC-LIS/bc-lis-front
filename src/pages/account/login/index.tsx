@@ -1,7 +1,22 @@
-import LoginForm from "@/components/forms/loginForm";
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import LoginForm from "@components/forms/LoginForm";
 import Image from "next/image";
 
 export default function LoginPage() {
+  const router = useRouter();
+
+  // Verificar si el usuario ya está autenticado para proteger la página
+  useEffect(() => {
+    const token = localStorage.getItem("session");
+    if (token) {
+      // Si el usuario ya está autenticado, redirigir a la página principal
+      router.push("/");
+    }
+  }, [router]);
+
   return (
     <div className="relative flex w-full h-[100vh] items-center justify-center overflow-hidden">
       {/* Fondos difuminados */}

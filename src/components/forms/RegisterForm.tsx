@@ -45,12 +45,12 @@ function RegisterForm() {
           title: "Error ❌",
           description: `Ha ocurrido un error al registrar el usuario`,
         });
-      } else {
-        toast({
-          title: "Usuario registrado ✅",
-          description: `El usuario con nombre ${data.name} ha sido registrado`,
-        });
       }
+
+      toast({
+        title: "Usuario registrado ✅",
+        description: `El usuario con nombre ${data.name} ha sido registrado`,
+      });
     } catch (error) {
       toast({
         title: "Error ❌",

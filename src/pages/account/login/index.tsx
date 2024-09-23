@@ -31,7 +31,7 @@ export default function LoginPage() {
             width={0}
             height={0}
             sizes="100%"
-            src="/BCLIS.jpeg"
+            src="/BCLIS.png"
             className="lg:w-3/4 w-2/3"
             alt="Imagen login"
             priority

@@ -1,31 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
-import UserInfo from "@components/bars/UserInfo";
-import { Switcher } from "@components/dark-mode/Switcher";
+import UserInfo from "@/components/layout/UserInfo";
+import { Switcher } from "@/components/theme/Switcher";
 import { Button } from "@components/ui/button";
-import { User } from "@/types/UserTypes";
+import { useAuth } from "@/hooks/use-auth";
 
 function Navbar() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-
-  function loadUser() {
-    const token = localStorage.getItem("session");
-    const userInfo = localStorage.getItem("userInfo");
-
-    if (token && userInfo) {
-      // Parsear la información del usuario almacenada
-      const userData = JSON.parse(userInfo);
-      setUser(userData);
-      setIsAuthenticated(true);
-    }
-  }
-
-  useEffect(() => {
-    loadUser();
-  }, []);
+  const { isAuthenticated, user } = useAuth();
 
   return (
     <nav className="sticky top-0 z-50 bg-background shadow-lg py-2 px-8 border-b-2 border-primary">

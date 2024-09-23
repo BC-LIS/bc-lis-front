@@ -40,21 +40,24 @@ function RegisterForm() {
         headers: { "Content-Type": "application/json" },
       });
 
+      const { message } = await response.json();
       if (!response.ok) {
         toast({
           title: "Error ❌",
-          description: `Ha ocurrido un error al registrar el usuario`,
+          description:
+            message || "Ha ocurrido un error al registrar el usuario",
         });
       }
 
       toast({
         title: "Usuario registrado ✅",
-        description: `El usuario con nombre ${data.name} ha sido registrado`,
+        description:
+          message || `El usuario con nombre ${data.name} ha sido registrado`,
       });
     } catch (error) {
       toast({
         title: "Error ❌",
-        description: `Ha ocurrido un error en la solicitud: ${error}`,
+        description: `Ha ocurrido un error en la solicitud`,
       });
     }
   }

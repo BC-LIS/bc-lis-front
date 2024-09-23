@@ -31,7 +31,7 @@ export const inputFields: InputField[] = [
   {
     name: "password",
     label: "Contraseña",
-    placeholder: "********",
+    placeholder: "••••••••",
     type: "password",
     description: "Al menos 8 caracteres",
   },

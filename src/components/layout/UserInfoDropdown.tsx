@@ -13,6 +13,7 @@ import { adminOptions, techOptions } from "@/constants/UserOptions";
 import { LogOut, Settings, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useAuth } from "@/hooks/use-auth";
 
 // Función para obtener las opciones basadas en el rol del usuario
 const getOptionsByRole = (userRole: string) => {
@@ -28,11 +29,11 @@ const getOptionsByRole = (userRole: string) => {
 
 export const UserInfoDropdown = ({ userRole }: { userRole: string }) => {
   const roleOptions = getOptionsByRole(userRole);
+  const { logout } = useAuth();
   const router = useRouter();
 
   function handleLogout() {
-    localStorage.removeItem("session");
-    localStorage.removeItem("userInfo");
+    logout();
     router.push("/");
   }
 

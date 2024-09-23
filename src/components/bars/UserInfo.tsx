@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { formatUserRole } from "@/lib/formatUserRole";
 
-function UserInfo({ user }: { user: User | null }) {
+function UserInfo({ user }: { user?: User }) {
   return (
     <>
       {user ? (

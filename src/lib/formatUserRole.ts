@@ -1,6 +1,4 @@
-export function formatUserRole(
-  role: "ADMIN" | "TECHNICAL" | "GENERIC"
-): string {
+export function formatUserRole(role: string): string {
   switch (role) {
     case "ADMIN":
       return "Administrador";

@@ -15,10 +15,8 @@ export default function LoginForm() {
   const ENDPOINT_LOGIN = process.env.NEXT_PUBLIC_API_URL_LOGIN;
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    // Evitar que el formulario recargue la página
     event.preventDefault();
 
-    // Validar que los campos no estén vacíos
     try {
       const response = await fetch(`${ENDPOINT_LOGIN}`, {
         method: "POST",
@@ -33,11 +31,18 @@ export default function LoginForm() {
           description:
             message || "Credenciales inválidas, inténtalo nuevamente.",
         });
+        return;
       }
 
-      // Obtener el token de la respuesta y guardarlo en las localStorage
-      const { token } = await response.json();
+      // Obtener el token y los datos del usuario de la respuesta
+      const { token, name, lastname, role } = await response.json();
+
+      // Guardar el token y la información del usuario en localStorage
       localStorage.setItem("session", token);
+      localStorage.setItem(
+        "userInfo",
+        JSON.stringify({ name, lastname, role })
+      );
 
       // Redirige al usuario a la página principal
       router.push("/");

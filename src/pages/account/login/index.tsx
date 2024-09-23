@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import LoginForm from "@components/forms/LoginForm";
+import LoginForm from "@/components/forms/loginForm";
 import Image from "next/image";
 
 export default function LoginPage() {

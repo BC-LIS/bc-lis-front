@@ -5,18 +5,18 @@ export default function LoginPage() {
   return (
     <div className="relative flex w-full h-[100vh] items-center justify-center overflow-hidden">
       {/* Fondos difuminados */}
-      <div className="absolute z-10 w-2/3 h-3/4 bg-udea-950 rounded-full blur-2xl"></div>
-      <div className="absolute z-20 w-1/2 h-1/2 bg-primary rounded-full blur-2xl opacity-80"></div>
+      <div className="absolute z-10 w-2/3 h-3/4 bg-udea-950 rounded-full blur-2xl opacity-10"></div>
+      <div className="absolute z-20 w-1/2 h-1/2 bg-primary rounded-full blur-2xl opacity-30"></div>
 
       {/* Card principal */}
-      <div className="relative z-30 w-full max-w-4xl max-h-[80vh] lg:h-auto rounded-3xl bg-popover shadow-lg flex flex-col lg:flex-row sm:justify-around items-center gap-4 p-6">
+      <div className="relative z-30 w-full max-w-4xl max-h-[80vh] lg:h-auto rounded-3xl bg-popover shadow-2xl flex flex-col lg:flex-row sm:justify-around items-center gap-4 p-6">
         {/* Imagen */}
         <div className="w-full lg:w-1/2 flex justify-center">
           <Image
             width={0}
             height={0}
             sizes="100%"
-            src="/BCLIS.png"
+            src="/BCLIS.jpeg"
             className="lg:w-3/4 w-2/3"
             alt="Imagen login"
             priority

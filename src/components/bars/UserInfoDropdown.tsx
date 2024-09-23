@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { adminOptions, techOptions } from "@/constants/UserOptions";
 import { LogOut, Settings, User } from "lucide-react";
+import Link from "next/link";
 
 // Función para obtener las opciones basadas en el rol del usuario
 const getOptionsByRole = (userRole: string) => {
@@ -43,8 +44,10 @@ export const UserInfoDropdown = ({ userRole }: { userRole: string }) => {
           roleOptions.map((option, index) => (
             <DropdownMenuGroup key={index}>
               <DropdownMenuItem>
-                <option.icon className="mr-4 h-4 w-4" />
-                <span>{option.label}</span>
+                <Link href={option.url}>
+                  <option.icon className="mr-4 h-4 w-4" />
+                  <span>{option.label}</span>
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           ))}

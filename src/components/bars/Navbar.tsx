@@ -2,16 +2,16 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import UserInfo from "@components/bars/UserInfo";
 import { Switcher } from "@components/dark-mode/Switcher";
-import UserInfo from "./UserInfo";
+import { Button } from "@components/ui/button";
 import { User } from "@/types/UserTypes";
-import { Button } from "../ui/button";
 
 function Navbar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
-  useEffect(() => {
+  function loadUser() {
     const token = localStorage.getItem("session");
     const userInfo = localStorage.getItem("userInfo");
 
@@ -21,6 +21,10 @@ function Navbar() {
       setUser(userData);
       setIsAuthenticated(true);
     }
+  }
+
+  useEffect(() => {
+    loadUser();
   }, []);
 
   return (
@@ -40,7 +44,7 @@ function Navbar() {
           {isAuthenticated && user ? (
             <UserInfo user={user} />
           ) : (
-            <Link href="/login">
+            <Link href="/account/login">
               <Button>Iniciar Sesión</Button>
             </Link>
           )}

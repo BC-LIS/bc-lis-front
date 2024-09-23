@@ -12,6 +12,7 @@ import {
 import { adminOptions, techOptions } from "@/constants/UserOptions";
 import { LogOut, Settings, User } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 // Función para obtener las opciones basadas en el rol del usuario
 const getOptionsByRole = (userRole: string) => {
@@ -27,6 +28,13 @@ const getOptionsByRole = (userRole: string) => {
 
 export const UserInfoDropdown = ({ userRole }: { userRole: string }) => {
   const roleOptions = getOptionsByRole(userRole);
+  const router = useRouter();
+
+  function handleLogout() {
+    localStorage.removeItem("session");
+    localStorage.removeItem("userInfo");
+    router.push("/");
+  }
 
   return (
     <DropdownMenu>
@@ -44,8 +52,8 @@ export const UserInfoDropdown = ({ userRole }: { userRole: string }) => {
           roleOptions.map((option, index) => (
             <DropdownMenuGroup key={index}>
               <DropdownMenuItem>
+                <option.icon className="mr-4 h-4 w-4" />
                 <Link href={option.url}>
-                  <option.icon className="mr-4 h-4 w-4" />
                   <span>{option.label}</span>
                 </Link>
               </DropdownMenuItem>
@@ -61,7 +69,7 @@ export const UserInfoDropdown = ({ userRole }: { userRole: string }) => {
                 <Settings className="mr-4 h-4 w-4" />
                 <span>Configurar perfil</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>
                 <LogOut className="mr-4 h-4 w-4" />
                 <span>Cerrar Sesion</span>
               </DropdownMenuItem>

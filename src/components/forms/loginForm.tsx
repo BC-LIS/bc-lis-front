@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { LockKeyhole, User } from "lucide-react";
 import { useRouter } from "next/router";
 
-export default function LoginForm() {
+function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { toast } = useToast();
@@ -102,3 +102,5 @@ export default function LoginForm() {
     </>
   );
 }
+
+export default LoginForm;

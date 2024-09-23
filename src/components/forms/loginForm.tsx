@@ -6,13 +6,14 @@ import { InputLogin } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { LockKeyhole, User } from "lucide-react";
 import { useRouter } from "next/router";
-import Link from "next/link";
+import { useAuth } from "@/hooks/use-auth";
 
-function LoginForm() {
+export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { toast } = useToast();
   const router = useRouter();
+  const { login } = useAuth();
   const ENDPOINT_LOGIN = process.env.NEXT_PUBLIC_API_URL_LOGIN;
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -38,14 +39,10 @@ function LoginForm() {
       // Obtener el token y los datos del usuario de la respuesta
       const { token, name, lastname, role } = await response.json();
 
-      // Guardar el token y la información del usuario en localStorage
-      localStorage.setItem("session", token);
-      localStorage.setItem(
-        "userInfo",
-        JSON.stringify({ name, lastname, role })
-      );
+      // Usar la función login del contexto
+      login({ name, lastname, role }, token);
 
-      // Redirige al usuario a la página principal
+      // Redirigir al usuario a la página principal
       router.push("/");
     } catch (error) {
       toast({
@@ -80,11 +77,6 @@ function LoginForm() {
             required
           />
         </div>
-        <div className="text-sm flex justify-center items-center">
-          <a href="#" className="w-full flex justify-end hover:underline">
-            ¿Olvidaste la contraseña?
-          </a>
-        </div>
         <div className="flex justify-center items-center">
           <Button
             type="submit"
@@ -93,15 +85,7 @@ function LoginForm() {
             Iniciar sesión
           </Button>
         </div>
-        <div className="text-sm text-center flex justify-center items-center">
-          ¿Cuenta no registrada?{" "}
-          <Link href="/register" className="text-secondary hover:underline">
-              Crea una cuenta
-          </Link>
-        </div>
       </form>
     </>
   );
 }
-
-export default LoginForm;

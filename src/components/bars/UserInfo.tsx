@@ -1,8 +1,8 @@
 import React from "react";
-import { UserInfoDropdown } from "./UserInfoDropdown";
-import { User } from "@/types/UserTypes";
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { UserInfoDropdown } from "@components/bars/UserInfoDropdown";
+import { User } from "@/types/UserTypes";
+import { Button } from "@components/ui/button";
 import { formatUserRole } from "@/lib/formatUserRole";
 
 function UserInfo({ user }: { user?: User }) {
@@ -22,7 +22,7 @@ function UserInfo({ user }: { user?: User }) {
         </>
       ) : (
         <Button>
-          <Link href="/login">Iniciar Sesión</Link>
+          <Link href="/account/login">Iniciar Sesión</Link>
         </Button>
       )}
     </>

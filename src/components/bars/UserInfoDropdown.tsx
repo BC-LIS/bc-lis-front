@@ -10,51 +10,50 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { adminOptions, techOptions } from "@/constants/UserOptions";
-import { LogIn, LogOut, Settings, User } from "lucide-react";
+import { LogOut, Settings, User } from "lucide-react";
+
+// Función para obtener las opciones basadas en el rol del usuario
+const getOptionsByRole = (userRole: string) => {
+  switch (userRole) {
+    case "ADMIN":
+      return adminOptions;
+    case "TECHNICAL":
+      return techOptions;
+    default:
+      return [];
+  }
+};
 
 export const UserInfoDropdown = ({ userRole }: { userRole: string }) => {
+  const roleOptions = getOptionsByRole(userRole);
+
   return (
-    <>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon">
-            <User className="h-6 w-6" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>Opciones</DropdownMenuLabel>
-          <DropdownMenuSeparator />
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon">
+          <User className="h-6 w-6" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>Opciones</DropdownMenuLabel>
+        <DropdownMenuSeparator />
 
-          {userRole === null && (
-            <DropdownMenuItem>
-              <LogIn className="mr-4 h-4 w-4" />
-              <span>Iniciar Sesion</span>
-            </DropdownMenuItem>
-          )}
+        {/* Renderizar las opciones basadas en el rol */}
+        {roleOptions.length > 0 &&
+          roleOptions.map((option, index) => (
+            <DropdownMenuGroup key={index}>
+              <DropdownMenuItem>
+                <option.icon className="mr-4 h-4 w-4" />
+                <span>{option.label}</span>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          ))}
 
-          {userRole === "ADMIN" &&
-            adminOptions.map((option, index) => (
-              <DropdownMenuGroup key={index}>
-                <DropdownMenuItem>
-                  <option.icon className="mr-4 h-4 w-4" />
-                  <span>{option.label}</span>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            ))}
-
-          {userRole === "TECHNICAL" &&
-            techOptions.map((option, index) => (
-              <DropdownMenuGroup key={index}>
-                <DropdownMenuItem>
-                  <option.icon className="mr-4 h-4 w-4" />
-                  <span>{option.label}</span>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            ))}
-
-          {userRole !== null && (
+        {/* Configuración y cierre de sesión disponibles para todos los roles */}
+        {userRole !== null && (
+          <>
+            <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Settings className="mr-4 h-4 w-4" />
                 <span>Configurar perfil</span>
@@ -64,9 +63,9 @@ export const UserInfoDropdown = ({ userRole }: { userRole: string }) => {
                 <span>Cerrar Sesion</span>
               </DropdownMenuItem>
             </DropdownMenuGroup>
-          )}
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </>
+          </>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };

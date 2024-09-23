@@ -17,6 +17,8 @@ export default function LoginForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     // Evitar que el formulario recargue la página
     event.preventDefault();
+
+    // Validar que los campos no estén vacíos
     try {
       const response = await fetch(`${ENDPOINT_LOGIN}`, {
         method: "POST",

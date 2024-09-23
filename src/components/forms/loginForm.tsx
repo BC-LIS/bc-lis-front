@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { LockKeyhole, User } from "lucide-react";
 import { useRouter } from "next/router";
 import { useAuth } from "@/hooks/use-auth";
+import Link from "next/link";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
@@ -84,6 +85,15 @@ export default function LoginForm() {
           >
             Iniciar sesión
           </Button>
+        </div>
+        <div className="text-sm text-center flex justify-center items-center">
+          ¿Cuenta no registrada?{" "}
+          <Link
+            href="/account/register"
+            className="text-secondary hover:underline"
+          >
+            Crea una cuenta
+          </Link>
         </div>
       </form>
     </>

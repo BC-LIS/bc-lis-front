@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { formUserRegister, UserRegisterFormSchema } from "@/schemas/UserSchema";
-import { inputFields } from "@/constants/FormFields";
+import { registerFields } from "@/constants/FormFields";
 
 function RegisterForm() {
   const ENDPOINT_REGISTER = process.env.NEXT_PUBLIC_API_URL_REGISTER;
@@ -39,7 +39,7 @@ function RegisterForm() {
     },
   });
 
-  async function onSubmit(data: UserRegisterFormSchema) {
+  async function sendData(data: UserRegisterFormSchema) {
     try {
       const response = await fetch(`${ENDPOINT_REGISTER}`, {
         method: "POST",
@@ -72,10 +72,10 @@ function RegisterForm() {
     <div className="border border-foreground rounded-lg p-8 my-12">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(sendData)}
           className="grid grid-cols-2 items-center gap-4"
         >
-          {inputFields.map((input, index) => (
+          {registerFields.map((input, index) => (
             <FormField
               key={index}
               control={form.control}
@@ -89,7 +89,6 @@ function RegisterForm() {
                       value={field.value || ""}
                       placeholder={input.placeholder}
                       type={input.type}
-                      icon=""
                     />
                   </FormControl>
                   <FormDescription>{input.description}</FormDescription>

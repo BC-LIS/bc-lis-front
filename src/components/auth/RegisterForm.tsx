@@ -36,7 +36,7 @@ function RegisterForm() {
       username: "",
       password: "",
       email: "",
-      role: "",
+      role: "GENERIC",
     },
   });
 
@@ -125,8 +125,12 @@ function RegisterForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="col-span-2">
-            Registrar Usuario
+          <Button
+            type="submit"
+            className="col-span-2"
+            disabled={form.formState.isSubmitting}
+          >
+            {form.formState.isSubmitting ? "Enviando..." : "Registrar Usuario"}
           </Button>
         </form>
       </Form>

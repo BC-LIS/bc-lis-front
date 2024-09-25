@@ -40,7 +40,7 @@ function RegisterForm() {
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("session")}`,
         },
       });
 
@@ -117,7 +117,7 @@ function RegisterForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="col-start-2">
+          <Button type="submit" className="col-span-2">
             Registrar Usuario
           </Button>
         </form>

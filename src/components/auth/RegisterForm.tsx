@@ -36,11 +36,11 @@ function RegisterForm() {
       username: "",
       password: "",
       email: "",
-      role: "GENERIC",
     },
   });
 
   async function onSubmit(data: UserRegisterFormSchema) {
+    console.log(data);
     try {
       const response = await fetch(`${ENDPOINT_REGISTER}`, {
         method: "POST",
@@ -51,21 +51,31 @@ function RegisterForm() {
         },
       });
 
+      console.log(response);
+      console.log("Obteniendo respuesta");
+
       const { message } = await response.json();
+
+      console.log(message);
+      console.log("Obteniendo mensaje");
+
       if (!response.ok) {
+        console.log("Ocurrió un error");
         toast({
           title: "Error ❌",
           description:
             message || "Ha ocurrido un error al registrar el usuario",
         });
+      } else {
+        console.log("Usuario registrado");
+        toast({
+          title: "Usuario registrado ✅",
+          description:
+            message || `El usuario con nombre ${data.name} ha sido registrado`,
+        });
       }
-
-      toast({
-        title: "Usuario registrado ✅",
-        description:
-          message || `El usuario con nombre ${data.name} ha sido registrado`,
-      });
     } catch (error) {
+      console.log("Error en la solicitud, conexión fallida");
       toast({
         title: "Error ❌",
         description: `Ha ocurrido un error en la solicitud`,

@@ -27,6 +27,7 @@ export default function LoginForm() {
         body: JSON.stringify({ username, password }),
       });
 
+      console.log(response);
       if (!response.ok) {
         const { message } = await response.json();
         toast({

@@ -1,12 +1,5 @@
+import { InputLoginField, InputRegisterField } from "@/types/InputTypes";
 import { LockKeyhole, User } from "lucide-react";
-
-type InputRegisterField = {
-  name: string;
-  label: string;
-  placeholder: string;
-  type: string;
-  description: string;
-};
 
 export const registerFields: InputRegisterField[] = [
   {
@@ -46,7 +39,7 @@ export const registerFields: InputRegisterField[] = [
   },
 ];
 
-export const loginFields = [
+export const loginFields: InputLoginField[] = [
   {
     name: "username",
     label: "Nombre de usuario",

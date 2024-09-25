@@ -30,10 +30,17 @@ function RegisterForm() {
 
   const form = useForm<UserRegisterFormSchema>({
     resolver: zodResolver(formUserRegister),
+    defaultValues: {
+      name: "",
+      lastname: "",
+      username: "",
+      password: "",
+      email: "",
+      role: "",
+    },
   });
 
   async function onSubmit(data: UserRegisterFormSchema) {
-    console.log(data);
     try {
       const response = await fetch(`${ENDPOINT_REGISTER}`, {
         method: "POST",
@@ -83,6 +90,7 @@ function RegisterForm() {
                   <FormControl>
                     <Input
                       {...field}
+                      value={field.value || ""}
                       placeholder={input.placeholder}
                       type={input.type}
                       icon=""

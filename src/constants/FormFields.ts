@@ -1,4 +1,6 @@
-type InputField = {
+import { LockKeyhole, User } from "lucide-react";
+
+type InputRegisterField = {
   name: string;
   label: string;
   placeholder: string;
@@ -6,7 +8,7 @@ type InputField = {
   description: string;
 };
 
-export const inputFields: InputField[] = [
+export const registerFields: InputRegisterField[] = [
   {
     name: "name",
     label: "Nombre",
@@ -41,5 +43,22 @@ export const inputFields: InputField[] = [
     placeholder: "fulano.fulanita@udea.edu.co",
     type: "email",
     description: "Ingresa un correo válido",
+  },
+];
+
+export const loginFields = [
+  {
+    name: "username",
+    label: "Nombre de usuario",
+    placeholder: "fulanito.fulanita",
+    type: "text",
+    icon: User,
+  },
+  {
+    name: "password",
+    label: "Contraseña",
+    placeholder: "••••••••",
+    type: "password",
+    icon: LockKeyhole,
   },
 ];

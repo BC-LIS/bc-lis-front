@@ -15,8 +15,8 @@ export type UserRegisterFormSchema = z.infer<typeof formUserRegister>;
 
 // Schema para el inicio de sesión
 export const formUserLogin = z.object({
-  username: z.string().min(3, { message: "Nombre de usuario incorrecto" }),
-  password: z.string().min(8, { message: "La contraseña es incorrecta" }),
+  username: z.string().min(3, { message: "Nombre de usuario es obligatorio" }),
+  password: z.string().min(6, { message: "La contraseña es obligatorio" }),
 });
 
 export type UserLoginFormSchema = z.infer<typeof formUserLogin>;

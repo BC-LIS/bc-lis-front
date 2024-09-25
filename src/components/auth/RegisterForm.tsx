@@ -33,11 +33,15 @@ function RegisterForm() {
   });
 
   async function onSubmit(data: UserRegisterFormSchema) {
+    console.log(data);
     try {
       const response = await fetch(`${ENDPOINT_REGISTER}`, {
         method: "POST",
         body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
 
       const { message } = await response.json();
@@ -113,7 +117,9 @@ function RegisterForm() {
               </FormItem>
             )}
           />
-          <Button type="submit">Registrar Usuario</Button>
+          <Button type="submit" className="col-start-2">
+            Registrar Usuario
+          </Button>
         </form>
       </Form>
     </div>

@@ -62,6 +62,7 @@ import { FilePlus2 } from "lucide-react"
   
 
 export default function TableDashboard() {
+
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleButtonClick = () => {
@@ -69,6 +70,7 @@ export default function TableDashboard() {
         fileInputRef.current.click();
       }
     };
+    
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <header className="flex h-14 items-center gap-4 justify-between px-4 pb-2 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
@@ -160,9 +162,9 @@ export default function TableDashboard() {
                         </DropdownMenu>
                         <DialogContent className="sm:max-w-md">
                             <DialogHeader>
-                            <DialogTitle>Share link</DialogTitle>
+                            <DialogTitle>Ajuntar archivos</DialogTitle>
                             <DialogDescription>
-                                Anyone who has this link will be able to view this.
+                                Selecciona el archivo que desees adjuntar.
                             </DialogDescription>
                             </DialogHeader>
                             <div className="flex items-center space-x-2">
@@ -177,10 +179,9 @@ export default function TableDashboard() {
                                     type="submit" 
                                     size="sm" 
                                     variant="secondary"
-                                    className="px-3"
                                     onClick={handleButtonClick}
                                 >
-                                    <span className="sr-only">Copy</span>
+                                    <span className="sr-only">ajuntar</span>
                                     <FilePlus2 className="h-4 w-4" />
                                 </Button>
                                 <InputFile 

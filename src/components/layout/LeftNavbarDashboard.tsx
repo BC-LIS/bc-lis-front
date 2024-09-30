@@ -9,8 +9,8 @@ import {
     File,
     Home,
     Settings,
-    ShoppingCart,
     Users2,
+    ChartColumnDecreasing
   } from "lucide-react"
 
 
@@ -66,7 +66,7 @@ export default function LeftNavbarDashboard() {
                             href="#"
                             className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                             >
-                            <ShoppingCart className="h-5 w-5" />
+                            <ChartColumnDecreasing className="h-5 w-5" />
                             <span className="sr-only">Estadisticas</span>
                             </Link>
                         </TooltipTrigger>

@@ -130,9 +130,9 @@ export default function TableDashboard() {
             <TabsContent value="all">
                 <Card x-chunk="dashboard-06-chunk-0">
                     <CardHeader>
-                        <CardTitle>Files</CardTitle>
+                        <CardTitle>Archivos</CardTitle>
                         <CardDescription>
-                            Manage your files and view their performance.
+                            Administra tus archivos aquí.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>

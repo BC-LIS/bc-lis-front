@@ -22,14 +22,14 @@ export default function Home() {
               Laboratorio integrado de sistemas <strong>[LIS]</strong>
             </h6>
           </div>
-          <p>
+          <article>
             <h2 className="text-2xl font-bold mb-2">¿Qué puedes encontrar?</h2>
             <p className="text-4xl mb-4 text-balance text-gray-400 dark:text-gray-200">
               Esto es una base de conocimiento para encontrar documentos sobre
               diferentes temas, entre ellos: cómo configurar una máquina
               virtual, cómo utilizar OpenVPN, entre otros..
             </p>
-          </p>
+          </article>
         </div>
         <div>
           <Image

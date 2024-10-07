@@ -8,7 +8,7 @@ export const adminOptions = [
   },
   {
     label: "Gestionar documentos",
-    url: "/document/register",
+    url: "/file/register",
     icon: FolderCog,
   },
 ];
@@ -16,7 +16,7 @@ export const adminOptions = [
 export const techOptions = [
   {
     label: "Gestionar documentos",
-    url: "/document/register",
+    url: "/file/register",
     icon: FolderCog,
   },
 ];

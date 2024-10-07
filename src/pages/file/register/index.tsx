@@ -1,12 +1,12 @@
 "use client";
 
 import FileForm from "@/components/layout/form/FileForm";
-/* import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react"; */
+import { useEffect, useState } from "react";
 
 export default function DocumentPage() {
-  /*   const router = useRouter();
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function DocumentPage() {
         <LoadingSpinner size={48} />
       </div>
     );
-  } */
+  }
 
   return (
     <section className="flex items-center justify-center my-4 p-2 gap-4 sm:p-4">

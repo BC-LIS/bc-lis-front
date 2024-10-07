@@ -14,7 +14,7 @@ export default function DocumentPage() {
 
     if (userInfo) {
       const user = JSON.parse(userInfo);
-      if (user.role !== "ADMIN" || "TECHNICAL") {
+      if (user.role !== "ADMIN" && user.role !== "TECHNICAL") {
         // Redirigir a la página principal si no es administrador
         router.push("/");
       } else {

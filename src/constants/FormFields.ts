@@ -1,4 +1,8 @@
-import { InputLoginField, InputRegisterField } from "@/types/InputTypes";
+import {
+  InputFileField,
+  InputLoginField,
+  InputRegisterField,
+} from "@/types/InputTypes";
 import { LockKeyhole, User } from "lucide-react";
 
 export const registerFields: InputRegisterField[] = [
@@ -53,5 +57,18 @@ export const loginFields: InputLoginField[] = [
     placeholder: "••••••••",
     type: "password",
     icon: LockKeyhole,
+  },
+];
+
+export const fileFields: InputFileField[] = [
+  {
+    name: "fileName",
+    label: "Nombre del archivo",
+    placeholder: "Configuración de red",
+  },
+  {
+    name: "fileDescription",
+    label: "Descripción",
+    placeholder: "Configurar una red LAN",
   },
 ];

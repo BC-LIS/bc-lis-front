@@ -18,4 +18,6 @@ export type InputFileField = {
   name: string;
   label: string;
   placeholder: string;
+  type: string;
+  options?: string[];
 };

@@ -15,6 +15,9 @@ import { FileRegisterFormSchema, formFile } from "@/schemas/FileSchema";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/router";
 import { fileFields } from "@/constants/FormFields";
+import Head from "next/head";
+import { Textarea } from "@/components/ui/textarea";
+import { SelectInput } from "@/components/ui/select-file-input";
 
 export default function FileForm() {
   const router = useRouter();
@@ -25,6 +28,10 @@ export default function FileForm() {
     defaultValues: {
       fileName: "",
       fileDescription: "",
+      fileReceiver: undefined,
+      category: undefined,
+      fileState: undefined,
+      fileAuthor: "",
     },
   });
 
@@ -56,29 +63,63 @@ export default function FileForm() {
 
   return (
     <>
+      <Head>
+        <title>Gestión de documentos | BCLIS</title>
+      </Head>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(sendData)} className="mt-8 space-y-6">
+        <form
+          onSubmit={form.handleSubmit(sendData)}
+          className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 items-center"
+        >
           {fileFields.map((input, index) => (
             <FormField
               key={index}
               control={form.control}
               name={input.name as keyof FileRegisterFormSchema}
               render={({ field }) => (
-                <FormItem>
+                <FormItem
+                  className={input.type === "textarea" ? "col-span-2" : ""}
+                >
                   <FormLabel>{input.label}</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="text"
-                      placeholder={input.placeholder}
-                      value={field.value || ""}
-                    />
-                  </FormControl>
+
+                  {input.type === "textarea" && (
+                    <FormControl>
+                      <Textarea
+                        {...field}
+                        placeholder={input.placeholder}
+                        value={field.value || ""}
+                        className="resize-none h-24"
+                      />
+                    </FormControl>
+                  )}
+                  {input.type === "select" && input.options && (
+                    <FormControl>
+                      <SelectInput field={field} options={input.options} />
+                    </FormControl>
+                  )}
+                  {input.type === "text" && (
+                    <FormControl>
+                      <Input
+                        {...field}
+                        placeholder={input.placeholder}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                  )}
                   <FormMessage />
                 </FormItem>
               )}
             />
           ))}
+
+          <div className="flex justify-center items-center">
+            <Button
+              type="submit"
+              className="sm:h-10 text-base font-bold bg-primary hover:bg-secondary flex justify-center items-center"
+            >
+              Guardar archivo
+            </Button>
+          </div>
 
           <Input
             type="file"
@@ -86,15 +127,6 @@ export default function FileForm() {
             className="bg-transparent border border-primary"
             id="file"
           />
-
-          <div className="flex justify-center items-center">
-            <Button
-              type="submit"
-              className="sm:w-80 sm:h-12 text-base font-bold bg-primary hover:bg-chart-6 flex justify-center items-center"
-            >
-              Registrar archivo
-            </Button>
-          </div>
         </form>
       </Form>
     </>

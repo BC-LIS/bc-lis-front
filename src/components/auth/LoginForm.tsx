@@ -36,7 +36,6 @@ export default function LoginForm() {
 
   async function sendData(data: UserLoginFormSchema) {
     try {
-      console.log(data);
       const response = await fetch(`${ENDPOINT_LOGIN}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

@@ -30,7 +30,6 @@ export default function FileForm() {
 
   async function sendData(data: FileRegisterFormSchema) {
     try {
-      console.log(data);
       const response = await fetch(`${ENDPOINT_LOGIN}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

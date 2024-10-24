@@ -35,7 +35,7 @@ import {
 export default function FileForm() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [author, setAuthor] = useState<string>("");
-  const ENDPOINT_DOCUMENT = process.env.NEXT_PUBLIC_API_URL_DOCUMENT_REGISTER;
+  const ENDPOINT_DOCUMENT = process.env.NEXT_PUBLIC_API_URL_ENDPOINT;
   const router = useRouter();
 
   const form = useForm<FileRegisterFormSchema>({
@@ -59,18 +59,26 @@ export default function FileForm() {
 
   async function sendData(data: FileRegisterFormSchema) {
     try {
-      // Al ser una petición multipart/form-data, se debe enviar un FormData
       const formData = new FormData();
 
+      // Datos básicos de la solicitud
       formData.append("name", data.name);
       formData.append("username", data.username);
       formData.append("description", data.description);
       formData.append("typeName", data.typeName);
       formData.append("state", data.state);
-      formData.append("categories", JSON.stringify(data.categories));
-      formData.append("file", data.file);
 
-      const response = await fetch(`${ENDPOINT_DOCUMENT}`, {
+      // Concatenando las categorías seleccionadas
+      if (Array.isArray(data.categories)) {
+        formData.append("categories", data.categories.join(","));
+      }
+
+      // Asegurando que el archivo sea un objeto File
+      if (data.file instanceof File) {
+        formData.append("file", data.file, data.file.name);
+      }
+
+      const response = await fetch(`${ENDPOINT_DOCUMENT}/documents`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("session")}`,
@@ -79,16 +87,23 @@ export default function FileForm() {
       });
 
       if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
         toast({
           title: "Error ❌",
-          description: "Información incorrecta, inténtalo nuevamente.",
+          description:
+            errorData?.message ||
+            "Información incorrecta, inténtalo nuevamente.",
         });
         return;
       }
 
-      // Redirigir al usuario a la página principal de documentos
+      toast({
+        title: "Éxito ✅",
+        description: "Documento guardado correctamente",
+      });
       router.push("/file");
     } catch (error) {
+      console.error("Error submitting form:", error);
       toast({
         title: "Error ❌",
         description: "Ha ocurrido un error en la solicitud",

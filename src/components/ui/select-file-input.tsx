@@ -9,32 +9,38 @@ import {
 import { ControllerRenderProps } from "react-hook-form";
 
 interface FormSchema {
-  fileName: string;
-  fileDescription: string;
-  category:
+  name: string;
+  description: string;
+  categories:
     | "SERVIDORES"
     | "COMPUTADORAS"
     | "REDES"
     | "BASE_DE_DATOS"
     | "SEGURIDAD"
-    | "SISTEMAS_OPERATIVOS"
-    | "PROGRAMACIÓN"
-    | "OTROS";
-  fileReceiver: "ADMINISTRATIVO" | "TÉCNICO" | "DOCENTE" | "ESTUDIANTE";
-  fileState: "PUBLICADO" | "BORRADOR" | "ARCHIVADO";
-  fileAuthor: string;
+    | "Docker"
+    | "servers"
+    | "string";
+  typeName: "programming" | "administrative" | "both";
+  state: "PUBLISHED" | "ARCHIVED" | "DRAFT";
+  username: string;
+  file: File;
 }
 
 interface SelectInputProps {
-  field: ControllerRenderProps<FormSchema, keyof FormSchema>; // Aquí usas el esquema directamente
-  options: string[]; // Para las opciones de tu select
+  field: ControllerRenderProps<FormSchema, keyof FormSchema>;
+  placeholder: string;
+  options: string[];
 }
 
-export const SelectInput = ({ field, options }: SelectInputProps) => (
-  <Select onValueChange={field.onChange} defaultValue={field.value}>
+export const SelectInput = ({
+  field,
+  placeholder,
+  options,
+}: SelectInputProps) => (
+  <Select onValueChange={field.onChange}>
     <FormControl>
       <SelectTrigger>
-        <SelectValue placeholder="Selecciona una opción" />
+        <SelectValue placeholder={placeholder} />
       </SelectTrigger>
     </FormControl>
     <SelectContent>

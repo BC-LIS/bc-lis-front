@@ -18,29 +18,57 @@ import { fileFields } from "@/constants/FormFields";
 import Head from "next/head";
 import { Textarea } from "@/components/ui/textarea";
 import { SelectInput } from "@/components/ui/select-file-input";
+import Dropzone from "./Dropzone";
 
 export default function FileForm() {
   const router = useRouter();
-  const ENDPOINT_LOGIN = process.env.NEXT_PUBLIC_API_URL_LOGIN;
+  const ENDPOINT_DOCUMENT = process.env.NEXT_PUBLIC_API_DOCUMENT_REGISTER;
 
   const form = useForm<FileRegisterFormSchema>({
     resolver: zodResolver(formFile),
     defaultValues: {
-      fileName: "",
-      fileDescription: "",
-      fileReceiver: undefined,
-      category: undefined,
-      fileState: undefined,
-      fileAuthor: "",
+      name: "",
+      description: "",
+      typeName: undefined,
+      categories: undefined,
+      state: undefined,
+      username: "",
+      file: undefined,
     },
   });
 
   async function sendData(data: FileRegisterFormSchema) {
     try {
-      const response = await fetch(`${ENDPOINT_LOGIN}`, {
+      // Al ser una petición multipart/form-data, se debe enviar un FormData
+      const formData = new FormData();
+      console.log(formData);
+
+      const categories = Array.isArray(data.categories)
+        ? data.categories
+        : [data.categories];
+
+      const jsonData = JSON.stringify({
+        name: data.name,
+        description: data.description,
+        typeName: data.typeName,
+        categories: categories,
+        state: data.state,
+        username: data.username,
+      });
+
+      formData.append("data", jsonData);
+
+      // Añadir el archivo
+      if (data.file) {
+        formData.append("file", data.file);
+      }
+
+      const response = await fetch(`${ENDPOINT_DOCUMENT}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("session")}`,
+        },
       });
 
       if (!response.ok) {
@@ -87,14 +115,20 @@ export default function FileForm() {
                       <Textarea
                         {...field}
                         placeholder={input.placeholder}
-                        value={field.value || ""}
                         className="resize-none h-24"
+                        value={
+                          typeof field.value === "string" ? field.value : ""
+                        }
                       />
                     </FormControl>
                   )}
                   {input.type === "select" && input.options && (
                     <FormControl>
-                      <SelectInput field={field} options={input.options} />
+                      <SelectInput
+                        field={field}
+                        options={input.options}
+                        placeholder={input.placeholder}
+                      />
                     </FormControl>
                   )}
                   {input.type === "text" && (
@@ -102,7 +136,9 @@ export default function FileForm() {
                       <Input
                         {...field}
                         placeholder={input.placeholder}
-                        value={field.value || ""}
+                        value={
+                          typeof field.value === "string" ? field.value : ""
+                        }
                       />
                     </FormControl>
                   )}
@@ -112,7 +148,21 @@ export default function FileForm() {
             />
           ))}
 
-          <div className="flex justify-center items-center">
+          {/* Dropzone para el archivo */}
+          <FormField
+            control={form.control}
+            name="file"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormControl>
+                  <Dropzone field={field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="flex justify-center items-center col-span-2">
             <Button
               type="submit"
               className="sm:h-10 text-base font-bold bg-primary hover:bg-secondary flex justify-center items-center"
@@ -120,13 +170,6 @@ export default function FileForm() {
               Guardar archivo
             </Button>
           </div>
-
-          <Input
-            type="file"
-            name="fileType"
-            className="bg-transparent border border-primary"
-            id="file"
-          />
         </form>
       </Form>
     </>

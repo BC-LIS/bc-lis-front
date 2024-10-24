@@ -6,35 +6,33 @@ const fileCategories = [
   "REDES",
   "BASE_DE_DATOS",
   "SEGURIDAD",
-  "SISTEMAS_OPERATIVOS",
-  "PROGRAMACIÓN",
-  "OTROS",
+  "Docker",
+  "servers",
+  "string",
 ] as const;
 
-const fileReceivers = [
-  "ADMINISTRATIVO",
-  "TÉCNICO",
-  "DOCENTE",
-  "ESTUDIANTE",
-] as const;
+const fileReceivers = ["programming", "administrative", "both"] as const;
 
-const fileStates = ["PUBLICADO", "BORRADOR", "ARCHIVADO"] as const;
+const fileStates = ["PUBLISHED", "ARCHIVED", "DRAFT"] as const;
 
 export const formFile = z.object({
-  fileName: z.string().min(3, { message: "El nombre del archivo es corto" }),
-  fileDescription: z
+  name: z.string().min(3, { message: "El nombre del archivo es corto" }),
+  description: z
     .string()
     .min(12, { message: "La descripción del archivo es corta" }),
-  fileReceiver: z.enum(fileReceivers, {
+  typeName: z.enum(fileReceivers, {
     message: "El archivo no tiene un tipo válido",
   }),
-  category: z.enum(fileCategories, {
+  categories: z.enum(fileCategories, {
     message: "La categoría no es válida",
   }),
-  fileState: z.enum(fileStates, {
+  state: z.enum(fileStates, {
     message: "El estado del archivo no es válido",
   }),
-  fileAuthor: z.string().min(3, { message: "El autor del archivo es corto" }),
+  username: z.string().min(3, { message: "El autor del archivo es corto" }),
+  file: z.instanceof(File, {
+    message: "El archivo no es válido",
+  }),
 });
 
 export type FileRegisterFormSchema = z.infer<typeof formFile>;

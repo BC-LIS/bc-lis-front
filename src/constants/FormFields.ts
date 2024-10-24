@@ -1,5 +1,5 @@
 import {
-  InputFileField,
+  InputFielField,
   InputLoginField,
   InputRegisterField,
 } from "@/types/InputTypes";
@@ -60,53 +60,59 @@ export const loginFields: InputLoginField[] = [
   },
 ];
 
-export const fileFields: InputFileField[] = [
+export const fileCategories: InputFielField[] = [
   {
-    name: "name",
-    label: "Nombre del archivo",
-    placeholder: "Configuración de red",
-    type: "text",
+    value: "SERVERS",
+    label: "Servidores",
   },
   {
-    name: "username",
-    label: "Autor",
-    placeholder: "Fulano Fulanita",
-    type: "text",
+    value: "COMPUTERS",
+    label: "Computadoras",
   },
   {
-    name: "description",
-    label: "Descripción",
-    placeholder: "Describe brevemente el contenido del archivo",
-    type: "textarea",
+    value: "NETWORKS",
+    label: "Redes",
   },
   {
-    name: "categories",
-    label: "Categoría",
-    placeholder: "Seleccione el tópico del archivo",
-    type: "select",
-    options: [
-      "SERVIDORES",
-      "COMPUTADORAS",
-      "REDES",
-      "BASE_DE_DATOS",
-      "SEGURIDAD",
-      "Docker",
-      "servers",
-      "string",
-    ],
+    value: "DATABASES",
+    label: "Base de datos",
   },
   {
-    name: "typeName",
-    label: "Para quién",
-    placeholder: "A quién va dirigido el archivo",
-    type: "select",
-    options: ["programming", "administrative", "both"],
+    value: "SECURITY",
+    label: "Seguridad",
   },
   {
-    name: "state",
-    label: "Estado del archivo",
-    placeholder: "Seleccione el estado del archivo",
-    type: "select",
-    options: ["PUBLISHED", "ARCHIVED", "DRAFT"],
+    value: "DOCKER",
+    label: "Docker",
+  },
+];
+
+export const fileRecievers: InputFielField[] = [
+  {
+    value: "programming",
+    label: "Programación",
+  },
+  {
+    value: "administrative",
+    label: "Administrativo",
+  },
+  {
+    value: "both",
+    label: "Ambos",
+  },
+];
+
+export const fileStates: InputFielField[] = [
+  {
+    value: "PUBLISHED",
+    label: "Publicado",
+  },
+  {
+    value: "ARCHIVED",
+    label: "Archivado",
+  },
+  {
+    value: "DRAFT",
+    label: "Borrador",
   },
 ];

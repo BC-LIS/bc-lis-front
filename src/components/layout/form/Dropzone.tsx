@@ -70,13 +70,13 @@ export default function Dropzone({ field }: DropzoneProps) {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-md mx-auto h-full">
       <div
-        className={`relative border-2 border-dashed rounded-lg p-8 ${
+        className={`relative border-2 border-dashed rounded-lg p-8 h-64  ${
           isDragging ? "border-primary" : "border-gray-300"
         } ${
           error ? "border-destructive" : ""
-        } transition-colors duration-300 ease-in-out`}
+        } transition-colors duration-300 ease-in-out flex justify-center items-center`}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
@@ -103,12 +103,14 @@ export default function Dropzone({ field }: DropzoneProps) {
           <div className="flex items-center justify-between p-2 mt-2 bg-udea-500 rounded">
             <div className="flex items-center">
               <FileIcon className="w-6 h-6 mr-2 text-secondary-foreground" />
-              <span className="text-sm font-medium">{field.value.name}</span>
+              <span className="text-sm font-medium text-secondary-foreground">
+                {field.value.name}
+              </span>
             </div>
             <Button
               variant="ghost"
               onClick={removeFile}
-              className="text-destructive bg-transparent hover:bg-transparent hover:text-red-700"
+              className="text-destructive-foreground bg-transparent hover:bg-transparent hover:text-red-500"
             >
               <XIcon className="w-6 h-6" />
             </Button>

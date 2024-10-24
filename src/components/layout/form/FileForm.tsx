@@ -35,7 +35,7 @@ import {
 export default function FileForm() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [author, setAuthor] = useState<string>("");
-  const ENDPOINT_DOCUMENT = process.env.NEXT_PUBLIC_API_DOCUMENT_REGISTER;
+  const ENDPOINT_DOCUMENT = process.env.NEXT_PUBLIC_API_URL_DOCUMENT_REGISTER;
   const router = useRouter();
 
   const form = useForm<FileRegisterFormSchema>({

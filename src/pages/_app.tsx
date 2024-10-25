@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
-import Navbar from "@/components/layout/Navbar";
+import Navbar from "@/components/layout/navbar/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";

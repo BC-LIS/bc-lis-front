@@ -13,3 +13,8 @@ export type InputLoginField = {
   type: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 };
+
+export type InputFielField = {
+  value: string;
+  label: string;
+};

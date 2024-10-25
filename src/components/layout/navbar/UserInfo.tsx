@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { UserInfoDropdown } from "@/components/layout/UserInfoDropdown";
+import { UserInfoDropdown } from "@/components/layout/navbar/UserInfoDropdown";
 import { User } from "@/types/UserTypes";
 import { Button } from "@components/ui/button";
 import { formatUserRole } from "@/lib/formatUserRole";

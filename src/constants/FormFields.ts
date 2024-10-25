@@ -1,4 +1,8 @@
-import { InputLoginField, InputRegisterField } from "@/types/InputTypes";
+import {
+  InputFielField,
+  InputLoginField,
+  InputRegisterField,
+} from "@/types/InputTypes";
 import { LockKeyhole, User } from "lucide-react";
 
 export const registerFields: InputRegisterField[] = [
@@ -53,5 +57,74 @@ export const loginFields: InputLoginField[] = [
     placeholder: "••••••••",
     type: "password",
     icon: LockKeyhole,
+  },
+];
+
+export const fileCategories: InputFielField[] = [
+  {
+    value: "Ansible",
+    label: "Ansible",
+  },
+  {
+    value: "Servers",
+    label: "Servidores",
+  },
+  {
+    value: "Software installation",
+    label: "Instalación de software",
+  },
+  {
+    value: "FOG",
+    label: "Free Open Ghost",
+  },
+  {
+    value: "Networks",
+    label: "Redes",
+  },
+  {
+    value: "LDAP",
+    label: "LDAP",
+  },
+  {
+    value: "PC settings",
+    label: "Configuración de PC",
+  },
+  {
+    value: "Docker",
+    label: "Docker",
+  },
+  {
+    value: "Projects",
+    label: "Proyectos",
+  },
+];
+
+export const fileRecievers: InputFielField[] = [
+  {
+    value: "Administrative",
+    label: "Administrativo",
+  },
+  {
+    value: "Programming",
+    label: "Programación",
+  },
+  {
+    value: "Both",
+    label: "Ambos",
+  },
+];
+
+export const fileStates: InputFielField[] = [
+  {
+    value: "PUBLISHED",
+    label: "Publicado",
+  },
+  {
+    value: "ARCHIVED",
+    label: "Archivado",
+  },
+  {
+    value: "DRAFT",
+    label: "Borrador",
   },
 ];

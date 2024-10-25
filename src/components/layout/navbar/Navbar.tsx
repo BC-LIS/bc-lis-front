@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import UserInfo from "@/components/layout/UserInfo";
+import UserInfo from "@/components/layout/navbar/UserInfo";
 import { Switcher } from "@/components/theme/Switcher";
 import { Button } from "@components/ui/button";
 import { useAuth } from "@/hooks/use-auth";

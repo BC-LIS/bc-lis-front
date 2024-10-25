@@ -21,11 +21,7 @@ export default function Dropzone({ field }: DropzoneProps) {
   const handleFile = useCallback(
     (file: File) => {
       setError(null);
-      const processedFile = new File([file], file.name, {
-        type: file.type,
-        lastModified: file.lastModified,
-      });
-      field.onChange(processedFile);
+      field.onChange(file);
     },
     [field]
   );

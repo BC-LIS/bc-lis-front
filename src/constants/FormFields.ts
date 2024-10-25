@@ -62,28 +62,40 @@ export const loginFields: InputLoginField[] = [
 
 export const fileCategories: InputFielField[] = [
   {
-    value: "SERVERS",
+    value: "Ansible",
+    label: "Ansible",
+  },
+  {
+    value: "Servers",
     label: "Servidores",
   },
   {
-    value: "COMPUTERS",
-    label: "Computadoras",
+    value: "Software installation",
+    label: "Instalación de software",
   },
   {
-    value: "NETWORKS",
+    value: "FOG",
+    label: "Free Open Ghost",
+  },
+  {
+    value: "Networks",
     label: "Redes",
   },
   {
-    value: "DATABASES",
-    label: "Base de datos",
+    value: "LDAP",
+    label: "LDAP",
   },
   {
-    value: "SECURITY",
+    value: "PC settings",
     label: "Seguridad",
   },
   {
-    value: "DOCKER",
+    value: "Docker",
     label: "Docker",
+  },
+  {
+    value: "Projects",
+    label: "Proyectos",
   },
 ];
 

@@ -44,7 +44,7 @@ export default function FileForm() {
       name: "",
       description: "",
       typeName: undefined,
-      categories: undefined,
+      categories: [],
       state: undefined,
       username: "",
       file: undefined,
@@ -58,6 +58,7 @@ export default function FileForm() {
   }, [form]);
 
   async function sendData(data: FileRegisterFormSchema) {
+    console.log(data);
     try {
       const formData = new FormData();
 
@@ -78,6 +79,7 @@ export default function FileForm() {
         formData.append("file", data.file, data.file.name);
       }
 
+      console.log(formData);
       const response = await fetch(`${ENDPOINT_DOCUMENT}/documents`, {
         method: "POST",
         headers: {
@@ -257,6 +259,10 @@ export default function FileForm() {
                 <FormItem className="col-span-2">
                   <FormControl>
                     <Dropzone field={field} />
+                    {/* <Input
+                      type="file"
+                      onChange={(e) => field.onChange(e.target.files?.[0])}
+                    /> */}
                   </FormControl>
                   <FormMessage />
                 </FormItem>

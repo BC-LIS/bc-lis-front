@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const fileReceivers = ["programming", "administrative", "both"] as const;
+const fileReceivers = ["Programming", "administrative", "Both"] as const;
 
 const fileStates = ["PUBLISHED", "ARCHIVED", "DRAFT"] as const;
 

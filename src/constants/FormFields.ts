@@ -101,15 +101,15 @@ export const fileCategories: InputFielField[] = [
 
 export const fileRecievers: InputFielField[] = [
   {
-    value: "programming",
-    label: "Programación",
-  },
-  {
-    value: "administrative",
+    value: "Administrative",
     label: "Administrativo",
   },
   {
-    value: "both",
+    value: "Programming",
+    label: "Programación",
+  },
+  {
+    value: "Both",
     label: "Ambos",
   },
 ];

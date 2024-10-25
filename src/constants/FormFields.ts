@@ -87,7 +87,7 @@ export const fileCategories: InputFielField[] = [
   },
   {
     value: "PC settings",
-    label: "Seguridad",
+    label: "Configuración de PC",
   },
   {
     value: "Docker",

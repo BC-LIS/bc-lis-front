@@ -35,6 +35,7 @@ import {
 export default function FileForm() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [author, setAuthor] = useState<string>("");
+  const [hasFile, setHasFile] = useState<boolean>(false);
   const ENDPOINT_DOCUMENT = process.env.NEXT_PUBLIC_API_URL_ENDPOINT;
   const router = useRouter();
 
@@ -56,6 +57,14 @@ export default function FileForm() {
     setAuthor(savedAuthor);
     form.setValue("username", savedAuthor);
   }, [form]);
+
+  // Función para actualizar el estado `hasFile` si hay un archivo en la dropzone
+  const handleFileChange = (file: File | null) => {
+    setHasFile(!!file);
+    if (file) {
+      form.setValue("file", file);
+    }
+  };
 
   async function sendData(data: FileRegisterFormSchema) {
     console.log(data);
@@ -258,22 +267,20 @@ export default function FileForm() {
               render={({ field }) => (
                 <FormItem className="col-span-2">
                   <FormControl>
-                    <Dropzone field={field} />
-                    {/* <Input
-                      type="file"
-                      onChange={(e) => field.onChange(e.target.files?.[0])}
-                    /> */}
+                    <Dropzone field={field} onFileChange={handleFileChange} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button
-              type="submit"
-              className="sm:h-10 text-base font-bold bg-primary hover:bg-secondary"
-            >
-              Guardar archivo
-            </Button>
+            {hasFile && (
+              <Button
+                type="submit"
+                className="sm:h-10 text-base font-bold bg-primary hover:bg-secondary"
+              >
+                Guardar archivo
+              </Button>
+            )}
           </aside>
 
           <div className=" col-span-2"></div>

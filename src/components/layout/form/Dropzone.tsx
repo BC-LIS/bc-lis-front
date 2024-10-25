@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useCallback, useState } from "react";
 import { FileIcon, UploadIcon, XIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -12,9 +10,10 @@ interface DropzoneProps {
     onChange: (file: File | null) => void;
     onBlur: () => void;
   };
+  onFileChange?: (file: File | null) => void;
 }
 
-export default function Dropzone({ field }: DropzoneProps) {
+export default function Dropzone({ field, onFileChange }: DropzoneProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,8 +21,9 @@ export default function Dropzone({ field }: DropzoneProps) {
     (file: File) => {
       setError(null);
       field.onChange(file);
+      onFileChange?.(file);
     },
-    [field]
+    [field, onFileChange]
   );
 
   const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
@@ -66,6 +66,7 @@ export default function Dropzone({ field }: DropzoneProps) {
 
   const removeFile = () => {
     field.onChange(null);
+    onFileChange?.(null);
     setError(null);
   };
 

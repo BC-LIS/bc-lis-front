@@ -51,10 +51,10 @@ export default function LoginForm() {
       }
 
       // Obtener el token y los datos del usuario de la respuesta
-      const { token, name, lastname, role } = await response.json();
+      const { token, name, lastname, username, role } = await response.json();
 
       // Usar la función login del contexto
-      login({ name, lastname, role }, token);
+      login({ name, lastname, role, username }, token);
 
       // Redirigir al usuario a la página principal
       router.push("/");

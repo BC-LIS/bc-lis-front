@@ -74,7 +74,7 @@ export default function Dropzone({ field, onFileChange }: DropzoneProps) {
     <div className="w-full max-w-md mx-auto h-full">
       <div
         className={`relative border-2 border-dashed rounded-lg p-8 h-64  ${
-          isDragging ? "border-primary" : "border-gray-300"
+          isDragging ? "border-primary" : "border-accent-foreground"
         } ${
           error ? "border-destructive" : ""
         } transition-colors duration-300 ease-in-out flex justify-center items-center`}
@@ -94,8 +94,8 @@ export default function Dropzone({ field, onFileChange }: DropzoneProps) {
             htmlFor="fileInput"
             className="flex flex-col items-center justify-center h-full cursor-pointer"
           >
-            <UploadIcon className="w-12 h-12 text-udea-950/70" />
-            <p className="mt-2 text-sm text-secondary-foreground">
+            <UploadIcon className="w-12 h-12 text-primary" />
+            <p className="mt-2 text-sm text-udea-500">
               Arrastra un archivo o haz clic para seleccionar uno
             </p>
           </Label>

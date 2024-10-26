@@ -95,7 +95,7 @@ export default function Dropzone({ field, onFileChange }: DropzoneProps) {
             className="flex flex-col items-center justify-center h-full cursor-pointer"
           >
             <UploadIcon className="w-12 h-12 text-primary" />
-            <p className="mt-2 text-sm text-udea-500">
+            <p className="mt-2 text-sm text-accent-foreground">
               Arrastra un archivo o haz clic para seleccionar uno
             </p>
           </Label>

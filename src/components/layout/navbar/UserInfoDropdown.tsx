@@ -40,7 +40,7 @@ export const UserInfoDropdown = ({ userRole }: { userRole: string }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="ghost" size="icon">
           <User className="h-6 w-6" />
         </Button>
       </DropdownMenuTrigger>

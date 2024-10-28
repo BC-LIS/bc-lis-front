@@ -24,28 +24,76 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Document } from "@/types/DocumentTypes";
+
 
 export function Dashboard() {
+  const ENDPOINT_DOCUMENTS_ALL = process.env.NEXT_PUBLIC_API_URL_DOCUMENTS_All;
+  const { toast } = useToast();
+
+  const [documents, setDocuments] = useState<Document[]>([]); // Estado para almacenar los documentos
+  const [loading, setLoading] = useState(true);
+  
+  // Función para obtener los documentos desde el backend
+  const fetchDocuments = async () => {
+    try {
+      const response = await fetch(`${ENDPOINT_DOCUMENTS_ALL}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("session")}`, // Enviar el token
+        },
+      });
+
+      if (!response.ok) {
+        toast({
+          title: "Error ❌",
+          description: "No se han podido mostrar los documentos, inténtalo nuevamente.",
+        });
+        return;
+      }
+
+      const data = await response.json(); // Convertir la respuesta a JSON
+      setDocuments(data); // Guardar los documentos en el estado
+      setLoading(false); // Terminar la carga
+
+    } catch (error) {
+      toast({
+        title: "Error ❌",
+        description: `Ha ocurrido un error en la solicitud`,
+      });
+    }
+  };
+
+  // useEffect para obtener los documentos cuando se carga el componente
+  useEffect(() => {
+    fetchDocuments();
+  }, []);
+
+  const getBadgeVariant = (state: string) => {
+    switch (state) {
+      case "PUBLISHED":
+        return "default"; // Verde para documentos publicados
+      case "DRAFT":
+        return "warning"; // Amarillo para borradores
+      case "ARCHIVED":
+        return "destructive"; // Rojo para documentos archivados
+      default:
+        return "default"; // Color por defecto
+    }
+  };
+
   const fileStates = [
-    {
-      state: "Todos",
-      value: "all",
-    },
-    {
-      state: "Activo",
-      value: "active",
-    },
-    {
-      state: "Borrador",
-      value: "draft",
-    },
-    {
-      state: "Archivado",
-      value: "archived",
-    },
+    { id:"1", state: "Todos", value: "all" },
+    { id:"2", state: "Publicado", value: "published" },
+    { id:"3", state: "Borrador", value: "draft" },
+    { id:"4", state: "Archivado",value: "archived" },
   ];
+  console.log(documents);
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -62,9 +110,9 @@ export function Dashboard() {
       <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
         <Tabs defaultValue="all">
           <div className="flex items-center">
-            <TabsList>
-              {fileStates.map((state, index) => (
-                <TabsTrigger key={index} value={state.value}>
+            <TabsList className="flex gap-2">
+              {fileStates.map((state) => (
+                <TabsTrigger key={state.id} value={state.value}>
                   {state.state}
                 </TabsTrigger>
               ))}
@@ -86,7 +134,7 @@ export function Dashboard() {
               <Link href="/file/register" target="_blank">
                 <Button
                   size="sm"
-                  className="h-7 gap-1 hover:scale-105 transition-transform ease-in-out text-base"
+                  variant={"primary"}
                 >
                   <PlusCircle className="h-4 w-4" />
                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -123,40 +171,45 @@ export function Dashboard() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    <TableRow>
-                      <TableCell className="hidden sm:table-cell">
-                        <File className="h-5 w-5" />
-                      </TableCell>
-                      <TableCell className="">Archivo 1</TableCell>
-                      <TableCell>
-                        <Badge variant="default">Activo</Badge>
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        2021-09-01
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        2021-09-01
-                      </TableCell>
-                      <TableCell>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              aria-haspopup="true"
-                              size="icon"
-                              variant="ghost"
-                            >
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                            <DropdownMenuItem>Editar</DropdownMenuItem>
-                            <DropdownMenuItem>Eliminar</DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
+                    {loading ? (
+                        <TableRow>
+                          <TableCell colSpan={6} className="text-center">
+                            Cargando documentos...
+                          </TableCell>
+                        </TableRow>
+                      ) : (
+                        documents.map((doc) => (
+                          <TableRow key={doc.id}>
+                            <TableCell className="hidden sm:table-cell">
+                              <File className="h-5 w-5" />
+                            </TableCell>
+                            <TableCell>{doc.name}</TableCell>
+                            <TableCell>
+                              <Badge variant={getBadgeVariant(doc.state)}>{doc.state}</Badge>
+                            </TableCell>
+                            <TableCell className="hidden md:table-cell">
+                              {new Date(doc.createdAt).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell className="hidden md:table-cell">
+                              {new Date(doc.updatedAt).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell>
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button size="icon" variant="ghost">
+                                    <MoreHorizontal className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                                  <DropdownMenuItem>Editar</DropdownMenuItem>
+                                  <DropdownMenuItem>Eliminar</DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      )}
                   </TableBody>
                 </Table>
               </CardContent>

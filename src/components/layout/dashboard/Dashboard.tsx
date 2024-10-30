@@ -30,14 +30,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Document } from "@/types/DocumentTypes";
 
-
 export function Dashboard() {
   const ENDPOINT_DOCUMENTS_ALL = process.env.NEXT_PUBLIC_API_URL_DOCUMENTS_All;
   const { toast } = useToast();
 
   const [documents, setDocuments] = useState<Document[]>([]); // Estado para almacenar los documentos
   const [loading, setLoading] = useState(true);
-  
+
   // Función para obtener los documentos desde el backend
   const fetchDocuments = async () => {
     try {
@@ -52,7 +51,8 @@ export function Dashboard() {
       if (!response.ok) {
         toast({
           title: "Error ❌",
-          description: "No se han podido mostrar los documentos, inténtalo nuevamente.",
+          description:
+            "No se han podido mostrar los documentos, inténtalo nuevamente.",
         });
         return;
       }
@@ -60,7 +60,6 @@ export function Dashboard() {
       const data = await response.json(); // Convertir la respuesta a JSON
       setDocuments(data); // Guardar los documentos en el estado
       setLoading(false); // Terminar la carga
-
     } catch (error) {
       toast({
         title: "Error ❌",
@@ -72,7 +71,7 @@ export function Dashboard() {
   // useEffect para obtener los documentos cuando se carga el componente
   useEffect(() => {
     fetchDocuments();
-  }, []);
+  });
 
   const getBadgeVariant = (state: string) => {
     switch (state) {
@@ -88,10 +87,10 @@ export function Dashboard() {
   };
 
   const fileStates = [
-    { id:"1", state: "Todos", value: "all" },
-    { id:"2", state: "Publicado", value: "published" },
-    { id:"3", state: "Borrador", value: "draft" },
-    { id:"4", state: "Archivado",value: "archived" },
+    { id: "1", state: "Todos", value: "all" },
+    { id: "2", state: "Publicado", value: "published" },
+    { id: "3", state: "Borrador", value: "draft" },
+    { id: "4", state: "Archivado", value: "archived" },
   ];
   console.log(documents);
 
@@ -132,10 +131,7 @@ export function Dashboard() {
                 </Button>
               </Link>
               <Link href="/file/register" target="_blank">
-                <Button
-                  size="sm"
-                  variant={"primary"}
-                >
+                <Button size="sm" variant={"primary"}>
                   <PlusCircle className="h-4 w-4" />
                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                     Añadir archivo
@@ -172,44 +168,46 @@ export function Dashboard() {
                   </TableHeader>
                   <TableBody>
                     {loading ? (
-                        <TableRow>
-                          <TableCell colSpan={6} className="text-center">
-                            Cargando documentos...
+                      <TableRow>
+                        <TableCell colSpan={6} className="text-center">
+                          Cargando documentos...
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      documents.map((doc) => (
+                        <TableRow key={doc.id}>
+                          <TableCell className="hidden sm:table-cell">
+                            <File className="h-5 w-5" />
+                          </TableCell>
+                          <TableCell>{doc.name}</TableCell>
+                          <TableCell>
+                            <Badge variant={getBadgeVariant(doc.state)}>
+                              {doc.state}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell">
+                            {new Date(doc.createdAt).toLocaleDateString()}
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell">
+                            {new Date(doc.updatedAt).toLocaleDateString()}
+                          </TableCell>
+                          <TableCell>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button size="icon" variant="ghost">
+                                  <MoreHorizontal className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                                <DropdownMenuItem>Editar</DropdownMenuItem>
+                                <DropdownMenuItem>Eliminar</DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
                           </TableCell>
                         </TableRow>
-                      ) : (
-                        documents.map((doc) => (
-                          <TableRow key={doc.id}>
-                            <TableCell className="hidden sm:table-cell">
-                              <File className="h-5 w-5" />
-                            </TableCell>
-                            <TableCell>{doc.name}</TableCell>
-                            <TableCell>
-                              <Badge variant={getBadgeVariant(doc.state)}>{doc.state}</Badge>
-                            </TableCell>
-                            <TableCell className="hidden md:table-cell">
-                              {new Date(doc.createdAt).toLocaleDateString()}
-                            </TableCell>
-                            <TableCell className="hidden md:table-cell">
-                              {new Date(doc.updatedAt).toLocaleDateString()}
-                            </TableCell>
-                            <TableCell>
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <Button size="icon" variant="ghost">
-                                    <MoreHorizontal className="h-4 w-4" />
-                                  </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                  <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                                  <DropdownMenuItem>Editar</DropdownMenuItem>
-                                  <DropdownMenuItem>Eliminar</DropdownMenuItem>
-                                </DropdownMenuContent>
-                              </DropdownMenu>
-                            </TableCell>
-                          </TableRow>
-                        ))
-                      )}
+                      ))
+                    )}
                   </TableBody>
                 </Table>
               </CardContent>

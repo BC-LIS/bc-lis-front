@@ -29,7 +29,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
-import { fileStates } from "@/constants/FormFields";
+import { fileStatesRenderDashboard } from "@/constants/FormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import {useGetDocuments} from "@/hooks/useGetDocuments";
@@ -69,7 +69,7 @@ export function Dashboard() {
         <Tabs defaultValue="all">
           <div className="flex items-center">
             <TabsList className="flex gap-2">
-              {fileStates.map((state, index ) => (
+              {fileStatesRenderDashboard.map((state, index ) => (
                 <TabsTrigger 
                   key={index} 
                   value={state.value}
@@ -105,7 +105,7 @@ export function Dashboard() {
               </Link>
             </div>
           </div>
-          <TabsContent value="all">
+          <TabsContent value="ALL">
             <Card>
               <CardHeader>
                 <CardTitle>Archivos</CardTitle>

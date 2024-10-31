@@ -128,3 +128,10 @@ export const fileStates: InputFielField[] = [
     label: "Borrador",
   },
 ];
+
+export const fileStatesRenderDashboard: InputFielField[] = [
+  { value: "ALL",
+    label: "Todos"
+  }, 
+  ...fileStates
+];

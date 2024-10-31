@@ -54,6 +54,7 @@ const useGetDocumentsID = ( endpoint:string, id:string ) => {
     state: 'DRAFT',
     createdAt: new Date(),
     updatedAt: new Date(),
+    categories: [],
   });
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();

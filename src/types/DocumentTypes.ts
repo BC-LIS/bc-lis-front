@@ -8,4 +8,5 @@ export type Document = {
     state: "ARCHIVED" | "DRAFT" | "PUBLISHED"; // Enum
     createdAt: Date; // datetime(6)
     updatedAt: Date; // datetime(6)
+    categories: string[];
 }  

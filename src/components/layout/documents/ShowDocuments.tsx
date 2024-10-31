@@ -28,7 +28,16 @@ const ShowDocuments: React.FC<ShowDocumentsProps> = ({ id }) => {
         ): (
           <div>
             <h2 className='text-lg'> nombre: {document.name}</h2>
-            <p>{document.description}</p>
+            <div>
+              <h3 className='text-md'>Categories</h3>
+              { document.categories.length > 0 ? (
+                document.categories.map((category, index) => (
+                  <Badge className='w-20 h-10 text-white' key={index} variant='default'>{category}</Badge>
+                ))
+              ) : (
+                <Badge variant='default'>Sin categorías</Badge>
+              )}
+            </div>
             <Badge variant="default">{document.state}</Badge>
             <p>Creado: {new Date(document.createdAt).toLocaleDateString()}</p>
             <p>Actualizado: {new Date(document.updatedAt).toLocaleDateString()}</p>

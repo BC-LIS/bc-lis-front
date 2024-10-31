@@ -24,56 +24,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useToast } from "@/hooks/use-toast";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+import { fileStates } from "@/constants/FormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Document } from "@/types/DocumentTypes";
+import {useGetDocuments} from "@/hooks/useGetDocuments";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 
 export function Dashboard() {
   const ENDPOINT_DOCUMENTS_ALL = process.env.NEXT_PUBLIC_API_URL_DOCUMENTS_All;
-  const { toast } = useToast();
-
-  const [documents, setDocuments] = useState<Document[]>([]); // Estado para almacenar los documentos
-  const [loading, setLoading] = useState(true);
-  
-  // Función para obtener los documentos desde el backend
-  const fetchDocuments = async () => {
-    try {
-      const response = await fetch(`${ENDPOINT_DOCUMENTS_ALL}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("session")}`, // Enviar el token
-        },
-      });
-
-      if (!response.ok) {
-        toast({
-          title: "Error ❌",
-          description: "No se han podido mostrar los documentos, inténtalo nuevamente.",
-        });
-        return;
-      }
-
-      const data = await response.json(); // Convertir la respuesta a JSON
-      setDocuments(data); // Guardar los documentos en el estado
-      setLoading(false); // Terminar la carga
-
-    } catch (error) {
-      toast({
-        title: "Error ❌",
-        description: `Ha ocurrido un error en la solicitud`,
-      });
-    }
-  };
-
-  // useEffect para obtener los documentos cuando se carga el componente
-  useEffect(() => {
-    fetchDocuments();
-  }, []);
-
+  const {documents, loading}= useGetDocuments(`${ENDPOINT_DOCUMENTS_ALL}`); 
+      
   const getBadgeVariant = (state: string) => {
     switch (state) {
       case "PUBLISHED":
@@ -83,18 +49,10 @@ export function Dashboard() {
       case "ARCHIVED":
         return "destructive"; // Rojo para documentos archivados
       default:
-        return "default"; // Color por defecto
+        return "default"; 
     }
   };
-
-  const fileStates = [
-    { id:"1", state: "Todos", value: "all" },
-    { id:"2", state: "Publicado", value: "published" },
-    { id:"3", state: "Borrador", value: "draft" },
-    { id:"4", state: "Archivado",value: "archived" },
-  ];
-  console.log(documents);
-
+  
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <header className="flex items-center gap-4 justify-between p-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
@@ -111,9 +69,12 @@ export function Dashboard() {
         <Tabs defaultValue="all">
           <div className="flex items-center">
             <TabsList className="flex gap-2">
-              {fileStates.map((state) => (
-                <TabsTrigger key={state.id} value={state.value}>
-                  {state.state}
+              {fileStates.map((state, index ) => (
+                <TabsTrigger 
+                  key={index} 
+                  value={state.value}
+                >
+                  {state.label}
                 </TabsTrigger>
               ))}
             </TabsList>
@@ -123,7 +84,7 @@ export function Dashboard() {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="h-7 gap-1 text-base"
+                  className="h-7 gap-1 text-base hover:shadow-[inset_13em_0_0_0_var(--accent)] inline-flex items-center justify-center rounded-md hover:rounded-tr-3xl transition-all duration-300"
                 >
                   <File className="h-4 w-4" />
                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -164,7 +125,7 @@ export function Dashboard() {
                       </TableHead>
                       <TableHead className="hidden md:table-cell">
                         Actualizado
-                      </TableHead>
+                      </TableHead> 
                       <TableHead>
                         <span className="sr-only">Acciones</span>
                       </TableHead>
@@ -173,8 +134,8 @@ export function Dashboard() {
                   <TableBody>
                     {loading ? (
                         <TableRow>
-                          <TableCell colSpan={6} className="text-center">
-                            Cargando documentos...
+                          <TableCell colSpan={6}>
+                            <LoadingSpinner size={48}/>
                           </TableCell>
                         </TableRow>
                       ) : (
@@ -183,7 +144,24 @@ export function Dashboard() {
                             <TableCell className="hidden sm:table-cell">
                               <File className="h-5 w-5" />
                             </TableCell>
-                            <TableCell>{doc.name}</TableCell>
+
+                            {/* hover to the description */}    
+                            <TableCell>
+                              <HoverCard>
+                                <HoverCardTrigger asChild>
+                                  <div className="cursor-pointer underline-offset-4 hover:underline">
+                                    <Link href={`/file/${doc.id}`} target="_blank">
+                                      {doc.name}
+                                    </Link>
+                                  </div> 
+                                </HoverCardTrigger>
+                                <HoverCardContent className="justify-between space-y-1 space-x-1 w-60">
+                                    <h1 className="font-bold p-2 border-b-2">Descripción</h1>
+                                    <p className="text-sm">{doc.description}</p>
+                                </HoverCardContent>  
+                              </HoverCard>
+                            </TableCell> 
+
                             <TableCell>
                               <Badge variant={getBadgeVariant(doc.state)}>{doc.state}</Badge>
                             </TableCell>
@@ -202,6 +180,9 @@ export function Dashboard() {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
                                   <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                                  <Link href="#" target="_blank">
+                                    <DropdownMenuItem>Abrir</DropdownMenuItem>
+                                  </Link>
                                   <DropdownMenuItem>Editar</DropdownMenuItem>
                                   <DropdownMenuItem>Eliminar</DropdownMenuItem>
                                 </DropdownMenuContent>

@@ -24,6 +24,7 @@
     --input: #e5e4e2;
     --ring: #dfe5dd;
     --radius: 0.5rem;
+    --shadow:#02693780;
   }
 
   .dark {
@@ -46,6 +47,7 @@
     --border: #212529;
     --input: #212529;
     --ring: #048b4a;
+    --shadow: #02693780;
   }
 }
 

@@ -43,6 +43,7 @@ const config: Config = {
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
+        shadow: "var(--shadow)",
         udea: {
           "100": "#70205b",
           "200": "#137598",
@@ -55,6 +56,9 @@ const config: Config = {
           "900": "#8dc63f",
           "950": "#43b649",
         },
+      },
+      boxShadow: {
+        glasshover: "0 0 0 10px #ffffff50",
       },
       borderRadius: {
         lg: "var(--radius)",

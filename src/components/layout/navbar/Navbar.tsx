@@ -12,9 +12,9 @@ function Navbar() {
   const { isAuthenticated, user } = useAuth();
 
   return (
-    <nav className="sticky top-0 z-50 bg-background shadow-lg py-2 px-8 border-b-2 border-primary">
+    <nav className="sticky top-0 z-50 bg-background shadow-md  py-2 px-8 border-b-2 border-primary hover:shadow-[0px_10px_25px_0px_var(--shadow)] transition-all duration-300 ">
       <div className="container mx-auto flex justify-between items-center">
-        <section className="flex items-center">
+        <section className="flex items-center ">
           <Image
             width={50}
             height={50}

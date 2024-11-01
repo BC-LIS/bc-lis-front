@@ -9,4 +9,10 @@ export type Document = {
     createdAt: Date; // datetime(6)
     updatedAt: Date; // datetime(6)
     categories: string[];
+    type:  {
+        name: string;
+    }
+    user:{
+        username: string;
+    }
 }  

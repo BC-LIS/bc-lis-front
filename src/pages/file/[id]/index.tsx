@@ -18,7 +18,7 @@ export default function DocumentDetails() {
       }
 
     return (
-        <section className=''>
+        <section className='flex items-center justify-center my-10 sm:p-4 h-full w-full'>
             <ShowDocuments id={id}/>
         </section>
     )

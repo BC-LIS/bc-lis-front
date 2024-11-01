@@ -11,16 +11,18 @@ const buttonVariants = cva(
       variant: {
         default:
           "text-foreground hover:bg-accent transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-accent duration-300 hover:text-accent-foreground",
+        primary:
+          "bg-primary text-primary-foreground shadow-primary hover:shadow-[inset_11em_0_0_0_var(--secondary)] inline-flex items-center justify-center gap-2 rounded-md hover:rounded-tr-3xl transition-all duration-300",
+        secondary:
+          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "bg-background border hover:shadow-[inset_13em_0_0_0_var(--accent)] inline-flex items-center justify-center gap-2 p-2 rounded-md transition-all duration-300",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+          "bg-background border items-center justify-center gap-2 p-2 rounded-md transition-all duration-300",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        primary:
-          "bg-primary text-primary-foreground shadow-primary hover:shadow-[inset_13em_0_0_0_var(--secondary)] inline-flex items-center justify-center gap-2 rounded-md hover:rounded-tr-3xl transition-all duration-300",
+        download: "bg-primary text-primary-foreground shadow-primary hover:shadow-[inset_82em_0_0_0_var(--secondary)] inline-flex items-center justify-center gap-2 rounded-md transition-all duration-300",
+        
           
       },
       size: {

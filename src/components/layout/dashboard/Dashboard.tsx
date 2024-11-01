@@ -34,24 +34,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import {useGetDocuments} from "@/hooks/useGetDocuments";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { getBadgeVariant } from "@/utils/badgeUtils";
 
 
 export function Dashboard() {
   const ENDPOINT_DOCUMENTS_ALL = process.env.NEXT_PUBLIC_API_URL_DOCUMENTS_All;
   const {documents, loading}= useGetDocuments(`${ENDPOINT_DOCUMENTS_ALL}`); 
       
-  const getBadgeVariant = (state: string) => {
-    switch (state) {
-      case "PUBLISHED":
-        return "default"; // Verde para documentos publicados
-      case "DRAFT":
-        return "warning"; // Amarillo para borradores
-      case "ARCHIVED":
-        return "destructive"; // Rojo para documentos archivados
-      default:
-        return "default"; 
-    }
-  };
+  console.log(documents);
   
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -66,7 +56,7 @@ export function Dashboard() {
         </div>
       </header>
       <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-        <Tabs defaultValue="all">
+        <Tabs defaultValue="ALL">
           <div className="flex items-center">
             <TabsList className="flex gap-2">
               {fileStatesRenderDashboard.map((state, index ) => (
@@ -84,7 +74,7 @@ export function Dashboard() {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="h-7 gap-1 text-base hover:shadow-[inset_13em_0_0_0_var(--accent)] inline-flex items-center justify-center rounded-md hover:rounded-tr-3xl transition-all duration-300"
+                  className="h-7 gap-1 text-base hover:shadow-[inset_7em_0_0_0_var(--accent)] inline-flex items-center justify-center rounded-md transition-all duration-300"
                 >
                   <File className="h-4 w-4" />
                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -135,7 +125,9 @@ export function Dashboard() {
                     {loading ? (
                         <TableRow>
                           <TableCell colSpan={6}>
-                            <LoadingSpinner size={48}/>
+                            <div className="flex justify-center items-center ">
+                              <LoadingSpinner size={48} />
+                            </div>
                           </TableCell>
                         </TableRow>
                       ) : (

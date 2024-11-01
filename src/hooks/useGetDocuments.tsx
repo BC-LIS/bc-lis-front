@@ -55,6 +55,12 @@ const useGetDocumentsID = ( endpoint:string, id:string ) => {
     createdAt: new Date(),
     updatedAt: new Date(),
     categories: [],
+    type: {
+      name: ''
+    },
+    user: {
+      username: ''
+    }
   });
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();

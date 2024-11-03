@@ -71,9 +71,9 @@ export default function Dropzone({ field, onFileChange }: DropzoneProps) {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto h-full">
+    <div className="w-full max-w-full sm:max-w-md mx-auto h-full">
       <div
-        className={`relative border-2 border-dashed rounded-lg p-8 h-64  ${
+        className={`relative border-2 border-dashed rounded-lg p-4 sm:p-8 h-40 sm:h-64 ${
           isDragging ? "border-primary" : "border-accent-foreground"
         } ${
           error ? "border-destructive" : ""
@@ -94,17 +94,17 @@ export default function Dropzone({ field, onFileChange }: DropzoneProps) {
             htmlFor="fileInput"
             className="flex flex-col items-center justify-center h-full cursor-pointer"
           >
-            <UploadIcon className="w-12 h-12 text-primary" />
-            <p className="mt-2 text-sm text-accent-foreground">
+            <UploadIcon className="w-8 h-8 sm:w-12 sm:h-12 text-primary" />
+            <p className="mt-2 text-xs sm:text-sm text-accent-foreground">
               Arrastra un archivo o haz clic para seleccionar uno
             </p>
           </Label>
         )}
         {field.value && (
-          <div className="flex items-center justify-between p-2 mt-2 bg-udea-500 rounded">
+          <div className="flex items-center justify-between p-2 mt-2 bg-udea-500 rounded w-full">
             <div className="flex items-center">
-              <FileIcon className="w-6 h-6 mr-2 text-secondary-foreground" />
-              <span className="text-sm font-medium text-secondary-foreground">
+              <FileIcon className="w-5 h-5 sm:w-6 sm:h-6 mr-2 text-secondary-foreground" />
+              <span className="text-xs sm:text-sm font-medium text-secondary-foreground">
                 {field.value.name}
               </span>
             </div>
@@ -113,11 +113,13 @@ export default function Dropzone({ field, onFileChange }: DropzoneProps) {
               onClick={removeFile}
               className="text-destructive-foreground bg-transparent hover:bg-transparent hover:text-red-500"
             >
-              <XIcon className="w-6 h-6" />
+              <XIcon className="w-5 h-5 sm:w-6 sm:h-6" />
             </Button>
           </div>
         )}
-        {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
+        {error && (
+          <p className="mt-2 text-xs sm:text-sm text-destructive">{error}</p>
+        )}
       </div>
     </div>
   );

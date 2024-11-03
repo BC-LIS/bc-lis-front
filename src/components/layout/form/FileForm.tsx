@@ -130,9 +130,10 @@ export default function FileForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(sendData)}
-          className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 items-center w-full"
+          className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 items-center w-full px-4 sm:px-0"
         >
-          <section className="grid grid-cols-2 p-2 gap-4 sm:px-8">
+          <section className="grid grid-cols-1 gap-4 p-2 sm:grid-cols-2 sm:px-8">
+            {/* Nombre del archivo */}
             <FormField
               control={form.control}
               name="name"
@@ -146,6 +147,8 @@ export default function FileForm() {
                 </FormItem>
               )}
             />
+
+            {/* Autor */}
             <FormField
               control={form.control}
               name="username"
@@ -157,19 +160,21 @@ export default function FileForm() {
                       {...field}
                       placeholder="Fulano Fulanita"
                       value={author}
-                      className="font-bold text-foreground"
                       readOnly
+                      className="font-bold text-foreground"
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+            {/* Descripción */}
             <FormField
               control={form.control}
               name="description"
               render={({ field }) => (
-                <FormItem className="col-span-2">
+                <FormItem className="col-span-1 sm:col-span-2">
                   <FormLabel>Descripción</FormLabel>
                   <FormControl>
                     <Textarea
@@ -182,11 +187,13 @@ export default function FileForm() {
                 </FormItem>
               )}
             />
+
+            {/* Categorías */}
             <FormField
               control={form.control}
               name="categories"
               render={({ field }) => (
-                <FormItem className="col-span-2">
+                <FormItem className="col-span-1 sm:col-span-2">
                   <FormLabel>Categorías</FormLabel>
                   <FormControl>
                     <MultiSelect
@@ -205,6 +212,7 @@ export default function FileForm() {
               )}
             />
 
+            {/* Para quién */}
             <FormField
               control={form.control}
               name="typeName"
@@ -232,6 +240,8 @@ export default function FileForm() {
                 </FormItem>
               )}
             />
+
+            {/* Estado del archivo */}
             <FormField
               control={form.control}
               name="state"
@@ -260,12 +270,14 @@ export default function FileForm() {
               )}
             />
           </section>
-          <aside className="flex flex-col justify-end items-center space-y-8">
+
+          <aside className="flex flex-col items-center justify-end space-y-4 sm:space-y-8 sm:items-start sm:justify-center">
+            {/* Dropzone */}
             <FormField
               control={form.control}
               name="file"
               render={({ field }) => (
-                <FormItem className="col-span-2">
+                <FormItem className="w-full">
                   <FormControl>
                     <Dropzone field={field} onFileChange={handleFileChange} />
                   </FormControl>
@@ -273,17 +285,16 @@ export default function FileForm() {
                 </FormItem>
               )}
             />
+            {/* Botón */}
             {hasFile && (
               <Button
                 type="submit"
-                className="sm:h-10 text-base font-bold bg-primary hover:bg-secondary"
+                className="w-full sm:w-auto sm:h-10 text-base font-bold bg-primary hover:bg-secondary"
               >
                 Guardar archivo
               </Button>
             )}
           </aside>
-
-          <div className=" col-span-2"></div>
         </form>
       </Form>
     </>

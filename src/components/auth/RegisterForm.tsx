@@ -69,11 +69,11 @@ function RegisterForm() {
     }
   }
   return (
-    <div className="border border-foreground rounded-lg p-8 my-12">
+    <div className="border border-foreground rounded-lg p-6 sm:p-8 lg:p-12 max-w-5xl mx-auto my-12">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(sendData)}
-          className="grid grid-cols-2 items-center gap-4"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center"
         >
           {registerFields.map((input, index) => (
             <FormField
@@ -122,7 +122,7 @@ function RegisterForm() {
           />
           <Button
             type="submit"
-            className="col-span-2"
+            className="col-span-1 sm:col-span-2 mt-4 sm:mt-0 hover:bg-primary hover:scale-105"
             disabled={form.formState.isSubmitting}
           >
             {form.formState.isSubmitting ? "Enviando..." : "Registrar Usuario"}

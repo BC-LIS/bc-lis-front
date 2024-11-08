@@ -36,12 +36,9 @@ import {useGetDocuments} from "@/hooks/useGetDocuments";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { getBadgeVariant } from "@/utils/badgeUtils";
 
-
 export function Dashboard() {
   const ENDPOINT_DOCUMENTS_ALL = process.env.NEXT_PUBLIC_API_URL_DOCUMENTS_All;
   const {documents, loading}= useGetDocuments(`${ENDPOINT_DOCUMENTS_ALL}`); 
-      
-  console.log(documents);
   
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -172,9 +169,7 @@ export function Dashboard() {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
                                   <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                                  <Link href="#" target="_blank">
-                                    <DropdownMenuItem>Abrir</DropdownMenuItem>
-                                  </Link>
+                                  <DropdownMenuItem>Abrir</DropdownMenuItem>
                                   <DropdownMenuItem>Editar</DropdownMenuItem>
                                   <DropdownMenuItem>Eliminar</DropdownMenuItem>
                                 </DropdownMenuContent>

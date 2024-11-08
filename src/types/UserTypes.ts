@@ -4,3 +4,10 @@ export interface User {
   role: string;
   username: string;
 }
+
+export interface UserWithEmail {
+  username: string;
+  name: string;
+  email: string;
+  lastName: string;
+}

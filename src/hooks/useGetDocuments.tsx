@@ -44,24 +44,7 @@ const useGetDocuments = ( endpoint:string ) => {
 };
 
 const useGetDocumentsID = ( endpoint:string, id:string ) => {
-  const [document, setDocument] = useState<Document>({
-    id: 0,
-    type_id: 0,
-    user_id: 0,
-    name: '',
-    description: '',
-    objectName: '',
-    state: 'DRAFT',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    categories: [],
-    type: {
-      name: ''
-    },
-    user: {
-      username: ''
-    }
-  });
+  const [document, setDocument] = useState<Document | null >(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
   
@@ -85,6 +68,7 @@ const useGetDocumentsID = ( endpoint:string, id:string ) => {
         }
 
         const data = await response.json();
+        console.log(data);
         setDocument(data);
         setLoading(false);
       } catch (error) {
@@ -96,12 +80,53 @@ const useGetDocumentsID = ( endpoint:string, id:string ) => {
     };
 
     fetchDocuments();
-  }, [endpoint, id, toast]);
+  }, [id]);
 
   return { document, loading };
 };
 
+const useDownloadDocuments = ( endpoint:string, id:string ) => {
+  const [pdfUrl, setPdfUrl] = useState("");
+  const { toast } = useToast();
+  
+  useEffect(() => {
+    const fetchPdfs = async () => {
+      try {
+        const response = await fetch(`${endpoint}/${id}/download`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("session")}`,
+          },
+        });
+
+        if (!response.ok) {
+          toast({
+            title: "Error ❌",
+            description: "No se ha podido abrir el documento, inténtalo nuevamente.",
+          });
+          return;
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        setPdfUrl(url);
+      } catch (error) {
+        toast({
+          title: "Error ❌",
+          description: `Ha ocurrido un error en la solicitud`,
+        });
+      }
+    };
+
+    fetchPdfs();
+  }, [id]);
+
+  return { pdfUrl, setPdfUrl };
+};
+
 export {
   useGetDocuments,
-  useGetDocumentsID
+  useGetDocumentsID,
+  useDownloadDocuments
 }

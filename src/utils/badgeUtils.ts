@@ -7,7 +7,5 @@ export const getBadgeVariant = (state: string) => {
       return "warning"; // Amarillo para borradores
     case "ARCHIVED":
       return "destructive"; // Rojo para documentos archivados
-    default:
-      return "default";
   }
 };

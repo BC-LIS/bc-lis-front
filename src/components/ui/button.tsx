@@ -21,7 +21,7 @@ const buttonVariants = cva(
           "bg-background border items-center justify-center gap-2 p-2 rounded-md transition-all duration-300",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        open: "bg-primary text-primary-foreground shadow-primary hover:shadow-[inset_82em_0_0_0_var(--secondary)] inline-flex items-center justify-center gap-2 rounded-md transition-all duration-300",
+        open: "bg-primary text-primary-foreground shadow-primary hover:shadow-[inset_110em_0_0_0_var(--secondary)] inline-flex items-center justify-center gap-2 rounded-md transition-all duration-300",
         
           
       },

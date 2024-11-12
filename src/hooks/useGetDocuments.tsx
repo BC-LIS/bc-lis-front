@@ -1,46 +1,39 @@
-import { useEffect, useState } from "react";
+import {  useEffect,  useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Document } from "@/types/DocumentTypes";
+import { Document, DocumentsFilters } from "@/types/DocumentTypes";
 
-const useGetDocuments = ( endpoint:string ) => {
-  const [documents, setDocuments] = useState<Document[]>([]);
-  const [loading, setLoading] = useState(true);
+const useFilteredDocuments = () => {
   const { toast } = useToast();
-  
-  useEffect(() => {
-    const fetchDocuments = async () => {
-      try {
-        const response = await fetch(endpoint, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("session")}`,
-          },
-        });
 
-        if (!response.ok) {
-          toast({
-            title: "Error ❌",
-            description: "No se han podido mostrar los documentos, inténtalo nuevamente.",
-          });
-          return;
-        }
+  const fetchFilteredDocuments = async (endpoint:string, filterParams:DocumentsFilters) => {
+    try {
+      const response = await fetch(`${endpoint}?${new URLSearchParams(filterParams).toString()}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("session")}`,
+        },
+      });
 
-        const data = await response.json();
-        setDocuments(data);
-        setLoading(false);
-      } catch (error) {
+      if (!response.ok) {
         toast({
           title: "Error ❌",
-          description: `Ha ocurrido un error en la solicitud`,
+          description: "No se han podido mostrar los documentos, inténtalo nuevamente.",
         });
+        return [];
       }
-    };
 
-    fetchDocuments();
-  }, [endpoint, toast]);
-
-  return { documents, loading };
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      toast({
+        title: "Error ❌",
+        description: `Ha ocurrido un error en la solicitud`,
+      });
+      return [];
+    }
+  }
+  return { fetchFilteredDocuments };
 };
 
 const useGetDocumentsID = ( endpoint:string, id:string ) => {
@@ -68,7 +61,6 @@ const useGetDocumentsID = ( endpoint:string, id:string ) => {
         }
 
         const data = await response.json();
-        console.log(data);
         setDocument(data);
         setLoading(false);
       } catch (error) {
@@ -126,7 +118,7 @@ const useDownloadDocuments = ( endpoint:string, id:string ) => {
 };
 
 export {
-  useGetDocuments,
+  useFilteredDocuments,
   useGetDocumentsID,
   useDownloadDocuments
 }

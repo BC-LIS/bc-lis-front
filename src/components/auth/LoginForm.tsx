@@ -67,7 +67,6 @@ export default function LoginForm() {
   }
 
   return (
-    <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(sendData)} className="mt-8 space-y-6">
           {loginFields.map((input, index) => (
@@ -113,6 +112,5 @@ export default function LoginForm() {
           </div>
         </form>
       </Form>
-    </>
   );
 }

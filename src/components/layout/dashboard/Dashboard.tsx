@@ -32,17 +32,53 @@ import {
 import { fileStatesRenderDashboard } from "@/constants/FormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
-import {useGetDocuments} from "@/hooks/useGetDocuments";
+import { useFilteredDocuments } from "@/hooks/useGetDocuments";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { getBadgeVariant } from "@/utils/badgeUtils";
-
+import { DocumentsFilters, Document } from "@/types/DocumentTypes";
+import { useEffect,  useState } from "react";
 
 export function Dashboard() {
-  const ENDPOINT_DOCUMENTS_ALL = process.env.NEXT_PUBLIC_API_URL_DOCUMENTS_All;
-  const {documents, loading}= useGetDocuments(`${ENDPOINT_DOCUMENTS_ALL}`); 
-      
-  console.log(documents);
+  //Inicializacion de los estados
+  const [ documents, setDocuments ] = useState<Document[]>([]);
+  const [ loading, setLoading ] = useState(true);
   
+  const [filterParams, setFilterParams] = useState<DocumentsFilters>({
+    name: "",
+    description: "",
+    state: "",
+    username: "",
+    typename: "",
+    categories: "",
+    createdBefore: "",
+    updatedBefore: "",
+    createdAfter: "",
+    updatedAfter: "",
+  });
+
+  //Hooks
+  const { fetchFilteredDocuments } = useFilteredDocuments();
+
+  //Endpoints
+  const ENDPOINT_DOCUMENTS_FILTER = process.env.NEXT_PUBLIC_API_URL_DOCUMENTS_FILTER;
+  
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const notEmptyFilters = Object.fromEntries(Object.entries(filterParams).filter(([_, value]) => value !== ""));
+
+    const loadDocuments = async () => {
+      setLoading(true); 
+      const data = await fetchFilteredDocuments(`${ENDPOINT_DOCUMENTS_FILTER}`, notEmptyFilters); 
+      console.log(data)
+      setDocuments(data); 
+      setLoading(false); 
+    };
+
+    loadDocuments();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterParams]);
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <header className="flex items-center gap-4 justify-between p-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
@@ -63,6 +99,9 @@ export function Dashboard() {
                 <TabsTrigger 
                   key={index} 
                   value={state.value}
+                  onClick={() => (
+                    setFilterParams( state.value === "ALL" ? {state: ""} : { state: state.value })
+                  )}
                 >
                   {state.label}
                 </TabsTrigger>
@@ -95,99 +134,98 @@ export function Dashboard() {
               </Link>
             </div>
           </div>
-          <TabsContent value="ALL">
-            <Card>
-              <CardHeader>
-                <CardTitle>Archivos</CardTitle>
-                <CardDescription>Administra tus archivos aquí.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="hidden w-[100px] sm:table-cell">
-                        <span className="sr-only">Imagen</span>
-                      </TableHead>
-                      <TableHead>Nombre</TableHead>
-                      <TableHead>Estado</TableHead>
-                      <TableHead className="hidden md:table-cell">
-                        Creado
-                      </TableHead>
-                      <TableHead className="hidden md:table-cell">
-                        Actualizado
-                      </TableHead> 
-                      <TableHead>
-                        <span className="sr-only">Acciones</span>
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {loading ? (
+              <TabsContent value={filterParams.state || "ALL"}>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Archivos</CardTitle>
+                    <CardDescription>Administra tus archivos aquí.</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Table>
+                      <TableHeader>
                         <TableRow>
-                          <TableCell colSpan={6}>
-                            <div className="flex justify-center items-center ">
-                              <LoadingSpinner size={48} />
-                            </div>
-                          </TableCell>
+                          <TableHead className="hidden w-[100px] sm:table-cell">
+                            <span className="sr-only">Imagen</span>
+                          </TableHead>
+                          <TableHead>Nombre</TableHead>
+                          <TableHead>Estado</TableHead>
+                          <TableHead className="hidden md:table-cell">
+                            Creado
+                          </TableHead>
+                          <TableHead className="hidden md:table-cell">
+                            Actualizado
+                          </TableHead> 
+                          <TableHead>
+                            <span className="sr-only">Acciones</span>
+                          </TableHead>
                         </TableRow>
-                      ) : (
-                        documents.map((doc) => (
-                          <TableRow key={doc.id}>
-                            <TableCell className="hidden sm:table-cell">
-                              <File className="h-5 w-5" />
-                            </TableCell>
+                      </TableHeader>
+                      <TableBody>
+                        {loading ? (
+                            <TableRow>
+                              <TableCell colSpan={6}>
+                                <div className="flex justify-center items-center ">
+                                  <LoadingSpinner size={48} />
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ) : (
+                            documents.map((doc) => (
+                              <TableRow key={doc.id}>
+                                <TableCell className="hidden sm:table-cell">
+                                  <File className="h-5 w-5" />
+                                </TableCell>
 
-                            {/* hover to the description */}    
-                            <TableCell>
-                              <HoverCard>
-                                <HoverCardTrigger asChild>
-                                  <div className="cursor-pointer underline-offset-4 hover:underline">
-                                    <Link href={`/file/${doc.id}`} target="_blank">
-                                      {doc.name}
-                                    </Link>
-                                  </div> 
-                                </HoverCardTrigger>
-                                <HoverCardContent className="justify-between space-y-1 space-x-1 w-60">
-                                    <h1 className="font-bold p-2 border-b-2">Descripción</h1>
-                                    <p className="text-sm">{doc.description}</p>
-                                </HoverCardContent>  
-                              </HoverCard>
-                            </TableCell> 
+                                {/* hover to the description */}    
+                                <TableCell>
+                                  <HoverCard>
+                                    <HoverCardTrigger asChild>
+                                      <div className="cursor-pointer underline-offset-4 hover:underline">
+                                        <Link href={`/file/${doc.id}`} target="_blank">
+                                          {doc.name}
+                                        </Link>
+                                      </div> 
+                                    </HoverCardTrigger>
+                                    <HoverCardContent className="justify-between space-y-1 space-x-1 w-60">
+                                        <h1 className="font-bold p-2 border-b-2">Descripción</h1>
+                                        <p className="text-sm">{doc.description}</p>
+                                    </HoverCardContent>  
+                                  </HoverCard>
+                                </TableCell> 
 
-                            <TableCell>
-                              <Badge variant={getBadgeVariant(doc.state)}>{doc.state}</Badge>
-                            </TableCell>
-                            <TableCell className="hidden md:table-cell">
-                              {new Date(doc.createdAt).toLocaleDateString()}
-                            </TableCell>
-                            <TableCell className="hidden md:table-cell">
-                              {new Date(doc.updatedAt).toLocaleDateString()}
-                            </TableCell>
-                            <TableCell>
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <Button size="icon" variant="ghost">
-                                    <MoreHorizontal className="h-4 w-4" />
-                                  </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                  <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                                  <Link href="#" target="_blank">
-                                    <DropdownMenuItem>Abrir</DropdownMenuItem>
-                                  </Link>
-                                  <DropdownMenuItem>Editar</DropdownMenuItem>
-                                  <DropdownMenuItem>Eliminar</DropdownMenuItem>
-                                </DropdownMenuContent>
-                              </DropdownMenu>
-                            </TableCell>
-                          </TableRow>
-                        ))
-                      )}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </TabsContent>
+                                <TableCell>
+                                  <Badge variant={getBadgeVariant(doc.state)}>{doc.state}</Badge>
+                                </TableCell>
+                                <TableCell className="hidden md:table-cell">
+                                  {new Date(doc.createdAt).toLocaleDateString()}
+                                </TableCell>
+                                <TableCell className="hidden md:table-cell">
+                                  {new Date(doc.updatedAt).toLocaleDateString()}
+                                </TableCell>
+                                <TableCell>
+                                  <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                      <Button size="icon" variant="ghost">
+                                        <MoreHorizontal className="h-4 w-4" />
+                                      </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end">
+                                      <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                                      <DropdownMenuItem>Abrir</DropdownMenuItem>
+                                      <DropdownMenuItem>Editar</DropdownMenuItem>
+                                      <DropdownMenuItem>Eliminar</DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                  </DropdownMenu>
+                                </TableCell>
+                              </TableRow>
+                            ))
+                          )}
+                      </TableBody>
+                    </Table>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
         </Tabs>
       </main>
     </div>

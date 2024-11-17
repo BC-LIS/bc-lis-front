@@ -14,7 +14,7 @@ interface ShowDocumentsProps {
 
 const ShowDocuments: React.FC<ShowDocumentsProps> = ({ id }) => {
 
-  const ENDPOINT_DOCUMENTS_ID = process.env.NEXT_PUBLIC_API_URL_DOCUMENTS;
+  const ENDPOINT_DOCUMENTS_ID = process.env.NEXT_PUBLIC_API_URL_DOCUMENT_REGISTER;
   const { document, loading } = useGetDocumentsID(`${ENDPOINT_DOCUMENTS_ID}`, id);
   const { pdfUrl } = useDownloadDocuments(`${ENDPOINT_DOCUMENTS_ID}`, id);
 

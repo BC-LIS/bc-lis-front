@@ -1,51 +1,43 @@
 "use client";
+import dynamic from "next/dynamic";
+import React, { useEffect, useRef, useState } from "react";
+const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
-import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import MenuBar from "./MenuBar";
-import TextAlign from "@tiptap/extension-text-align";
-import Highlight from "@tiptap/extension-highlight";
-import { TextEditorProps } from "@/types/TextEditor";
-import Paragraph from "@tiptap/extension-paragraph";
+function TextEditor({ theme }: { theme: string }) {
+  const editor = useRef(null);
+  const [content, setContent] = useState("");
 
-export default function TextEditor({ content, onChange }: TextEditorProps) {
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        bulletList: {
-          HTMLAttributes: {
-            class: "list-disc ml-3",
-          },
-        },
-        orderedList: {
-          HTMLAttributes: {
-            class: "list-decimal ml-3",
-          },
-        },
-      }),
-      TextAlign.configure({
-        types: ["heading", "paragraph"],
-      }),
-      Highlight,
-      Paragraph,
-    ],
-    content: content,
-    editorProps: {
-      attributes: {
-        class:
-          "outline-none border-2 border-primary rounded-md p-4 bg-accent min-h-[300px] text-lg",
-      },
-    },
-    immediatelyRender: false,
-    onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
-    },
-  });
+  useEffect(() => {
+    setContent(content);
+  }, [content]);
 
   return (
-    <div>
-      <MenuBar editor={editor} />
-      <EditorContent editor={editor} />
+    <div className="font-sans w-full h-full rounded-lg shadow-md p-4 text-gray-900">
+      <JoditEditor
+        ref={editor}
+        value={content}
+        config={{
+          placeholder: "Escribe aquí...",
+          readonly: false,
+          height: 500,
+          language: "es",
+          theme: theme,
+          style: {
+            background: theme === "dark" ? "#1a1a1a" : "#ffffff",
+          },
+          toolbarButtonSize: "middle",
+          resizer: { showSize: false },
+          removeButtons: [
+            "source",
+            "ai-assistant",
+            "spellcheck",
+            "preview",
+            "classSpan",
+          ],
+        }}
+      />
     </div>
   );
 }
+
+export default TextEditor;

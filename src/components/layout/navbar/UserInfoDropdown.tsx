@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { adminOptions, techOptions } from "@/constants/UserOptions";
-import { LogOut, Settings, User } from "lucide-react";
+import { FileType, LogOut, Settings, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAuth } from "@/hooks/use-auth";
@@ -64,6 +64,10 @@ export const UserInfoDropdown = ({ userRole }: { userRole: string }) => {
         {/* Configuración y cierre de sesión disponibles para todos los roles */}
         {userRole !== null && (
           <>
+            <FileType className="mr-4 h-4 w-4" />
+            <Link href="/editor">
+              <span>Editor de texto</span>
+            </Link>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>

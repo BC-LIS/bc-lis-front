@@ -64,10 +64,12 @@ export const UserInfoDropdown = ({ userRole }: { userRole: string }) => {
         {/* Configuración y cierre de sesión disponibles para todos los roles */}
         {userRole !== null && (
           <>
-            <FileType className="mr-4 h-4 w-4" />
-            <Link href="/editor">
-              <span>Editor de texto</span>
-            </Link>
+            <DropdownMenuItem>
+              <FileType className="mr-4 h-4 w-4" />
+              <Link href="/editor">
+                <span>Editor de texto</span>
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>

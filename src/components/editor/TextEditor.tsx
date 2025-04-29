@@ -35,6 +35,7 @@ function TextEditor({ theme }: { theme: string }) {
             "classSpan",
           ],
         }}
+        onBlur={(newContent) => setContent(newContent)}
       />
     </div>
   );

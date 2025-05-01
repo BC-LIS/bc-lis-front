@@ -1,21 +1,11 @@
 "use client";
 
-import TextEditor from "@/components/editor/TextEditor";
+import DocumentForm from "@/components/layout/form/DocumentForm";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 export default function Editor() {
-  const [theme, setTheme] = useState("light");
-
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    if (storedTheme) {
-      console.log(storedTheme);
-      setTheme(storedTheme);
-    }
-  }, [theme]);
-
   const router = useRouter();
   // Estado para manejar el loading spinner
   const [loading, setLoading] = useState(true);
@@ -46,7 +36,7 @@ export default function Editor() {
 
   return (
     <div className="container mx-auto my-8">
-      <TextEditor theme={theme} />
+      <DocumentForm />
     </div>
   );
 }

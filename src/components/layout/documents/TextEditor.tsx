@@ -1,21 +1,22 @@
 "use client";
 import dynamic from "next/dynamic";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
-function TextEditor({ theme }: { theme: string }) {
-  const editor = useRef(null);
-  const [content, setContent] = useState("");
+interface TextEditorProps {
+  value: string;
+  onChange: (value: string) => void;
+  theme: string;
+}
 
-  useEffect(() => {
-    setContent(content);
-  }, [content]);
+function TextEditor({ value, onChange, theme }: TextEditorProps) {
+  const editor = useRef(null);
 
   return (
-    <div className="font-sans w-full h-full rounded-lg shadow-md p-4 text-gray-900">
+    <div className="font-sans w-full h-full rounded-lg shadow-md text-gray-900">
       <JoditEditor
         ref={editor}
-        value={content}
+        value={value}
         config={{
           placeholder: "Escribe aquí...",
           readonly: false,
@@ -35,7 +36,7 @@ function TextEditor({ theme }: { theme: string }) {
             "classSpan",
           ],
         }}
-        onBlur={(newContent) => setContent(newContent)}
+        onBlur={(newContent) => onChange(newContent)}
       />
     </div>
   );

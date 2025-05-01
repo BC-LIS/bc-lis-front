@@ -22,6 +22,7 @@ export const formFile = z.object({
   file: z.instanceof(File, {
     message: "El archivo no es válido",
   }),
+  isEditable: z.boolean(),
 });
 
 export type FileRegisterFormSchema = z.infer<typeof formFile>;

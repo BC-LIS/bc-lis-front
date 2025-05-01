@@ -49,6 +49,7 @@ export default function FileForm() {
       state: undefined,
       username: "",
       file: undefined,
+      isEditable: false,
     },
   });
 
@@ -67,7 +68,6 @@ export default function FileForm() {
   };
 
   async function sendData(data: FileRegisterFormSchema) {
-    console.log(data);
     try {
       const formData = new FormData();
 
@@ -77,6 +77,7 @@ export default function FileForm() {
       formData.append("description", data.description);
       formData.append("typeName", data.typeName);
       formData.append("state", data.state);
+      formData.append("isEditable", String(false));
 
       // Concatenando las categorías seleccionadas
       if (Array.isArray(data.categories)) {

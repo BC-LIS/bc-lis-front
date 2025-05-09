@@ -35,7 +35,7 @@ export default function Editor() {
   }
 
   return (
-    <div className="container mx-auto my-8">
+    <div className="container mx-auto my-8 px-4 sm:px-6 lg:px-8">
       <DocumentForm />
     </div>
   );

@@ -69,7 +69,7 @@ function RegisterForm() {
     }
   }
   return (
-    <div className="border border-foreground rounded-lg p-6 sm:p-8 lg:p-12 max-w-5xl mx-auto my-12">
+    <div className="w-full max-w-xl px-4 sm:px-6 md:px-8 border border-foreground rounded-lg py-6 sm:py-8 lg:py-12 mx-auto my-8">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(sendData)}

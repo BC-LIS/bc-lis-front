@@ -16,12 +16,11 @@ function Navbar() {
       <div className="container mx-auto flex justify-between items-center">
         <section className="flex items-center space-x-2 sm:space-x-3 md:space-x-4">
           <Image
-            width={50}
-            height={50}
-            sizes="100%"
             src="/BCLIS.png"
-            className="object-contain w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12"
             alt="Logo de la página"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain"
             priority
           />
           <Link
@@ -33,17 +32,22 @@ function Navbar() {
         </section>
 
         {/* Opciones de navegación */}
-        <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           {isAuthenticated && user ? (
             <UserInfo user={user} />
           ) : (
             <Link href="/account/login">
-              <Button className="text-xs sm:text-sm md:text-base px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2">
+              <Button 
+                className="text-sm sm:text-base md:text-base px-3 sm:px-4 md:px-5 py-1.5 sm:py-2
+                           hover:scale-105 hover:bg-opacity-90 transition-all duration-300 active:scale-95"
+              >
                 Iniciar Sesión
               </Button>
             </Link>
           )}
-          <Switcher />
+          <div className="p-0.5 rounded-full hover:bg-primary/10 transition-all duration-300">
+            <Switcher />
+          </div>
         </div>
       </div>
     </nav>

@@ -4,8 +4,8 @@ const fileReceivers = ["Programming", "Administrative", "Both"] as const;
 
 const fileStates = ["PUBLISHED", "ARCHIVED", "DRAFT"] as const;
 
-export const formFile = z.object({
-  name: z.string(),
+export const formDocument = z.object({
+  name: z.string().min(3, { message: "El nombre del archivo es muy corto" }),
   description: z
     .string()
     .min(12, { message: "La descripción del archivo es corta" }),
@@ -19,10 +19,10 @@ export const formFile = z.object({
     message: "El estado del archivo no es válido",
   }),
   username: z.string().min(3, { message: "El autor del archivo no es válido" }),
-  file: z.instanceof(File, {
-    message: "El archivo no es válido",
-  }),
-  isEditable: z.boolean(),
+  content: z
+    .string()
+    .min(3, { message: "El contenido del documento es muy corto" }),
+  isEditable: z.literal(true),
 });
 
-export type FileRegisterFormSchema = z.infer<typeof formFile>;
+export type DocumentRegisterFormSchema = z.infer<typeof formDocument>;

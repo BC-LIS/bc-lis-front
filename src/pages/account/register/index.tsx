@@ -39,7 +39,7 @@ export default function RegisterPage() {
 
   // Renderizar el formulario de registro si es un administrador autenticado
   return (
-    <section className="flex items-center justify-center my-4 p-2 gap-4 sm:p-4">
+    <section className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)] px-12 sm:px-0 py-8 sm:py-12 md:py-16">
       <RegisterForm />
     </section>
   );

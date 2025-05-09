@@ -11,7 +11,6 @@ interface TextEditorProps {
 
 function TextEditor({ value, onChange, theme }: TextEditorProps) {
   const editor = useRef(null);
-
   return (
     <div className="font-sans w-full h-full rounded-lg shadow-md text-gray-900">
       <JoditEditor
@@ -20,7 +19,7 @@ function TextEditor({ value, onChange, theme }: TextEditorProps) {
         config={{
           placeholder: "Escribe aquí...",
           readonly: false,
-          height: 500,
+          height: editorHeight,
           language: "es",
           theme: theme,
           style: {

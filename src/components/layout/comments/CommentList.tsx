@@ -16,7 +16,7 @@ export const CommentList = ({ documentId }: { documentId: number }) => {
 
   useEffect(() => {
     fetchComments();
-  });
+  }, [documentId]);
 
   const handleAddComment = async () => {
     if (!newComment.trim()) return;
@@ -26,7 +26,7 @@ export const CommentList = ({ documentId }: { documentId: number }) => {
   };
 
   return (
-    <div className="space-y-4 min-w-[32rem]">
+    <div className="space-y-4 min-w-[32rem] mx-4">
       <div className="space-y-2">
         <Textarea
           placeholder="Escribe un comentario..."

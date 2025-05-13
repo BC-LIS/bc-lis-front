@@ -21,16 +21,22 @@ export const CommentItem = ({
   };
 
   return (
-    <div className="border rounded p-4 space-y-2 bg-slate-200 dark:bg-gray-900">
-      <p className="text-sm text-gray-500">
+    <div className="border rounded p-4 space-y-2 my-4">
+      <p className="text-sm text-accent-foreground font-bold">
         {comment.user.name} {comment.user.lastName} -{" "}
-        {new Date(comment.createdAt).toLocaleDateString()}:
+        {new Date(comment.createdAt).toLocaleDateString("es-CO", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        })}
+        :
       </p>
       {isEditing ? (
         <>
           <Textarea
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
+            className="resize-none min-w-[36rem]"
           />
           <Button onClick={handleUpdate}>Guardar</Button>
           <Button onClick={() => setIsEditing(false)} variant="destructive">
@@ -44,13 +50,20 @@ export const CommentItem = ({
             className="prose dark:prose-invert"
           />
           <div className="flex gap-2">
-            <Button onClick={() => setIsEditing(true)}>Editar</Button>
+            <Button
+              onClick={() => setIsEditing(true)}
+              variant="secondary"
+              className="hover:scale-105 transform transition-transform ease-out duration-150"
+            >
+              Editar
+            </Button>
             <Button
               onClick={async () => {
                 await commentService.delete(comment.id);
                 onRefresh();
               }}
               variant="destructive"
+              className="hover:scale-105 transform transition-transform ease-out duration-150"
             >
               Eliminar
             </Button>
@@ -62,7 +75,8 @@ export const CommentItem = ({
                 );
                 onRefresh();
               }}
-              variant="secondary"
+              variant="outline"
+              className="hover:scale-105 transform transition-transform ease-out duration-150"
             >
               {comment.commentState === "VISIBLE" ? "Ocultar" : "Mostrar"}
             </Button>

@@ -28,7 +28,7 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@/components/ui/hover-card"
+} from "@/components/ui/hover-card";
 import { fileStatesRenderDashboard } from "@/constants/FormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
@@ -44,7 +44,6 @@ export function Dashboard() {
   const [ loading, setLoading ] = useState(true);
   
   const [filterParams, setFilterParams] = useState<DocumentsFilters>({
-    name: "",
     description: "",
     state: "",
     username: "",
@@ -63,31 +62,103 @@ export function Dashboard() {
   const ENDPOINT_DOCUMENTS_FILTER = process.env.NEXT_PUBLIC_API_URL_DOCUMENTS_FILTER;
   
   useEffect(() => {
+    const { name, ...otherFilters } = filterParams;
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const notEmptyFilters = Object.fromEntries(Object.entries(filterParams).filter(([_, value]) => value !== ""));
+    const notEmptyFilters = Object.fromEntries(Object.entries(otherFilters).filter(([_, value]) => value !== ""));
 
     const loadDocuments = async () => {
-      setLoading(true); 
-      const data = await fetchFilteredDocuments(`${ENDPOINT_DOCUMENTS_FILTER}`, notEmptyFilters); 
-      console.log(data)
-      setDocuments(data); 
-      setLoading(false); 
+      setLoading(true);
+      const data = await fetchFilteredDocuments(`${ENDPOINT_DOCUMENTS_FILTER}`, notEmptyFilters);
+    
+      // Filtrar documentos en el frontend para búsquedas parciales y fechas
+      const filteredData = data.filter((doc: Document) => {
+        const createdAt = new Date(doc.createdAt);
+        const updatedAt = new Date(doc.updatedAt);
+        
+        // Condiciones de filtrado por fechas
+        const passesCreatedAfter = otherFilters.createdAfter
+          ? createdAt >= new Date(otherFilters.createdAfter)
+          : true;
+    
+        const passesCreatedBefore = otherFilters.createdBefore
+          ? createdAt <= new Date(otherFilters.createdBefore)
+          : true;
+    
+        const passesUpdatedAfter = otherFilters.updatedAfter
+          ? updatedAt >= new Date(otherFilters.updatedAfter)
+          : true;
+    
+        const passesUpdatedBefore = otherFilters.updatedBefore
+          ? updatedAt <= new Date(otherFilters.updatedBefore)
+          : true;
+    
+        // Condición de filtrado por nombre
+        const passesNameFilter = name
+          ? doc.name.toLowerCase().includes((filterParams.name || "").toLowerCase())
+          : true;
+    
+        // Retornar true si pasa todas las condiciones
+        return (
+          passesCreatedAfter &&
+          passesCreatedBefore &&
+          passesUpdatedAfter &&
+          passesUpdatedBefore &&
+          passesNameFilter
+        );
+      });
+    
+      setDocuments(filteredData);
+      setLoading(false);
     };
-
-    loadDocuments();
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterParams]);
-
-  return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+      
+      loadDocuments();
+      
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filterParams]);
+    
+    return (
+      <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <header className="flex items-center gap-4 justify-between p-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+        <div className="flex flex-col gap-3">
+          <label className="text-base font-bold">Creado despues de:</label> 
+          <Input
+            type="date"
+            placeholder="Creado después de"
+            className="w-full rounded-lg bg-background text-base font-normal"
+            onChange={(e) => setFilterParams((prev) => ({ ...prev, createdAfter: e.target.value }))}
+          />
+          <label className="text-base font-semibold">Creado antes de:</label>
+          <Input
+            type="date"
+            placeholder="Creado antes de"
+            className="w-full rounded-lg bg-background text-base font-normal"
+            onChange={(e) => setFilterParams((prev) => ({ ...prev, createdBefore: e.target.value }))}
+          />
+        </div>
+        <div className="flex flex-col gap-3">
+          <label className="text-base font-semibold">Actualizado despues de:</label>
+          <Input
+            type="date"
+            placeholder="Actualizado después de"
+            className="w-full rounded-lg bg-background text-base font-normal"
+            onChange={(e) => setFilterParams((prev) => ({ ...prev, updatedAfter: e.target.value }))}
+          />
+          <label className="text-base font-semibold">Actualizado antes de:</label>
+          <Input
+            type="date"
+            placeholder="Actualizado antes de"
+            className="w-full rounded-lg bg-background text-base font-normal"
+            onChange={(e) => setFilterParams((prev) => ({ ...prev, updatedBefore: e.target.value }))}
+          />
+        </div>
         <div className="relative ml-auto flex-1 md:grow-0">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
             placeholder="Buscar..."
             className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px] text-base font-semibold"
+            onChange={(e) => setFilterParams((prev) => ({ ...prev, name: e.target.value }))}
           />
         </div>
       </header>

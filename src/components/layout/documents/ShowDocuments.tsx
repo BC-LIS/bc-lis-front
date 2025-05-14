@@ -70,7 +70,7 @@ const ShowDocuments: React.FC<ShowDocumentsProps> = ({ id }) => {
             <div className="w-full flex justify-between">
               <h2 className="text-3xl font-bold">{document.name}</h2>
               <p className="flex font-semibold items-end">
-                {`${document.user.name} ${document.user.lastName} :`}
+                {`${document.user.username}: `}
                 <span className="font-light ml-2"> {document.type.name}</span>
               </p>
             </div>

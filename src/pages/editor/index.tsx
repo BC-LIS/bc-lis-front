@@ -36,9 +36,9 @@ export default function Editor() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 md:px-8">
-  <div className="w-full max-w-4xl">
-    <DocumentForm />
-  </div>
-</div>
+      <div className="w-full max-w-4xl">
+        <DocumentForm />
+      </div>
+    </div>
   );
 }

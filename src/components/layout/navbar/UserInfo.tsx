@@ -10,15 +10,18 @@ function UserInfo({ user }: { user?: User }) {
     <>
       {user ? (
         <>
-          <p className="flex flex-col">
+          {/* Solo visible en sm o mayor */}
+          <div className="hidden sm:flex flex-col text-right mr-2">
             <span className="font-bold text-lg bg-gradient-to-r from-secondary to-udea-500 inline-block text-transparent bg-clip-text">
               {user.name} {user.lastname}
             </span>
-            <span className="font-bold text-sm text-end">
+            <span className="font-bold text-sm">
               {formatUserRole(user.role)}
             </span>
-          </p>
-          <UserInfoDropdown userRole={user.role} />
+          </div>
+
+          {/* Siempre visible */}
+          <UserInfoDropdown user={user} />
         </>
       ) : (
         <Button>

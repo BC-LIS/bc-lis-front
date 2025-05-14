@@ -21,7 +21,7 @@ export const CommentItem = ({
   };
 
   return (
-    <div className="border rounded p-4 space-y-2 my-4">
+    <div className="border rounded p-4 space-y-2 my-4 w-full">
       <p className="text-sm text-accent-foreground font-bold">
         {comment.user.name} {comment.user.lastName} -{" "}
         {new Date(comment.createdAt).toLocaleDateString("es-CO", {
@@ -36,12 +36,14 @@ export const CommentItem = ({
           <Textarea
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
-            className="resize-none min-w-[36rem]"
+            className="resize-none w-full"
           />
-          <Button onClick={handleUpdate}>Guardar</Button>
-          <Button onClick={() => setIsEditing(false)} variant="destructive">
-            Cancelar
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <Button onClick={handleUpdate}>Guardar</Button>
+            <Button onClick={() => setIsEditing(false)} variant="destructive">
+              Cancelar
+            </Button>
+          </div>
         </>
       ) : (
         <>
@@ -49,11 +51,11 @@ export const CommentItem = ({
             dangerouslySetInnerHTML={{ __html: comment.content }}
             className="prose dark:prose-invert"
           />
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <Button
               onClick={() => setIsEditing(true)}
               variant="secondary"
-              className="hover:scale-105 transform transition-transform ease-out duration-150"
+              className="hover:scale-105 transition-transform"
             >
               Editar
             </Button>
@@ -63,7 +65,7 @@ export const CommentItem = ({
                 onRefresh();
               }}
               variant="destructive"
-              className="hover:scale-105 transform transition-transform ease-out duration-150"
+              className="hover:scale-105 transition-transform"
             >
               Eliminar
             </Button>
@@ -76,7 +78,7 @@ export const CommentItem = ({
                 onRefresh();
               }}
               variant="outline"
-              className="hover:scale-105 transform transition-transform ease-out duration-150"
+              className="hover:scale-105 transition-transform"
             >
               {comment.commentState === "VISIBLE" ? "Ocultar" : "Mostrar"}
             </Button>

@@ -19,7 +19,7 @@ function TextEditor({ value, onChange, theme }: TextEditorProps) {
         config={{
           placeholder: "Escribe aquí...",
           readonly: false,
-          height: editorHeight,
+          height: 500,
           language: "es",
           theme: theme,
           style: {

@@ -32,7 +32,7 @@ function Navbar() {
         </section>
 
         {/* Opciones de navegación */}
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4">
           {isAuthenticated && user ? (
             <UserInfo user={user} />
           ) : (

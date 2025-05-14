@@ -51,7 +51,7 @@ const ShowDocuments: React.FC<ShowDocumentsProps> = ({ id }) => {
             {/* Sección de titulo, nombre y descripción */}
             <div className='w-full flex justify-between'>
               <h2 className='text-3xl font-bold'>{document.name}</h2>
-              <p className='flex font-semibold items-end'>{`${document.user.name} ${document.user.lastName} :`}<span className='font-light ml-2'> {document.type.name}</span></p>
+              <p className='flex font-semibold items-end'>{`${document.user.username}:`}<span className='font-light ml-2'> {document.type.name}</span></p>
             </div>
             <p>{document.description}</p>
             {/* Renderizado de categorias*/}

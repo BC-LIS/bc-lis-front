@@ -1,12 +1,11 @@
 import { User } from "@/types/UserTypes";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ColumnDef,
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
   getSortedRowModel,
-  getFilteredRowModel,
   flexRender,
 } from "@tanstack/react-table";
 import { Input } from "@/components/ui/input";
@@ -34,53 +33,115 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Head from "next/head";
+import { toast } from "@/hooks/use-toast";
+import Link from "next/link";
+import { UserPlus } from "lucide-react";
+
+type UserWithRole = User & {
+  role: {
+    roleName: string;
+  };
+  isActive: boolean;
+};
 
 function Account() {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<UserWithRole[]>([]);
   const [nameFilter, setNameFilter] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [activeFilter, setActiveFilter] = useState("");
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(5);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const ENDPOINT_USERS = process.env.NEXT_PUBLIC_API_URL_USERS;
+
+  const fetchUsers = useCallback(
+    async ({
+      page,
+      size,
+      name,
+      role,
+      isActive,
+    }: {
+      page: number;
+      size: number;
+      name?: string;
+      role?: string;
+      isActive?: string;
+    }) => {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        size: size.toString(),
+      });
+
+      if (name) params.append("name", name);
+      if (role) params.append("role", role);
+      if (isActive !== undefined && isActive !== "")
+        params.append("isActive", isActive);
+
+      try {
+        const response = await fetch(`${ENDPOINT_USERS}?${params.toString()}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("session")}`,
+          },
+        });
+
+        if (!response.ok) {
+          toast({
+            title: "Error ❌",
+            description: "Ha ocurrido un error al obtener los usuarios",
+          });
+        }
+
+        return response.json();
+      } catch (error) {
+        toast({
+          title: "Error ❌",
+          description: `Ha ocurrido un error en la solicitud`,
+        });
+      }
+    },
+    [ENDPOINT_USERS]
+  );
 
   useEffect(() => {
-    // Simula la llamada a la API
-    fetch("/api/users")
-      .then((res) => res.json())
-      .then((data) => {
-        const sortedData = data.sort((a: User, b: User) =>
-          a.name.localeCompare(b.name)
-        );
-        setUsers(sortedData);
-      });
-  }, []);
-
-  const filteredUsers = useMemo(() => {
-    return users.filter((user) => {
-      return (
-        user.name.toLowerCase().includes(nameFilter.toLowerCase()) &&
-        (roleFilter ? user.role === roleFilter : true) &&
-        (activeFilter !== "" ? user.active === (activeFilter === "true") : true)
+    fetchUsers({
+      page: pageIndex,
+      size: pageSize,
+      name: nameFilter,
+      role: roleFilter,
+      isActive: activeFilter,
+    }).then((data) => {
+      const sortedData = data.content.sort((a: UserWithRole, b: UserWithRole) =>
+        a.name.localeCompare(b.name)
       );
+      setUsers(sortedData);
+      setTotalPages(data.page.totalPages);
     });
-  }, [users, nameFilter, roleFilter, activeFilter]);
+  }, [pageIndex, pageSize, nameFilter, roleFilter, activeFilter, fetchUsers]);
 
-  const columns: ColumnDef<User>[] = [
+  const columns: ColumnDef<UserWithRole>[] = [
     { accessorKey: "username", header: "Usuario" },
     { accessorKey: "name", header: "Nombre" },
     { accessorKey: "lastName", header: "Apellidos" },
     { accessorKey: "email", header: "Correo" },
-    { accessorKey: "role", header: "Rol" },
     {
-      accessorKey: "active",
+      accessorKey: "role.roleName",
+      header: "Rol",
+      cell: ({ row }) => row.original.role.roleName,
+    },
+    {
+      accessorKey: "isActive",
       header: "Activo",
-      cell: ({ row }) => (row.original.active ? "Sí" : "No"),
+      cell: ({ row }) => (row.original.isActive ? "Sí" : "No"),
     },
     {
       id: "actions",
       header: "",
       cell: ({ row }) => {
         const user = row.original;
-
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -93,20 +154,17 @@ function Account() {
                 Editar
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => console.log("Eliminar", user)}
-                className="text-red-600"
-              >
-                Eliminar
-              </DropdownMenuItem>
-              <DropdownMenuItem
                 onClick={() =>
-                  console.log(
-                    user.active ? "Desactivar usuario" : "Activar usuario",
-                    user
-                  )
+                  console.log(user.isActive ? "Desactivar" : "Activar", user)
                 }
               >
-                {user.active ? "Desactivar" : "Activar"}
+                {user.isActive ? "Desactivar" : "Activar"}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => console.log("Eliminar", user)}
+                className="text-destructive"
+              >
+                Eliminar
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -116,16 +174,15 @@ function Account() {
   ];
 
   const table = useReactTable({
-    data: filteredUsers,
+    data: users,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     state: {
       pagination: {
         pageSize,
-        pageIndex: 0,
+        pageIndex,
       },
     },
   });
@@ -139,22 +196,27 @@ function Account() {
           content="Administración de usuarios registrados"
         />
       </Head>
+
       <div className="flex flex-wrap gap-2 items-center justify-between mb-8">
+        <Button variant="primary" size="icon">
+          <Link href="/account/register">
+            <UserPlus />
+          </Link>
+        </Button>
         <Input
           placeholder="Filtrar por nombre"
           value={nameFilter}
           onChange={(e) => setNameFilter(e.target.value)}
-          className="w-[200px] text-accent"
+          className="w-[200px] text-foreground"
         />
         <Select onValueChange={setRoleFilter} defaultValue="">
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Filtrar por rol" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="true">Todos</SelectItem>
             <SelectItem value="ADMIN">Administrador</SelectItem>
             <SelectItem value="TECHNICAL">Técnico</SelectItem>
-            <SelectItem value="USER">Normal</SelectItem>
+            <SelectItem value="GENERIC">Normal</SelectItem>
           </SelectContent>
         </Select>
         <Select onValueChange={setActiveFilter} defaultValue="">
@@ -162,14 +224,13 @@ function Account() {
             <SelectValue placeholder="Filtrar por estado" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="true">Todos</SelectItem>
             <SelectItem value="true">Activo</SelectItem>
             <SelectItem value="false">Inactivo</SelectItem>
           </SelectContent>
         </Select>
         <Select
           onValueChange={(val) => setPageSize(Number(val))}
-          defaultValue="10"
+          defaultValue="5"
         >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Elementos por página" />
@@ -190,10 +251,7 @@ function Account() {
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <TableHead
-                  key={header.id}
-                  className="text-center text-accent-foreground"
-                >
+                <TableHead key={header.id} className="text-accent-foreground">
                   {flexRender(
                     header.column.columnDef.header,
                     header.getContext()
@@ -218,20 +276,17 @@ function Account() {
 
       <div className="flex justify-between items-center mt-4">
         <Button
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-          variant="outline"
+          onClick={() => setPageIndex((prev) => Math.max(prev - 1, 0))}
+          disabled={pageIndex === 0}
         >
           Anterior
         </Button>
         <span>
-          Página {table.getState().pagination.pageIndex + 1} de{" "}
-          {table.getPageCount()}
+          Página {pageIndex + 1} de {totalPages}
         </span>
         <Button
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-          variant="outline"
+          onClick={() => setPageIndex((prev) => prev + 1)}
+          disabled={pageIndex + 1 >= totalPages}
         >
           Siguiente
         </Button>

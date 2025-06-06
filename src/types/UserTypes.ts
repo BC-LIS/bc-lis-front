@@ -3,6 +3,8 @@ export interface User {
   lastname: string;
   role: string;
   username: string;
+  email?: string;
+  active: boolean;
 }
 
 export interface UserWithEmail {

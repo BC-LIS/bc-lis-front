@@ -13,6 +13,8 @@ export const CommentItem = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
+  const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const currentUsername = currentUser.username;
 
   const handleUpdate = async () => {
     await commentService.updateContent(comment.id, editedContent);
@@ -24,12 +26,7 @@ export const CommentItem = ({
     <div className="border rounded p-4 space-y-2 my-4 w-full">
       <p className="text-sm text-accent-foreground font-bold">
         {comment.user.name} {comment.user.lastName} -{" "}
-        {new Date(comment.createdAt).toLocaleDateString("es-CO", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-        })}
-        :
+        {new Date(comment.createdAt).toLocaleDateString()}
       </p>
       {isEditing ? (
         <>
@@ -51,38 +48,40 @@ export const CommentItem = ({
             dangerouslySetInnerHTML={{ __html: comment.content }}
             className="prose dark:prose-invert"
           />
-          <div className="flex flex-col sm:flex-row gap-2">
-            <Button
-              onClick={() => setIsEditing(true)}
-              variant="secondary"
-              className="hover:scale-105 transition-transform"
-            >
-              Editar
-            </Button>
-            <Button
-              onClick={async () => {
-                await commentService.delete(comment.id);
-                onRefresh();
-              }}
-              variant="destructive"
-              className="hover:scale-105 transition-transform"
-            >
-              Eliminar
-            </Button>
-            <Button
-              onClick={async () => {
-                await commentService.updateState(
-                  comment.id,
-                  comment.commentState === "VISIBLE" ? "HIDDEN" : "VISIBLE"
-                );
-                onRefresh();
-              }}
-              variant="outline"
-              className="hover:scale-105 transition-transform"
-            >
-              {comment.commentState === "VISIBLE" ? "Ocultar" : "Mostrar"}
-            </Button>
-          </div>
+          {comment.user.username === currentUsername && (
+            <div className="flex gap-2">
+              <Button
+                onClick={() => setIsEditing(true)}
+                variant="secondary"
+                className="hover:scale-105 transform transition-transform ease-out duration-150"
+              >
+                Editar
+              </Button>
+              <Button
+                onClick={async () => {
+                  await commentService.delete(comment.id);
+                  onRefresh();
+                }}
+                variant="destructive"
+                className="hover:scale-105 transform transition-transform ease-out duration-150"
+              >
+                Eliminar
+              </Button>
+              <Button
+                onClick={async () => {
+                  await commentService.updateState(
+                    comment.id,
+                    comment.commentState === "VISIBLE" ? "HIDDEN" : "VISIBLE"
+                  );
+                  onRefresh();
+                }}
+                variant="outline"
+                className="hover:scale-105 transform transition-transform ease-out duration-150"
+              >
+                {comment.commentState === "VISIBLE" ? "Ocultar" : "Mostrar"}
+              </Button>
+            </div>
+          )}
         </>
       )}
     </div>

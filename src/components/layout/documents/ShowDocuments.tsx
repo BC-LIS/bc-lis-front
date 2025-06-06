@@ -38,55 +38,62 @@ const ShowDocuments: React.FC<ShowDocumentsProps> = ({ id }) => {
   };
 
   return (
-    <Card className="w-4/5 border flex flex-col">
-      <CardHeader className="flex flex-row border-b-2 shadow-sm justify-between">
-        <CardTitle className="text-4xl font-extrabold">
+    <Card className="w-full max-w-4xl border flex flex-col px-4 sm:px-8 py-4 mx-auto">
+      <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-0 border-b-2 shadow-sm">
+        <CardTitle className="text-2xl sm:text-4xl font-extrabold text-center sm:text-left">
           Detalles del Documento
         </CardTitle>
-        <div className="flex gap-2">
+        <div className="flex gap-2 justify-center sm:justify-end">
           <Badge variant={getBadgeVariant(document.state)}>
             {document.state}
           </Badge>
-          <Button className="hover:bg-background">
+          <Button className="hover:bg-background p-2">
             <a
               href={pdfUrl}
               target="_blank"
               rel="noopener noreferrer"
               download={document.name}
             >
-              <DownloadIcon></DownloadIcon>
+              <DownloadIcon className="w-5 h-5" />
             </a>
           </Button>
         </div>
       </CardHeader>
+
       <CardContent>
         {loading ? (
-          <div className="flex justify-center items-center h-screen">
+          <div className="flex justify-center items-center h-60">
             <LoadingSpinner size={48} />
           </div>
         ) : (
-          <div className="flex flex-col w-auto h-auto space-y-10 p-2 mt-2">
-            {/* Sección de titulo, nombre y descripción */}
-            <div className="w-full flex justify-between">
-              <h2 className="text-3xl font-bold">{document.name}</h2>
-              <p className="flex font-semibold items-end">
-                {`${document.user.name} ${document.user.lastName} :`}
-                <span className="font-light ml-2"> {document.type.name}</span>
+          <div className="flex flex-col space-y-8 p-2 mt-2">
+            {/* Título y usuario */}
+            <div className="flex flex-col sm:flex-row justify-between gap-2">
+              <h2 className="text-xl sm:text-3xl font-bold">{document.name}</h2>
+              <p className="text-sm sm:text-base font-semibold flex items-end">
+                {`${document.user.username}: `}
+                <span className="font-light ml-2">{document.type.name}</span>
               </p>
             </div>
-            <p>{document.description}</p>
-            {/* Renderizado de categorias*/}
-            <div className="flex flex-col gap-3">
-              <h1 className="font-semibold">Categorias</h1>
+
+            {/* Descripción */}
+            <p className="text-sm sm:text-base text-justify whitespace-pre-line">
+              {document.description}
+            </p>
+
+            {/* Categorías */}
+            <div className="flex flex-col gap-2">
+              <h1 className="font-semibold text-base sm:text-lg">Categorías</h1>
               {document.categories.length > 0 ? (
                 <CategoryCard categories={document.categories} />
               ) : (
                 <Badge variant="default">Sin categorías</Badge>
               )}
             </div>
-            {/* Sección de creado y actualiado */}
-            <div className="flex flex-col gap-2">
-              <div className="flex justify-between">
+
+            {/* Fechas */}
+            <div className="flex flex-col gap-2 text-sm sm:text-base">
+              <div className="flex flex-col sm:flex-row justify-between gap-2">
                 <p>
                   <span className="font-semibold">Creado: </span>
                   {`${new Date(document.createdAt).toDateString()} - ${new Date(
@@ -107,8 +114,9 @@ const ShowDocuments: React.FC<ShowDocumentsProps> = ({ id }) => {
           </div>
         )}
       </CardContent>
-      <div className="flex flex-col items-center justify-center">
-        <h2 className="text-2xl font-bold mb-4">Comentarios</h2>
+
+      <div className="flex flex-col items-center justify-center px-2 sm:px-6 pb-6">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4">Comentarios</h2>
         <CommentList documentId={document.id} />
       </div>
     </Card>

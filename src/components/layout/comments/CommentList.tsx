@@ -26,7 +26,7 @@ export const CommentList = ({ documentId }: { documentId: number }) => {
   };
 
   return (
-    <div className="space-y-4 min-w-[32rem] mx-4">
+    <div className="space-y-4 w-full max-w-4xl mx-auto px-4">
       <div className="space-y-2">
         <Textarea
           placeholder="Escribe un comentario..."

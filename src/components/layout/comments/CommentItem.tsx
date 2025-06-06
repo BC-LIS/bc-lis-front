@@ -23,7 +23,7 @@ export const CommentItem = ({
   };
 
   return (
-    <div className="border rounded p-4 space-y-2 my-4">
+    <div className="border rounded p-4 space-y-2 my-4 w-full">
       <p className="text-sm text-accent-foreground font-bold">
         {comment.user.name} {comment.user.lastName} -{" "}
         {new Date(comment.createdAt).toLocaleDateString()}
@@ -33,12 +33,14 @@ export const CommentItem = ({
           <Textarea
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
-            className="resize-none min-w-[36rem]"
+            className="resize-none w-full"
           />
-          <Button onClick={handleUpdate}>Guardar</Button>
-          <Button onClick={() => setIsEditing(false)} variant="destructive">
-            Cancelar
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <Button onClick={handleUpdate}>Guardar</Button>
+            <Button onClick={() => setIsEditing(false)} variant="destructive">
+              Cancelar
+            </Button>
+          </div>
         </>
       ) : (
         <>

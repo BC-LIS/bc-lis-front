@@ -10,12 +10,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { adminOptions, techOptions } from "@/constants/UserOptions";
-import { FileType, LogOut, Settings, User } from "lucide-react";
+import { FileType, LogOut, Settings, User as UserIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAuth } from "@/hooks/use-auth";
+import { User } from "@/types/UserTypes";
+import { formatUserRole } from "@/lib/formatUserRole";
 
-// Función para obtener las opciones basadas en el rol del usuario
 const getOptionsByRole = (userRole: string) => {
   switch (userRole) {
     case "ADMIN":
@@ -27,8 +28,8 @@ const getOptionsByRole = (userRole: string) => {
   }
 };
 
-export const UserInfoDropdown = ({ userRole }: { userRole: string }) => {
-  const roleOptions = getOptionsByRole(userRole);
+export const UserInfoDropdown = ({ user }: { user: User }) => {
+  const roleOptions = getOptionsByRole(user.role);
   const { logout } = useAuth();
   const router = useRouter();
 
@@ -41,19 +42,28 @@ export const UserInfoDropdown = ({ userRole }: { userRole: string }) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
-          <User className="h-6 w-6" />
+          <UserIcon className="h-6 w-6" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Opciones</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+      <DropdownMenuContent className="w-56 sm:w-64 md:w-72 bg-background/95 backdrop-blur-xl border border-primary/30 shadow-lg">
 
-        {/* Renderizar las opciones basadas en el rol */}
+        {/* Mostrar nombre y rol solo en móviles */}
+        <DropdownMenuLabel className="text-sm text-muted-foreground sm:hidden">
+          <p className="font-semibold text-base text-primary">
+            {user.name} {user.lastname}
+          </p>
+          <p className="text-xs font-medium">
+            {formatUserRole(user.role)}
+          </p>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator className="sm:hidden" />
+
+        {/* Opciones del rol */}
         {roleOptions.length > 0 &&
           roleOptions.map((option, index) => (
             <DropdownMenuGroup key={index}>
-              <DropdownMenuItem>
-                <option.icon className="mr-4 h-4 w-4" />
+              <DropdownMenuItem className="p-2 md:p-3 text-sm md:text-base hover:bg-primary/10">
+                <option.icon className="mr-4 h-4 w-4 md:h-5 md:w-5" />
                 <Link href={option.url}>
                   <span>{option.label}</span>
                 </Link>
@@ -61,28 +71,29 @@ export const UserInfoDropdown = ({ userRole }: { userRole: string }) => {
             </DropdownMenuGroup>
           ))}
 
-        {/* Configuración y cierre de sesión disponibles para todos los roles */}
-        {userRole !== null && (
-          <>
-            <DropdownMenuItem>
-              <FileType className="mr-4 h-4 w-4" />
-              <Link href="/editor">
-                <span>Editor de texto</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Settings className="mr-4 h-4 w-4" />
-                <span>Configurar perfil</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleLogout}>
-                <LogOut className="mr-4 h-4 w-4" />
-                <span>Cerrar Sesion</span>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </>
-        )}
+        {/* Comunes */}
+        <DropdownMenuItem className="p-2 md:p-3 text-sm md:text-base hover:bg-primary/10">
+          <FileType className="mr-4 h-4 w-4 md:h-5 md:w-5" />
+          <Link href="/editor">
+            <span>Editor de texto</span>
+          </Link>
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuGroup>
+          <DropdownMenuItem className="p-2 md:p-3 text-sm md:text-base hover:bg-primary/10">
+            <Settings className="mr-4 h-4 w-4 md:h-5 md:w-5" />
+            <span>Configurar perfil</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem 
+            onClick={handleLogout}
+            className="p-2 md:p-3 text-sm md:text-base hover:bg-primary/10 hover:text-red-500"
+          >
+            <LogOut className="mr-4 h-4 w-4 md:h-5 md:w-5" />
+            <span>Cerrar Sesión</span>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );

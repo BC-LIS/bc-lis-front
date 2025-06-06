@@ -35,7 +35,7 @@ import {
 import Head from "next/head";
 import { toast } from "@/hooks/use-toast";
 import Link from "next/link";
-import { UserPlus } from "lucide-react";
+import { UserPlus, Eraser } from "lucide-react";
 
 type UserWithRole = User & {
   role: {
@@ -241,6 +241,17 @@ function Account() {
             <SelectItem value="20">20</SelectItem>
           </SelectContent>
         </Select>
+        <Button
+          variant="primary"
+          onClick={() => {
+            setNameFilter("");
+            setRoleFilter("");
+            setActiveFilter("");
+            setPageIndex(0);
+          }}
+        >
+          Limpiar filtros <Eraser />
+        </Button>
       </div>
 
       <Table>

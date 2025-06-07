@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import LoginForm from "@components/auth/LoginForm";
 import Image from "next/image";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import Head from "next/head";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -32,6 +33,9 @@ export default function LoginPage() {
 
   return (
     <div className="relative flex w-full h-screen items-center justify-center overflow-hidden">
+      <Head>
+        <title>Inicio de sesión | BCLIS</title>
+      </Head>
       {/* Fondos difuminados */}
       <div className="absolute z-10 w-2/3 h-3/4 bg-udea-950 rounded-full blur-2xl opacity-10"></div>
       <div className="absolute z-20 w-1/2 h-1/2 bg-primary rounded-full blur-2xl opacity-30"></div>

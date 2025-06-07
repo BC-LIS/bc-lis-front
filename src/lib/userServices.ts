@@ -188,3 +188,28 @@ export const changePassword = async ({
     });
   }
 };
+
+export const changeUserRole = async ({
+  username,
+  newRoleName,
+}: {
+  username: string;
+  newRoleName: string;
+}) => {
+  try {
+    const token = localStorage.getItem("session");
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL_USERS}/change-role?username=${username}&newRoleName=${newRoleName}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.ok;
+  } catch (error) {
+    return false;
+  }
+};

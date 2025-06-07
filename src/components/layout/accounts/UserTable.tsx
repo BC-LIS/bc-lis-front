@@ -36,7 +36,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { UserPlus, Eraser } from "lucide-react";
 import Link from "next/link";
-import { fetchUsers, toggleUserStatus } from "@/lib/userServices";
+import {
+  changeUserRole,
+  fetchUsers,
+  toggleUserStatus,
+} from "@/lib/userServices";
+import { toast } from "@/hooks/use-toast";
 
 type UserWithRole = User & {
   role: { roleName: string };
@@ -51,6 +56,15 @@ export function UserTable() {
   const [pageSize, setPageSize] = useState(5);
   const [pageIndex, setPageIndex] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [currentUserRole, setCurrentUserRole] = useState("");
+
+  useEffect(() => {
+    const userInfo = localStorage.getItem("userInfo");
+    if (userInfo) {
+      const parsed = JSON.parse(userInfo);
+      setCurrentUserRole(parsed.role || "");
+    }
+  }, []);
 
   useEffect(() => {
     fetchUsers({
@@ -97,9 +111,6 @@ export function UserTable() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => console.log("Editar", user)}>
-                Editar
-              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
                   toggleUserStatus({
@@ -123,15 +134,58 @@ export function UserTable() {
                     },
                   });
                 }}
+                className={`${
+                  user.isActive ? "text-destructive" : "text-udea-950"
+                }`}
               >
                 {user.isActive ? "Desactivar" : "Activar"}
               </DropdownMenuItem>
-              <DropdownMenuItem
-                className="text-destructive"
-                onClick={() => console.log("Eliminar", user)}
-              >
-                Eliminar
-              </DropdownMenuItem>
+
+              {currentUserRole === "ADMIN" &&
+                user.role.roleName !== "ADMIN" && (
+                  <DropdownMenuItem
+                    onClick={async () => {
+                      const nextRole =
+                        user.role.roleName === "TECHNICAL"
+                          ? "GENERIC"
+                          : "TECHNICAL";
+
+                      const success = await changeUserRole({
+                        username: user.username,
+                        newRoleName: nextRole,
+                      });
+
+                      if (success) {
+                        const data = await fetchUsers({
+                          page: pageIndex,
+                          size: pageSize,
+                          name: nameFilter,
+                          role: roleFilter,
+                          isActive: activeFilter,
+                        });
+
+                        if (data) {
+                          const sortedData = data.content.sort(
+                            (a: UserWithRole, b: UserWithRole) =>
+                              a.name.localeCompare(b.name)
+                          );
+                          setUsers(sortedData);
+                          setTotalPages(data.page.totalPages);
+                        }
+                      } else {
+                        toast({
+                          title: "Error ❌",
+                          description: "No tienes permisos para cambiar el rol",
+                        });
+                      }
+                    }}
+                  >
+                    Cambiar rol a{" "}
+                    {user.role.roleName === "TECHNICAL"
+                      ? "GENERIC"
+                      : "TECHNICAL"}
+                  </DropdownMenuItem>
+                )}
             </DropdownMenuContent>
           </DropdownMenu>
         );

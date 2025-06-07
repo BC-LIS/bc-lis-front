@@ -11,6 +11,8 @@ type ToggleUserStatusParams = {
 
 const ENDPOINT_DEACTIVATE = process.env.NEXT_PUBLIC_API_URL_DEACTIVATE_USER;
 const ENDPOINT_USERS = process.env.NEXT_PUBLIC_API_URL_USERS;
+const ENDPOINT_CHANGE_PASSWORD =
+  process.env.NEXT_PUBLIC_API_URL_CHANGE_PASSWORD;
 
 export const changeUserStatus = async ({
   username,
@@ -38,7 +40,10 @@ export const changeUserStatus = async ({
     });
 
     if (!response.ok) {
-      throw new Error("No se pudo cambiar el estado del usuario");
+      toast({
+        title: "Error ❌",
+        description: "No se pudo cambiar el estado del usuario.",
+      });
     }
 
     toast({
@@ -132,5 +137,54 @@ export const fetchUsers = async ({
       description: "Ha ocurrido un error en la solicitud",
     });
     return null;
+  }
+};
+
+export const changePassword = async ({
+  oldPassword,
+  newPassword,
+  onSuccess,
+}: {
+  oldPassword: string;
+  newPassword: string;
+  onSuccess?: () => void;
+}) => {
+  const token = localStorage.getItem("session");
+
+  const params = new URLSearchParams({
+    oldPassword,
+    newPassword,
+  });
+
+  try {
+    const response = await fetch(
+      `${ENDPOINT_CHANGE_PASSWORD}?${params.toString()}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      toast({
+        title: "Error ❌",
+        description: "Error al cambiar la contraseña.",
+      });
+    }
+
+    toast({
+      title: "Contraseña actualizada ✅",
+      description: "Tu contraseña ha sido modificada correctamente.",
+    });
+
+    onSuccess?.();
+  } catch (error) {
+    toast({
+      title: "Error ❌",
+      description: "No se pudo cambiar la contraseña.",
+    });
   }
 };

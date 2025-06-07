@@ -64,7 +64,6 @@ export default function DocumentForm() {
   }, [form]);
 
   async function sendData(data: DocumentRegisterFormSchema) {
-    console.log(data);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL_ENDPOINT}/documents`,

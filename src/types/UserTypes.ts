@@ -11,3 +11,11 @@ export interface UserWithEmail {
   email: string;
   lastName: string;
 }
+
+export type FetchUsersParams = {
+  page: number;
+  size: number;
+  name?: string;
+  role?: string;
+  isActive?: string;
+};

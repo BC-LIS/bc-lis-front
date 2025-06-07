@@ -46,15 +46,12 @@ export const UserInfoDropdown = ({ user }: { user: User }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 sm:w-64 md:w-72 bg-background/95 backdrop-blur-xl border border-primary/30 shadow-lg">
-
         {/* Mostrar nombre y rol solo en móviles */}
         <DropdownMenuLabel className="text-sm text-muted-foreground sm:hidden">
           <p className="font-semibold text-base text-primary">
             {user.name} {user.lastname}
           </p>
-          <p className="text-xs font-medium">
-            {formatUserRole(user.role)}
-          </p>
+          <p className="text-xs font-medium">{formatUserRole(user.role)}</p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator className="sm:hidden" />
 
@@ -84,9 +81,9 @@ export const UserInfoDropdown = ({ user }: { user: User }) => {
         <DropdownMenuGroup>
           <DropdownMenuItem className="p-2 md:p-3 text-sm md:text-base hover:bg-primary/10">
             <Settings className="mr-4 h-4 w-4 md:h-5 md:w-5" />
-            <span>Configurar perfil</span>
+            <Link href={`/account/${user.username}`}>Configurar perfil</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem 
+          <DropdownMenuItem
             onClick={handleLogout}
             className="p-2 md:p-3 text-sm md:text-base hover:bg-primary/10 hover:text-red-500"
           >

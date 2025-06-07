@@ -3,7 +3,7 @@ import { UserCog, FolderCog } from "lucide-react";
 export const adminOptions = [
   {
     label: "Gestionar usuarios",
-    url: "/account/register",
+    url: "/account",
     icon: UserCog,
   },
   {

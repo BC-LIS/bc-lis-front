@@ -23,9 +23,12 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { formUserRegister, UserRegisterFormSchema } from "@/schemas/UserSchema";
 import { registerFields } from "@/constants/FormFields";
+import { useRouter } from "next/router";
+import Head from "next/head";
 
 function RegisterForm() {
   const ENDPOINT_REGISTER = process.env.NEXT_PUBLIC_API_URL_REGISTER;
+  const router = useRouter();
   const { toast } = useToast();
 
   const form = useForm<UserRegisterFormSchema>({
@@ -61,6 +64,8 @@ function RegisterForm() {
           description: `El usuario con nombre ${data.name} ha sido registrado`,
         });
       }
+
+      router.push("/account");
     } catch (error) {
       toast({
         title: "Error ❌",
@@ -70,6 +75,9 @@ function RegisterForm() {
   }
   return (
     <div className="w-full max-w-xl px-4 sm:px-6 md:px-8 border border-foreground rounded-lg py-6 sm:py-8 lg:py-12 mx-auto my-8">
+      <Head>
+        <title>Registro de usuario</title>
+      </Head>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(sendData)}

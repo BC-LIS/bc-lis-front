@@ -89,7 +89,6 @@ export default function FileForm() {
         formData.append("file", data.file, data.file.name);
       }
 
-      console.log(formData);
       const response = await fetch(`${ENDPOINT_DOCUMENT}/documents`, {
         method: "POST",
         headers: {

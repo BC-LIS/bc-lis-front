@@ -13,6 +13,7 @@ const ENDPOINT_DEACTIVATE = process.env.NEXT_PUBLIC_API_URL_DEACTIVATE_USER;
 const ENDPOINT_USERS = process.env.NEXT_PUBLIC_API_URL_USERS;
 const ENDPOINT_CHANGE_PASSWORD =
   process.env.NEXT_PUBLIC_API_URL_CHANGE_PASSWORD;
+const ENDPOINT_CHANGE_ROLE = process.env.NEXT_PUBLIC_API_URL_CHANGE_ROLE;
 
 export const changeUserStatus = async ({
   username,
@@ -199,7 +200,7 @@ export const changeUserRole = async ({
   try {
     const token = localStorage.getItem("session");
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL_USERS}/change-role?username=${username}&newRoleName=${newRoleName}`,
+      `${ENDPOINT_CHANGE_ROLE}?username=${username}&newRoleName=${newRoleName}`,
       {
         method: "PATCH",
         headers: {

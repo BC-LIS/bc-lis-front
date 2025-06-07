@@ -42,6 +42,7 @@ import {
   toggleUserStatus,
 } from "@/lib/userServices";
 import { toast } from "@/hooks/use-toast";
+import { getDisplayRoleName } from "@/utils/DisplayRole";
 
 type UserWithRole = User & {
   role: { roleName: string };
@@ -91,7 +92,7 @@ export function UserTable() {
     {
       accessorKey: "role.roleName",
       header: "Rol",
-      cell: ({ row }) => row.original.role.roleName,
+      cell: ({ row }) => getDisplayRoleName(row.original.role.roleName),
     },
     {
       accessorKey: "isActive",
@@ -181,9 +182,11 @@ export function UserTable() {
                     }}
                   >
                     Cambiar rol a{" "}
-                    {user.role.roleName === "TECHNICAL"
-                      ? "GENERIC"
-                      : "TECHNICAL"}
+                    {getDisplayRoleName(
+                      user.role.roleName === "TECHNICAL"
+                        ? "GENERIC"
+                        : "TECHNICAL"
+                    )}
                   </DropdownMenuItem>
                 )}
             </DropdownMenuContent>

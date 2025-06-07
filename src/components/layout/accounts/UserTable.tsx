@@ -36,7 +36,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { UserPlus, Eraser } from "lucide-react";
 import Link from "next/link";
-import { fetchUsers, toggleUserStatus } from "@/lib/userActions";
+import { fetchUsers, toggleUserStatus } from "@/lib/userServices";
 
 type UserWithRole = User & {
   role: { roleName: string };

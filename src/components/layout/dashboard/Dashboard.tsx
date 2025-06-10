@@ -249,9 +249,9 @@ export function Dashboard() {
           <div className="flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
             <div className="overflow-x-auto w-full sm:w-auto">
               <TabsList className="flex gap-2">
-                {fileStatesRenderDashboard.map((state, index) => (
+                {fileStatesRenderDashboard.map((state) => (
                   <TabsTrigger
-                    key={index}
+                    key={state.value}
                     value={state.value}
                     onClick={() =>
                       setFilterParams((prev) => ({

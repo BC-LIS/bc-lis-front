@@ -205,8 +205,8 @@ export default function DocumentForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {fileRecievers.map((option, index) => (
-                        <SelectItem key={index} value={option.value}>
+                      {fileRecievers.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
                           {option.label}
                         </SelectItem>
                       ))}
@@ -234,8 +234,8 @@ export default function DocumentForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {fileStates.map((option, index) => (
-                        <SelectItem key={index} value={option.value}>
+                      {fileStates.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
                           {option.label}
                         </SelectItem>
                       ))}

@@ -102,7 +102,7 @@ export default function FileForm() {
         toast({
           title: "Error ❌",
           description:
-            errorData?.message ||
+            errorData?.message ??
             "Información incorrecta, inténtalo nuevamente.",
         });
         return;

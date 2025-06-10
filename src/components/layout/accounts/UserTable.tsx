@@ -63,7 +63,7 @@ export function UserTable() {
     const userInfo = localStorage.getItem("userInfo");
     if (userInfo) {
       const parsed = JSON.parse(userInfo);
-      setCurrentUserRole(parsed.role || "");
+      setCurrentUserRole(parsed.role ?? "");
     }
   }, []);
 

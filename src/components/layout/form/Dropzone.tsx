@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
 interface DropzoneProps {
-  field: {
+  readonly field: {
     value: File | null;
     onChange: (file: File | null) => void;
     onBlur: () => void;
   };
-  onFileChange?: (file: File | null) => void;
+  readonly onFileChange?: (file: File | null) => void;
 }
 
 export default function Dropzone({ field, onFileChange }: DropzoneProps) {
@@ -73,6 +73,8 @@ export default function Dropzone({ field, onFileChange }: DropzoneProps) {
   return (
     <div className="w-full max-w-full sm:max-w-md mx-auto h-full">
       <div
+        role="region"
+        tabIndex={0}
         className={`relative border-2 border-dashed rounded-lg p-4 sm:p-8 h-40 sm:h-64 ${
           isDragging ? "border-primary" : "border-accent-foreground"
         } ${

@@ -29,7 +29,10 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { fileRecievers, fileStatesRenderDashboard } from "@/constants/FormFields";
+import {
+  fileRecievers,
+  fileStatesRenderDashboard,
+} from "@/constants/FormFields";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { useFilteredDocuments } from "@/hooks/useGetDocuments";
@@ -37,16 +40,28 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { getBadgeVariant } from "@/utils/badgeUtils";
 import { DocumentsFilters, Document } from "@/types/DocumentTypes";
 import { useEffect, useState } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
 import { DateFilterInput } from "@/components/ui/dateFilter";
 
 export function Dashboard() {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchField, setSearchField] = useState<"name" | "description" | "username">("name");
-  const [searchValue, setSearchValue] = useState(""); 
+  const [searchField, setSearchField] = useState<
+    "name" | "description" | "username"
+  >("name");
+  const [searchValue, setSearchValue] = useState("");
   const [typeName, setTypeName] = useState("");
 
   const [filterParams, setFilterParams] = useState<DocumentsFilters>({
@@ -60,19 +75,25 @@ export function Dashboard() {
   });
 
   const { fetchFilteredDocuments } = useFilteredDocuments();
-  const ENDPOINT_DOCUMENTS_FILTER = process.env.NEXT_PUBLIC_API_URL_DOCUMENTS_FILTER;
+  const ENDPOINT_DOCUMENTS_FILTER =
+    process.env.NEXT_PUBLIC_API_URL_DOCUMENTS_FILTER;
 
   useEffect(() => {
-    setFilterParams((prev) => ({ ...prev, typename: typeName || "" }));
+    setFilterParams((prev) => ({ ...prev, typename: typeName ?? "" }));
   }, [typeName]);
 
   useEffect(() => {
     const { ...otherFilters } = filterParams;
-    const notEmptyFilters = Object.fromEntries(Object.entries(otherFilters).filter(([_, value]) => value !== ""));
+    const notEmptyFilters = Object.fromEntries(
+      Object.entries(otherFilters).filter(([_, value]) => value !== "")
+    );
 
     const loadDocuments = async () => {
       setLoading(true);
-      const data = await fetchFilteredDocuments(`${ENDPOINT_DOCUMENTS_FILTER}`, notEmptyFilters);
+      const data = await fetchFilteredDocuments(
+        `${ENDPOINT_DOCUMENTS_FILTER}`,
+        notEmptyFilters
+      );
 
       const filteredData = data.filter((doc: Document) => {
         const createdAt = new Date(doc.createdAt);
@@ -99,11 +120,14 @@ export function Dashboard() {
 
         if (value) {
           if (searchField === "name") {
-            passesSearchFilter = doc.name?.toLowerCase().includes(value) ?? false;
+            passesSearchFilter =
+              doc.name?.toLowerCase().includes(value) ?? false;
           } else if (searchField === "description") {
-            passesSearchFilter = doc.description?.toLowerCase().includes(value) ?? false;
+            passesSearchFilter =
+              doc.description?.toLowerCase().includes(value) ?? false;
           } else if (searchField === "username") {
-            passesSearchFilter = doc.user?.username.toLowerCase().includes(value) ?? false;
+            passesSearchFilter =
+              doc.user?.username.toLowerCase().includes(value) ?? false;
           }
         }
 
@@ -129,18 +153,50 @@ export function Dashboard() {
       <header className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between p-4 sm:px-6">
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="font-semibold w-full sm:w-auto">
+            <Button
+              variant="outline"
+              className="font-semibold w-full sm:w-auto"
+            >
               Filtrar por:
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-72 sm:w-80 flex flex-col gap-4">
-            <DateFilterInput label="Creado después de:" value={filterParams.createdAfter} onChange={(v) => setFilterParams((p) => ({ ...p, createdAfter: v }))} />
-            <DateFilterInput label="Creado antes de:" value={filterParams.createdBefore} onChange={(v) => setFilterParams((p) => ({ ...p, createdBefore: v }))} />
-            <DateFilterInput label="Actualizado después de:" value={filterParams.updatedAfter} onChange={(v) => setFilterParams((p) => ({ ...p, updatedAfter: v }))} />
-            <DateFilterInput label="Actualizado antes de:" value={filterParams.updatedBefore} onChange={(v) => setFilterParams((p) => ({ ...p, updatedBefore: v }))} />
+            <DateFilterInput
+              label="Creado después de:"
+              value={filterParams.createdAfter}
+              onChange={(v) =>
+                setFilterParams((p) => ({ ...p, createdAfter: v }))
+              }
+            />
+            <DateFilterInput
+              label="Creado antes de:"
+              value={filterParams.createdBefore}
+              onChange={(v) =>
+                setFilterParams((p) => ({ ...p, createdBefore: v }))
+              }
+            />
+            <DateFilterInput
+              label="Actualizado después de:"
+              value={filterParams.updatedAfter}
+              onChange={(v) =>
+                setFilterParams((p) => ({ ...p, updatedAfter: v }))
+              }
+            />
+            <DateFilterInput
+              label="Actualizado antes de:"
+              value={filterParams.updatedBefore}
+              onChange={(v) =>
+                setFilterParams((p) => ({ ...p, updatedBefore: v }))
+              }
+            />
             <div>
               <Label className="text-base font-semibold">Tipo:</Label>
-              <Select value={typeName} onValueChange={(value: string) => setTypeName(value === "all" ? "" : value)}>
+              <Select
+                value={typeName}
+                onValueChange={(value: string) =>
+                  setTypeName(value === "all" ? "" : value)
+                }
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Selecciona un tipo" />
                 </SelectTrigger>
@@ -169,7 +225,12 @@ export function Dashboard() {
             />
           </div>
           <div className="w-full sm:w-32">
-            <Select value={searchField} onValueChange={(v: "name" | "description" | "username") => setSearchField(v)}>
+            <Select
+              value={searchField}
+              onValueChange={(v: "name" | "description" | "username") =>
+                setSearchField(v)
+              }
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Buscar por..." />
               </SelectTrigger>
@@ -209,19 +270,23 @@ export function Dashboard() {
               <Link href="#" target="_blank">
                 <Button size="sm" variant="outline">
                   <File className="h-4 w-4" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Exportar</span>
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                    Exportar
+                  </span>
                 </Button>
               </Link>
               <Link href="/file/register" target="_blank">
                 <Button size="sm" variant="primary">
                   <PlusCircle className="h-4 w-4" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Añadir archivo</span>
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                    Añadir archivo
+                  </span>
                 </Button>
               </Link>
             </div>
           </div>
 
-          <TabsContent value={filterParams.state || "ALL"} className="mt-4">
+          <TabsContent value={filterParams.state ?? "ALL"} className="mt-4">
             <Card>
               <CardHeader>
                 <CardTitle>Archivos</CardTitle>
@@ -237,8 +302,12 @@ export function Dashboard() {
                         </TableHead>
                         <TableHead>Nombre</TableHead>
                         <TableHead>Estado</TableHead>
-                        <TableHead className="hidden md:table-cell">Creado</TableHead>
-                        <TableHead className="hidden md:table-cell">Actualizado</TableHead>
+                        <TableHead className="hidden md:table-cell">
+                          Creado
+                        </TableHead>
+                        <TableHead className="hidden md:table-cell">
+                          Actualizado
+                        </TableHead>
                         <TableHead>
                           <span className="sr-only">Acciones</span>
                         </TableHead>
@@ -263,22 +332,30 @@ export function Dashboard() {
                               <HoverCard>
                                 <HoverCardTrigger asChild>
                                   <div className="cursor-pointer underline-offset-4 hover:underline">
-                                    <Link href={`/file/${doc.id}`} target="_blank">
+                                    <Link
+                                      href={`/file/${doc.id}`}
+                                      target="_blank"
+                                    >
                                       {doc.name}
                                     </Link>
                                   </div>
                                 </HoverCardTrigger>
                                 <HoverCardContent className="w-60">
-                                  <h1 className="font-bold border-b p-2">Descripción</h1>
+                                  <h1 className="font-bold border-b p-2">
+                                    Descripción
+                                  </h1>
                                   <p className="text-sm">{doc.description}</p>
                                 </HoverCardContent>
                               </HoverCard>
                               <div className="text-xs text-muted-foreground mt-1 md:hidden">
-                                Creado: {new Date(doc.createdAt).toLocaleDateString()}
+                                Creado:{" "}
+                                {new Date(doc.createdAt).toLocaleDateString()}
                               </div>
                             </TableCell>
                             <TableCell>
-                              <Badge variant={getBadgeVariant(doc.state)}>{doc.state}</Badge>
+                              <Badge variant={getBadgeVariant(doc.state)}>
+                                {doc.state}
+                              </Badge>
                             </TableCell>
                             <TableCell className="hidden md:table-cell">
                               {new Date(doc.createdAt).toLocaleDateString()}
@@ -294,7 +371,9 @@ export function Dashboard() {
                                   </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
-                                  <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                                  <DropdownMenuLabel>
+                                    Acciones
+                                  </DropdownMenuLabel>
                                   <DropdownMenuItem>Abrir</DropdownMenuItem>
                                   <DropdownMenuItem>Editar</DropdownMenuItem>
                                   <DropdownMenuItem>Eliminar</DropdownMenuItem>

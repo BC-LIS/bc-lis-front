@@ -1,5 +1,5 @@
 import {
-  InputFielField,
+  InputField,
   InputLoginField,
   InputRegisterField,
 } from "@/types/InputTypes";
@@ -60,7 +60,7 @@ export const loginFields: InputLoginField[] = [
   },
 ];
 
-export const fileCategories: InputFielField[] = [
+export const fileCategories: InputField[] = [
   {
     value: "Ansible",
     label: "Ansible",
@@ -99,7 +99,7 @@ export const fileCategories: InputFielField[] = [
   },
 ];
 
-export const fileRecievers: InputFielField[] = [
+export const fileRecievers: InputField[] = [
   {
     value: "Administrative",
     label: "Administrativo",
@@ -114,7 +114,7 @@ export const fileRecievers: InputFielField[] = [
   },
 ];
 
-export const fileStates: InputFielField[] = [
+export const fileStates: InputField[] = [
   {
     value: "PUBLISHED",
     label: "Publicado",
@@ -129,9 +129,7 @@ export const fileStates: InputFielField[] = [
   },
 ];
 
-export const fileStatesRenderDashboard: InputFielField[] = [
-  { value: "ALL",
-    label: "Todos"
-  }, 
-  ...fileStates
+export const fileStatesRenderDashboard: InputField[] = [
+  { value: "ALL", label: "Todos" },
+  ...fileStates,
 ];

@@ -81,7 +81,7 @@ export default function DocumentForm() {
         const error = await response.json().catch(() => null);
         toast({
           title: "Error ❌",
-          description: error?.message || "Error al guardar el documento",
+          description: error?.message ?? "Error al guardar el documento",
         });
         return;
       }
@@ -91,7 +91,7 @@ export default function DocumentForm() {
         description: "Documento guardado correctamente",
       });
       router.push("/documents");
-    } catch (err) {
+    } catch {
       toast({
         title: "Error ❌",
         description: "Error en la solicitud",

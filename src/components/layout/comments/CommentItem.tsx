@@ -13,7 +13,7 @@ export const CommentItem = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
-  const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const currentUser = JSON.parse(localStorage.getItem("user") ?? "{}");
   const currentUsername = currentUser.username;
 
   const handleUpdate = async () => {

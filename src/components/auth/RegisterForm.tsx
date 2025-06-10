@@ -66,7 +66,7 @@ function RegisterForm() {
       }
 
       router.push("/account");
-    } catch (error) {
+    } catch {
       toast({
         title: "Error ❌",
         description: `Ha ocurrido un error en la solicitud`,
@@ -83,9 +83,9 @@ function RegisterForm() {
           onSubmit={form.handleSubmit(sendData)}
           className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center"
         >
-          {registerFields.map((input, index) => (
+          {registerFields.map((input) => (
             <FormField
-              key={index}
+              key={input.name}
               control={form.control}
               name={input.name as keyof UserRegisterFormSchema}
               render={({ field }) => (
@@ -94,7 +94,7 @@ function RegisterForm() {
                   <FormControl>
                     <Input
                       {...field}
-                      value={field.value || ""}
+                      value={field.value ?? ""}
                       placeholder={input.placeholder}
                       type={input.type}
                     />

@@ -132,7 +132,7 @@ export const fetchUsers = async ({
     }
 
     return response.json();
-  } catch (error) {
+  } catch {
     toast({
       title: "Error ❌",
       description: "Ha ocurrido un error en la solicitud",
@@ -182,7 +182,7 @@ export const changePassword = async ({
     });
 
     onSuccess?.();
-  } catch (error) {
+  } catch {
     toast({
       title: "Error ❌",
       description: "No se pudo cambiar la contraseña.",
@@ -210,7 +210,7 @@ export const changeUserRole = async ({
       }
     );
     return response.ok;
-  } catch (error) {
+  } catch {
     return false;
   }
 };

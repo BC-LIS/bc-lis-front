@@ -11,7 +11,7 @@ export const changePasswordSchema = z
       .regex(/[A-Z]/, {
         message: "Debe contener al menos una letra mayúscula",
       })
-      .regex(/[0-9]/, {
+      .regex(/\d/, {
         message: "Debe contener al menos un número",
       })
       .regex(/[\W_]/, {

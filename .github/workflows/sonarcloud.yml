@@ -7,22 +7,22 @@ on:
 
 jobs:
   sonarcloud:
-    name: SonarCloud Scan
+    name: SonarCloud Scan Workflow
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout code 🔍
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js 🛠️
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install dependencies 📦
         run: npm ci
 
-      - name: SonarCloud Scan
+      - name: SonarCloud Scan 🕵️
         uses: SonarSource/sonarcloud-github-action@v2
         with:
           projectBaseDir: .

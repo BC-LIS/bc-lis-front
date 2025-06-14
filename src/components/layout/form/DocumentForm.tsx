@@ -81,7 +81,7 @@ export default function DocumentForm() {
         const error = await response.json().catch(() => null);
         toast({
           title: "Error ❌",
-          description: error?.message || "Error al guardar el documento",
+          description: error?.message ?? "Error al guardar el documento",
         });
         return;
       }
@@ -91,7 +91,7 @@ export default function DocumentForm() {
         description: "Documento guardado correctamente",
       });
       router.push("/documents");
-    } catch (err) {
+    } catch {
       toast({
         title: "Error ❌",
         description: "Error en la solicitud",
@@ -205,8 +205,8 @@ export default function DocumentForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {fileRecievers.map((option, index) => (
-                        <SelectItem key={index} value={option.value}>
+                      {fileRecievers.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
                           {option.label}
                         </SelectItem>
                       ))}
@@ -234,8 +234,8 @@ export default function DocumentForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {fileStates.map((option, index) => (
-                        <SelectItem key={index} value={option.value}>
+                      {fileStates.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
                           {option.label}
                         </SelectItem>
                       ))}

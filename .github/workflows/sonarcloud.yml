@@ -1,0 +1,32 @@
+name: SonarCloud
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sonarcloud:
+    name: SonarCloud Scan Workflow
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code 🔍
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 🛠️
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies 📦
+        run: npm ci
+
+      - name: SonarCloud Scan 🕵️
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          projectBaseDir: .
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: BC-LIS_bc-lis-front
+          SONAR_ORGANIZATION: bc-lis

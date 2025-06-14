@@ -4,9 +4,9 @@ import React, { useRef } from "react";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 interface TextEditorProps {
-  value: string;
-  onChange: (value: string) => void;
-  theme: string;
+  readonly value: string;
+  readonly onChange: (value: string) => void;
+  readonly theme: string;
 }
 
 function TextEditor({ value, onChange, theme }: TextEditorProps) {

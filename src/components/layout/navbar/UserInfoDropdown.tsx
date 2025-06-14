@@ -57,8 +57,8 @@ export const UserInfoDropdown = ({ user }: { user: User }) => {
 
         {/* Opciones del rol */}
         {roleOptions.length > 0 &&
-          roleOptions.map((option, index) => (
-            <DropdownMenuGroup key={index}>
+          roleOptions.map((option) => (
+            <DropdownMenuGroup key={option.label}>
               <DropdownMenuItem className="p-2 md:p-3 text-sm md:text-base hover:bg-primary/10">
                 <option.icon className="mr-4 h-4 w-4 md:h-5 md:w-5" />
                 <Link href={option.url}>
@@ -79,10 +79,12 @@ export const UserInfoDropdown = ({ user }: { user: User }) => {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem className="p-2 md:p-3 text-sm md:text-base hover:bg-primary/10">
-            <Settings className="mr-4 h-4 w-4 md:h-5 md:w-5" />
-            <Link href={`/account/${user.username}`}>Configurar perfil</Link>
-          </DropdownMenuItem>
+          <Link href={`/account/${user.username}`}>
+            <DropdownMenuItem className="p-2 md:p-3 text-sm md:text-base hover:bg-primary/10">
+              <Settings className="mr-4 h-4 w-4 md:h-5 md:w-5" />
+              <span>Configurar perfil</span>
+            </DropdownMenuItem>
+          </Link>
           <DropdownMenuItem
             onClick={handleLogout}
             className="p-2 md:p-3 text-sm md:text-base hover:bg-primary/10 hover:text-red-500"

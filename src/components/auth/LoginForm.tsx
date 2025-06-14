@@ -58,7 +58,7 @@ export default function LoginForm() {
 
       // Redirigir al usuario a la página principal
       router.push("/");
-    } catch (error) {
+    } catch {
       toast({
         title: "Error ❌",
         description: "Ha ocurrido un error en la solicitud",
@@ -67,50 +67,50 @@ export default function LoginForm() {
   }
 
   return (
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(sendData)} className="mt-8 space-y-6">
-          {loginFields.map((input, index) => (
-            <FormField
-              key={index}
-              control={form.control}
-              name={input.name as keyof UserLoginFormSchema}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{input.label}</FormLabel>
-                  <FormControl>
-                    <InputLogin
-                      {...field}
-                      type={input.type}
-                      icon={<input.icon />}
-                      placeholder={input.placeholder}
-                      value={field.value || ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(sendData)} className="mt-8 space-y-6">
+        {loginFields.map((input) => (
+          <FormField
+            key={input.name}
+            control={form.control}
+            name={input.name as keyof UserLoginFormSchema}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{input.label}</FormLabel>
+                <FormControl>
+                  <InputLogin
+                    {...field}
+                    type={input.type}
+                    icon={<input.icon />}
+                    placeholder={input.placeholder}
+                    value={field.value ?? ""}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ))}
 
-          <div className="flex justify-center items-center">
-            <Button
-              type="submit"
-              className="sm:w-80 sm:h-12 text-base font-bold bg-primary hover:bg-chart-6 flex justify-center items-center"
-            >
-              Iniciar sesión
-            </Button>
-          </div>
+        <div className="flex justify-center items-center">
+          <Button
+            type="submit"
+            className="sm:w-80 sm:h-12 text-base font-bold bg-primary hover:bg-chart-6 flex justify-center items-center"
+          >
+            Iniciar sesión
+          </Button>
+        </div>
 
-          <div className="text-sm text-center flex justify-center items-center gap-2">
-            <span>¿Cuenta no registrada?</span>
-            <Link
-              href="/account/register"
-              className="text-secondary hover:underline"
-            >
-              Crea una cuenta
-            </Link>
-          </div>
-        </form>
-      </Form>
+        <div className="text-sm text-center flex justify-center items-center gap-2">
+          <span>¿Cuenta no registrada?</span>
+          <Link
+            href="/account/register"
+            className="text-secondary hover:underline"
+          >
+            Crea una cuenta
+          </Link>
+        </div>
+      </form>
+    </Form>
   );
 }

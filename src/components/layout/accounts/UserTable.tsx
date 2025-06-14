@@ -28,21 +28,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { UserPlus, Eraser } from "lucide-react";
 import Link from "next/link";
-import {
-  changeUserRole,
-  fetchUsers,
-  toggleUserStatus,
-} from "@/lib/userServices";
-import { toast } from "@/hooks/use-toast";
+import { fetchUsers } from "@/lib/userServices";
 import { getDisplayRoleName } from "@/utils/DisplayRole";
+import UserActions from "./UserActions";
 
 type UserWithRole = User & {
   role: { roleName: string };
@@ -63,7 +53,7 @@ export function UserTable() {
     const userInfo = localStorage.getItem("userInfo");
     if (userInfo) {
       const parsed = JSON.parse(userInfo);
-      setCurrentUserRole(parsed.role || "");
+      setCurrentUserRole(parsed.role ?? "");
     }
   }, []);
 
@@ -102,97 +92,29 @@ export function UserTable() {
     {
       id: "actions",
       header: "",
-      cell: ({ row }) => {
-        const user = row.original;
-        return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Abrir menú</span>⋮
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                onClick={() => {
-                  toggleUserStatus({
-                    user,
-                    fetchUsersCallback: () => {
-                      fetchUsers({
-                        page: pageIndex,
-                        size: pageSize,
-                        name: nameFilter,
-                        role: roleFilter,
-                        isActive: activeFilter,
-                      }).then((data) => {
-                        if (!data) return;
-                        const sortedData = data.content.sort(
-                          (a: UserWithRole, b: UserWithRole) =>
-                            a.name.localeCompare(b.name)
-                        );
-                        setUsers(sortedData);
-                        setTotalPages(data.page.totalPages);
-                      });
-                    },
-                  });
-                }}
-                className={`${
-                  user.isActive ? "text-destructive" : "text-udea-950"
-                }`}
-              >
-                {user.isActive ? "Desactivar" : "Activar"}
-              </DropdownMenuItem>
-
-              {currentUserRole === "ADMIN" &&
-                user.role.roleName !== "ADMIN" && (
-                  <DropdownMenuItem
-                    onClick={async () => {
-                      const nextRole =
-                        user.role.roleName === "TECHNICAL"
-                          ? "GENERIC"
-                          : "TECHNICAL";
-
-                      const success = await changeUserRole({
-                        username: user.username,
-                        newRoleName: nextRole,
-                      });
-
-                      if (success) {
-                        const data = await fetchUsers({
-                          page: pageIndex,
-                          size: pageSize,
-                          name: nameFilter,
-                          role: roleFilter,
-                          isActive: activeFilter,
-                        });
-
-                        if (data) {
-                          const sortedData = data.content.sort(
-                            (a: UserWithRole, b: UserWithRole) =>
-                              a.name.localeCompare(b.name)
-                          );
-                          setUsers(sortedData);
-                          setTotalPages(data.page.totalPages);
-                        }
-                      } else {
-                        toast({
-                          title: "Error ❌",
-                          description: "No tienes permisos para cambiar el rol",
-                        });
-                      }
-                    }}
-                  >
-                    Cambiar rol a{" "}
-                    {getDisplayRoleName(
-                      user.role.roleName === "TECHNICAL"
-                        ? "GENERIC"
-                        : "TECHNICAL"
-                    )}
-                  </DropdownMenuItem>
-                )}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        );
-      },
+      cell: ({ row }) => (
+        <UserActions
+          user={row.original}
+          currentUserRole={currentUserRole}
+          refreshUsers={() =>
+            fetchUsers({
+              page: pageIndex,
+              size: pageSize,
+              name: nameFilter,
+              role: roleFilter,
+              isActive: activeFilter,
+            }).then((data) => {
+              if (!data) return;
+              const sortedData = data.content.sort(
+                (a: UserWithRole, b: UserWithRole) =>
+                  a.name.localeCompare(b.name)
+              );
+              setUsers(sortedData);
+              setTotalPages(data.page.totalPages);
+            })
+          }
+        />
+      ),
     },
   ];
 

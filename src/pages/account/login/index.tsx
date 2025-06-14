@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import LoginForm from "@components/auth/LoginForm";
+import LoginForm from "@/components/auth/LoginForm";
 import Image from "next/image";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import Head from "next/head";

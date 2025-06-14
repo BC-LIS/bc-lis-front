@@ -1,8 +1,8 @@
 export interface User {
-  name: string;
-  lastname: string;
-  role: string;
-  username: string;
+  readonly name: string;
+  readonly lastname: string;
+  readonly role: string;
+  readonly username: string;
 }
 
 export interface UserWithEmail {
@@ -18,4 +18,9 @@ export type FetchUsersParams = {
   name?: string;
   role?: string;
   isActive?: string;
+};
+
+export type UserWithRole = User & {
+  role: { roleName: string };
+  isActive: boolean;
 };

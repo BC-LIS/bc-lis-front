@@ -33,8 +33,8 @@ const GeneralInfoForm = () => {
     const userInfo = localStorage.getItem("userInfo");
     if (userInfo) {
       const parsed = JSON.parse(userInfo);
-      form.setValue("name", parsed.name || "");
-      form.setValue("lastname", parsed.lastname || "");
+      form.setValue("name", parsed.name ?? "");
+      form.setValue("lastname", parsed.lastname ?? "");
     }
   }, [form]);
 

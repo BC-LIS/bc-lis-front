@@ -20,7 +20,7 @@ jobs:
           node-version: 18
 
       - name: Install dependencies 📦
-        run: npm ci
+        run: npm install
 
       - name: SonarCloud Scan 🕵️
         uses: SonarSource/sonarcloud-github-action@v2

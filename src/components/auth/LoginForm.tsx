@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { InputLogin } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -99,16 +98,6 @@ export default function LoginForm() {
           >
             Iniciar sesión
           </Button>
-        </div>
-
-        <div className="text-sm text-center flex justify-center items-center gap-2">
-          <span>¿Cuenta no registrada?</span>
-          <Link
-            href="/account/register"
-            className="text-secondary hover:underline"
-          >
-            Crea una cuenta
-          </Link>
         </div>
       </form>
     </Form>

@@ -4,7 +4,6 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -121,7 +120,6 @@ export function UserTable() {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     state: { pagination: { pageIndex, pageSize } },
   });
 
@@ -174,7 +172,10 @@ export function UserTable() {
             </SelectContent>
           </Select>
           <Select
-            onValueChange={(val) => setPageSize(Number(val))}
+            onValueChange={(val) => {
+              setPageSize(Number(val));
+              setPageIndex(0);
+            }}
             defaultValue="5"
           >
             <SelectTrigger className="w-24">
@@ -222,39 +223,42 @@ export function UserTable() {
         </Table>
       </div>
 
-    <div className="block sm:hidden px-4 space-y-4">
-      {users.map((user) => (
-        <Card key={user.username} className="shadow-md">
-          <CardHeader>
-            <CardTitle>{user.name} {user.lastName}</CardTitle>
-            <CardDescription>{user.email}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2 text-sm">
-            <div>
-              <span className="font-semibold">Usuario:</span> {user.username}
-            </div>
-            <div>
-              <span className="font-semibold">Apellidos:</span> {user.lastName}
-            </div>
-            <div>
-              <span className="font-semibold">Rol:</span>{" "}
-              {getDisplayRoleName(user.role.roleName)}
-            </div>
-            <div>
-              <span className="font-semibold">Activo:</span>{" "}
-              {user.isActive ? "Sí" : "No"}
-            </div>
-          </CardContent>
-          <CardFooter className="justify-end">
-            <UserActions
-              user={user}
-              currentUserRole={currentUserRole}
-              refreshUsers={refreshUsers}
-            />
-          </CardFooter>
-        </Card>
-      ))}
-    </div>
+      <div className="block sm:hidden px-4 space-y-4">
+        {users.map((user) => (
+          <Card key={user.username} className="shadow-md">
+            <CardHeader>
+              <CardTitle>
+                {user.name} {user.lastName}
+              </CardTitle>
+              <CardDescription>{user.email}</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-2 text-sm">
+              <div>
+                <span className="font-semibold">Usuario:</span> {user.username}
+              </div>
+              <div>
+                <span className="font-semibold">Apellidos:</span>{" "}
+                {user.lastName}
+              </div>
+              <div>
+                <span className="font-semibold">Rol:</span>{" "}
+                {getDisplayRoleName(user.role.roleName)}
+              </div>
+              <div>
+                <span className="font-semibold">Activo:</span>{" "}
+                {user.isActive ? "Sí" : "No"}
+              </div>
+            </CardContent>
+            <CardFooter className="justify-end">
+              <UserActions
+                user={user}
+                currentUserRole={currentUserRole}
+                refreshUsers={refreshUsers}
+              />
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
 
       <div className="flex justify-between items-center mt-4">
         <Button

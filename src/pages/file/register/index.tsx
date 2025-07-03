@@ -16,7 +16,7 @@ export default function DocumentPage() {
       const user = JSON.parse(userInfo);
       if (user.role !== "ADMIN" && user.role !== "TECHNICAL") {
         // Redirigir a la página principal si no es administrador
-        router.push("/");
+        router.push("/file");
       } else {
         // Si es administrador, dejar de mostrar el spinner
         setLoading(false);

@@ -14,7 +14,11 @@ export default function FilePage() {
 
     if (userInfo) {
       const user = JSON.parse(userInfo);
-      if (user.role !== "ADMIN" && user.role !== "TECHNICAL") {
+      if (
+        user.role !== "ADMIN" &&
+        user.role !== "TECHNICAL" &&
+        user.role !== "GENERIC"
+      ) {
         // Redirigir a la página principal si no es administrador
         router.push("/");
       } else {

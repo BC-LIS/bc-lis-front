@@ -13,12 +13,18 @@ export default function Editor() {
   useEffect(() => {
     const userInfo = localStorage.getItem("userInfo");
 
-    if (!userInfo) {
+    if (userInfo) {
+      const user = JSON.parse(userInfo);
+      if (user.role !== "ADMIN" && user.role !== "TECHNICAL") {
+        // Redirigir a la página principal si no es administrador
+        router.push("/file");
+      } else {
+        // Si es administrador, dejar de mostrar el spinner
+        setLoading(false);
+      }
+    } else {
       // Redirigir a la página de inicio de sesión si no está autenticado
       router.push("/account/login");
-    } else {
-      // Si el usuario está autenticado, ocultar el loading spinner
-      setLoading(false);
     }
   }, [router]);
 

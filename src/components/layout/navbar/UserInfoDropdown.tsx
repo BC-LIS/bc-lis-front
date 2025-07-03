@@ -9,8 +9,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { adminOptions, techOptions } from "@/constants/UserOptions";
-import { FileType, LogOut, Settings, User as UserIcon } from "lucide-react";
+import { adminOptions } from "@/constants/UserOptions";
+import {
+  FileType,
+  FolderCog,
+  LogOut,
+  Settings,
+  User as UserIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAuth } from "@/hooks/use-auth";
@@ -21,8 +27,6 @@ const getOptionsByRole = (userRole: string) => {
   switch (userRole) {
     case "ADMIN":
       return adminOptions;
-    case "TECHNICAL":
-      return techOptions;
     default:
       return [];
   }
@@ -69,12 +73,19 @@ export const UserInfoDropdown = ({ user }: { user: User }) => {
           ))}
 
         {/* Comunes */}
-        <DropdownMenuItem className="p-2 md:p-3 text-sm md:text-base hover:bg-primary/10">
-          <FileType className="mr-4 h-4 w-4 md:h-5 md:w-5" />
-          <Link href="/editor">
+        <Link href="/file">
+          <DropdownMenuItem className="p-2 md:p-3 text-sm md:text-base hover:bg-primary/10">
+            <FolderCog className="mr-4 h-4 w-4 md:h-5 md:w-5" />
+            <span>Ver documentos</span>
+          </DropdownMenuItem>
+        </Link>
+
+        <Link href="/editor">
+          <DropdownMenuItem className="p-2 md:p-3 text-sm md:text-base hover:bg-primary/10">
+            <FileType className="mr-4 h-4 w-4 md:h-5 md:w-5" />
             <span>Editor de texto</span>
-          </Link>
-        </DropdownMenuItem>
+          </DropdownMenuItem>
+        </Link>
 
         <DropdownMenuSeparator />
 

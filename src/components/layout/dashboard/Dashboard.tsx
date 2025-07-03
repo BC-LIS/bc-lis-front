@@ -375,7 +375,18 @@ export function Dashboard() {
                                     Acciones
                                   </DropdownMenuLabel>
                                   <DropdownMenuItem>Abrir</DropdownMenuItem>
-                                  <DropdownMenuItem>Editar</DropdownMenuItem>
+                                  {doc.editable && (
+                                    <DropdownMenuItem
+                                      onClick={() =>
+                                        window.open(
+                                          `/file/edit/${doc.id}`,
+                                          "_blank"
+                                        )
+                                      }
+                                    >
+                                      Editar
+                                    </DropdownMenuItem>
+                                  )}
                                   <DropdownMenuItem>Eliminar</DropdownMenuItem>
                                 </DropdownMenuContent>
                               </DropdownMenu>

@@ -26,20 +26,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { getFileAuthor } from "@/lib/getFileAuthor";
 import { useRouter } from "next/router";
 import {
   fileCategories,
   fileRecievers,
   fileStates,
 } from "@/constants/FormFields";
+import { getFileAuthor } from "@/lib/getFileAuthor";
 import { toast } from "@/hooks/use-toast";
 
-export default function DocumentForm() {
-  const [theme, setTheme] = useState("light");
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [author, setAuthor] = useState("");
+export default function DocumentEditForm() {
   const router = useRouter();
+  const { id } = router.query;
+  const [author, setAuthor] = useState("");
+  const [theme, setTheme] = useState("light");
 
   const form = useForm<DocumentRegisterFormSchema>({
     resolver: zodResolver(formDocument),
@@ -63,29 +63,57 @@ export default function DocumentForm() {
     form.setValue("username", savedAuthor);
   }, [form]);
 
-  async function sendData(data: DocumentRegisterFormSchema) {
-    const formData = new FormData();
+  type Category = { name: string };
 
-    // Añadir campos uno a uno por ser una petición multiparte
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-    formData.append("typeName", data.typeName);
-    formData.append("state", data.state);
-    formData.append("username", data.username);
-    formData.append("content", data.content);
-    formData.append("editable", String(data.editable));
-
-    data.categories.forEach((cat) => formData.append("categories", cat));
-
-    try {
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!id) return;
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL_ENDPOINT}/documents`,
+        `${process.env.NEXT_PUBLIC_API_URL_DOCUMENT_REGISTER}/${id}`,
         {
-          method: "POST",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("session")}`,
           },
-          body: formData,
+        }
+      );
+      const data = await response.json();
+
+      form.reset({
+        name: data.name,
+        description: data.description,
+        content: data.content,
+        username: data.user.username,
+        editable: data.editable,
+        categories: (data.categories as Category[]).map((cat) => cat.name),
+        state: data.state,
+        typeName: data.type.name,
+      });
+
+      setAuthor(data.user.username);
+    };
+
+    fetchData();
+  }, [id, form]);
+
+  async function sendData(data: DocumentRegisterFormSchema) {
+    const body = {
+      name: data.name,
+      description: data.description,
+      content: data.content,
+      state: data.state,
+      categories: data.categories,
+    };
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL_DOCUMENT_UPDATE}/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("session")}`,
+          },
+          body: JSON.stringify(body),
         }
       );
 
@@ -93,16 +121,16 @@ export default function DocumentForm() {
         const error = await response.json().catch(() => null);
         toast({
           title: "Error ❌",
-          description: error?.message ?? "Error al guardar el documento",
+          description: error?.message ?? "Error al actualizar el documento",
         });
         return;
       }
 
       toast({
         title: "Éxito ✅",
-        description: "Documento guardado correctamente",
+        description: "Documento actualizado correctamente",
       });
-      router.push("/file");
+      router.push(`/file/${id}`);
     } catch {
       toast({
         title: "Error ❌",
@@ -186,11 +214,8 @@ export default function DocumentForm() {
                   <FormControl>
                     <MultiSelect
                       options={fileCategories}
-                      onValueChange={(values) => {
-                        setSelectedCategories(values);
-                        field.onChange(values);
-                      }}
-                      defaultValue={selectedCategories}
+                      onValueChange={field.onChange}
+                      value={field.value}
                       placeholder="Seleccione las categorías"
                       className="z-50 w-full"
                     />
@@ -207,10 +232,7 @@ export default function DocumentForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Para quién</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Seleccione un rol" />
@@ -236,10 +258,7 @@ export default function DocumentForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Estado del documento</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Seleccione un estado" />

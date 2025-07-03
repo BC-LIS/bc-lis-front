@@ -23,6 +23,7 @@ export const formDocument = z.object({
     .string()
     .min(3, { message: "El contenido del documento es muy corto" }),
   editable: z.literal(true),
+  file: z.string().optional(),
 });
 
 export type DocumentRegisterFormSchema = z.infer<typeof formDocument>;

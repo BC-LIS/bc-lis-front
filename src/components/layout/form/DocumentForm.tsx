@@ -51,7 +51,7 @@ export default function DocumentForm() {
       state: undefined,
       username: "",
       content: "",
-      isEditable: true,
+      editable: true,
     },
   });
 
@@ -90,7 +90,7 @@ export default function DocumentForm() {
         title: "Éxito ✅",
         description: "Documento guardado correctamente",
       });
-      router.push("/documents");
+      router.push("/file");
     } catch {
       toast({
         title: "Error ❌",
